@@ -23,6 +23,7 @@ interface AuthState {
   isConnected: boolean; // Alias compatibility
   loading: boolean;
   setAuth: (token: string, user: UserProfile) => void;
+  setUser: (user: UserProfile) => void;
   setWallet: (address: string | null) => void;
   setLoading: (loading: boolean) => void;
   logout: () => void;
@@ -50,6 +51,11 @@ export const useAuthStore = create<AuthState>((set) => ({
       isAuthenticated: true,
       isConnected: true 
     });
+  },
+
+  setUser: (user) => {
+    localStorage.setItem('escrowx_user', JSON.stringify(user));
+    set({ user });
   },
 
   setWallet: (address) => {

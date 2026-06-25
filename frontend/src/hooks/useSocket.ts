@@ -71,14 +71,15 @@ export function useSocket() {
     };
   }, [user, token, activeContact, addMessage, setIsCounterpartyTyping]);
 
-  const sendSocketMessage = useCallback((recipientId: string, recipientWallet: string, content: string) => {
+  const sendSocketMessage = useCallback((recipientId: string, recipientWallet: string, content: string, conversationId?: string) => {
     if (socketRef.current && user) {
       socketRef.current.emit('chat:send_message', {
         senderId: user.id,
         senderWallet: user.walletAddress,
         recipientId,
         recipientWallet,
-        content
+        content,
+        conversationId
       });
     }
   }, [user]);

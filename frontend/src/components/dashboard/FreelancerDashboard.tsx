@@ -63,10 +63,10 @@ export const FreelancerDashboard: React.FC = () => {
           <Star
             key={i}
             size={12}
-            className={i < Math.round(rating) ? 'fill-amber-500 text-amber-500' : 'text-white/10'}
+            className={i < Math.round(rating) ? 'fill-amber-500 text-amber-500' : 'text-slate-200'}
           />
         ))}
-        <span className="text-xs text-white/50 ml-1.5 font-mono">{rating}</span>
+        <span className="text-xs text-[#64748B] ml-1.5 font-mono">{rating}</span>
       </div>
     );
   };
@@ -76,8 +76,8 @@ export const FreelancerDashboard: React.FC = () => {
     const widthPercentage = Math.min((views / maxViews) * 100, 100);
     return (
       <div className="flex items-center gap-3">
-        <span className="text-xs text-white/80 font-mono w-8">{views}</span>
-        <div className="w-20 h-1.5 rounded-full bg-white/5 overflow-hidden">
+        <span className="text-xs text-[#334155] font-mono w-8">{views}</span>
+        <div className="w-20 h-1.5 rounded-full bg-slate-100 overflow-hidden">
           <div
             className="h-full bg-gradient-to-r from-teal-400 to-indigo-500 rounded-full"
             style={{ width: `${widthPercentage}%` }}

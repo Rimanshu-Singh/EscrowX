@@ -1,5 +1,6 @@
 import { Server, Socket } from 'socket.io';
 import { Message } from '../models/Message';
+import { Conversation } from '../models/Conversation';
 
 let ioInstance: Server | null = null;
 const userSockets = new Map<string, string>(); // Maps walletAddress -> socket.id
@@ -26,6 +27,7 @@ export function initSocket(server: any) {
 
     // Handle real-time direct messages
     socket.on('chat:send_message', async (data: {
+      conversationId?: string;
       senderId: string;
       senderWallet: string;
       recipientId: string;
@@ -33,10 +35,38 @@ export function initSocket(server: any) {
       content: string;
     }) => {
       try {
-        const { senderId, senderWallet, recipientId, recipientWallet, content } = data;
+        const { conversationId, senderId, senderWallet, recipientId, recipientWallet, content } = data;
         
+        // Find or create conversation if conversationId is not provided
+        let actualConvId = conversationId;
+        if (!actualConvId) {
+          let conv = await Conversation.findOne({
+            participants: { $all: [senderId, recipientId] }
+          });
+          if (!conv) {
+            conv = new Conversation({
+              participants: [senderId, recipientId],
+              lastMessage: content,
+              lastMessageAt: new Date()
+            });
+            await conv.save();
+          } else {
+            conv.lastMessage = content;
+            conv.lastMessageAt = new Date();
+            await conv.save();
+          }
+          actualConvId = conv._id.toString();
+        } else {
+          // Update last message in conversation
+          await Conversation.findByIdAndUpdate(actualConvId, {
+            lastMessage: content,
+            lastMessageAt: new Date()
+          });
+        }
+
         // Save message to database
         const message = new Message({
+          conversationId: actualConvId,
           sender: senderId,
           recipient: recipientId,
           content

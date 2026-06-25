@@ -14,6 +14,9 @@ import {
   MessageSquare,
   LogOut,
   ClipboardList,
+  Inbox,
+  FileText,
+  PackageOpen,
 } from 'lucide-react';
 import { truncateAddress } from '@/lib/utils';
 import { cn } from '@/lib/utils';
@@ -22,24 +25,31 @@ import { useNavigate } from 'react-router-dom';
 
 const CLIENT_NAV = [
   { href: '/client/dashboard', label: 'Overview', icon: LayoutDashboard },
-  { href: '/client/jobs', label: 'My Jobs', icon: Briefcase },
+  { href: '/marketplace', label: 'Browse Marketplace', icon: Briefcase },
+  { href: '/client/listings', label: 'My Listings', icon: ClipboardList },
+  { href: '/client/hire-requests', label: 'Hire Requests', icon: Inbox },
+  { href: '/client/applications', label: 'My Applications', icon: FileText },
+  { href: '/delivery', label: 'Deliveries', icon: PackageOpen },
+  { href: '/chat', label: 'Messages', icon: MessageSquare },
   { href: '/client/escrows', label: 'My Escrows', icon: Shield },
-  { href: '/client/escrow/new', label: 'Create Escrow', icon: PlusCircle },
+  { href: '/escrow/create', label: 'Create Escrows', icon: PlusCircle },
   { href: '/client/payments', label: 'Payments', icon: CreditCard },
   { href: '/client/reviews', label: 'Reviews', icon: Star },
-  { href: '/client/chat', label: 'Messages', icon: MessageSquare },
   { href: '/client/analytics', label: 'Analytics', icon: BarChart2 },
   { href: '/client/settings', label: 'Settings', icon: Settings },
 ];
 
 const FREELANCER_NAV = [
   { href: '/freelancer/dashboard', label: 'Overview', icon: LayoutDashboard },
-  { href: '/freelancer/jobs', label: 'Browse Jobs', icon: Briefcase },
-  { href: '/freelancer/applications', label: 'My Applications', icon: ClipboardList },
-  { href: '/freelancer/escrows', label: 'My Contracts', icon: Shield },
+  { href: '/marketplace', label: 'Browse Marketplace', icon: Briefcase },
+  { href: '/freelancer/listings', label: 'My Listings', icon: ClipboardList },
+  { href: '/freelancer/applications', label: 'My Applications', icon: FileText },
+  { href: '/freelancer/hire-requests', label: 'Hire Requests', icon: Inbox },
+  { href: '/delivery', label: 'Deliveries', icon: PackageOpen },
+  { href: '/chat', label: 'Messages', icon: MessageSquare },
+  { href: '/escrow/create', label: 'Create Escrows', icon: PlusCircle },
   { href: '/freelancer/payments', label: 'Earnings', icon: CreditCard },
-  { href: '/freelancer/reviews', label: 'Reputation', icon: Star },
-  { href: '/freelancer/chat', label: 'Messages', icon: MessageSquare },
+  { href: '/freelancer/reviews', label: 'Reviews', icon: Star },
   { href: '/freelancer/analytics', label: 'Analytics', icon: BarChart2 },
   { href: '/freelancer/settings', label: 'Settings', icon: Settings },
 ];
@@ -81,7 +91,7 @@ export function Sidebar() {
       {/* Logo */}
       <div className="px-5 h-16 flex items-center border-b border-[#E4E8F0]">
         <Link to="/" className="flex items-center gap-2.5 group">
-          <div className="w-7 h-7 rounded-[7px] bg-[#5B6BF8] flex items-center justify-center">
+          <div className="w-7 h-7 rounded-[7px] bg-[#7C3AED] flex items-center justify-center">
             <svg width="15" height="15" viewBox="0 0 18 18" fill="none">
               <rect x="2" y="4" width="14" height="10" rx="2" stroke="white" strokeWidth="1.5" fill="none"/>
               <path d="M6 4V3a1 1 0 011-1h4a1 1 0 011 1v1" stroke="white" strokeWidth="1.5"/>
@@ -89,7 +99,7 @@ export function Sidebar() {
               <path d="M9 10.5v1.5" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
             </svg>
           </div>
-          <span className="text-[16px] font-bold text-[#0F1117] tracking-tight">EscrowX</span>
+          <span className="text-[16px] font-bold text-[#0F172A] tracking-tight">EscrowX</span>
         </Link>
       </div>
 
@@ -105,7 +115,7 @@ export function Sidebar() {
           )}>
             {user.role}
           </span>
-          <p className="text-xs font-semibold text-[#0F1117] mt-1 truncate">{user.username || user.email}</p>
+          <p className="text-xs font-semibold text-[#0F172A] mt-1 truncate">{user.name || user.email}</p>
         </div>
       )}
 
@@ -122,14 +132,14 @@ export function Sidebar() {
               className={cn(
                 'flex items-center gap-3 px-3 py-2.5 rounded-[8px] text-sm font-medium transition-all duration-150 group',
                 isActive
-                  ? 'bg-[#EEF0FF] text-[#5B6BF8] border-l-[3px] border-l-[#5B6BF8] pl-[calc(0.75rem_-_3px)]'
-                  : 'text-[#6B7280] hover:bg-[#F8F9FB] hover:text-[#0F1117]'
+                  ? 'bg-[#F5F3FF] text-[#7C3AED] border-l-[3px] border-l-[#7C3AED] pl-[calc(0.75rem_-_3px)]'
+                  : 'text-[#475569] hover:bg-[#F1F5F9] hover:text-[#0F172A]'
               )}
             >
               <Icon
                 className={cn(
                   'w-4 h-4 shrink-0 transition-colors',
-                  isActive ? 'text-[#5B6BF8]' : 'text-[#9CA3AF] group-hover:text-[#6B7280]'
+                  isActive ? 'text-[#7C3AED]' : 'text-[#64748B] group-hover:text-[#475569]'
                 )}
               />
               {link.label}

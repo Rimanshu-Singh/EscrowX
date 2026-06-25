@@ -14,6 +14,12 @@ import escrowRoutes from './routes/escrowRoutes';
 import disputeRoutes from './routes/disputeRoutes';
 import chatRoutes from './routes/chatRoutes';
 import reviewRoutes from './routes/reviewRoutes';
+import listingRoutes from './routes/listingRoutes';
+import listingApplicationRoutes from './routes/listingApplicationRoutes';
+import hireRequestRoutes from './routes/hireRequestRoutes';
+import proposalRoutes from './routes/proposalRoutes';
+import profileRoutes from './routes/profileRoutes';
+import deliveryRoutes from './routes/deliveryRoutes';
 
 // Load environment variables
 dotenv.config();
@@ -45,6 +51,12 @@ app.use('/api/escrows', escrowRoutes);
 app.use('/api/disputes', disputeRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/api/reviews', reviewRoutes);
+app.use('/api/listings', listingRoutes);
+app.use('/api/applications', listingApplicationRoutes);
+app.use('/api/hire-requests', hireRequestRoutes);
+app.use('/api/proposals', proposalRoutes);
+app.use('/api/profiles', profileRoutes);
+app.use('/api/deliveries', deliveryRoutes);
 
 // Health check endpoint
 app.get('/health', (req, res) => {

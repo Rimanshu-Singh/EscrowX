@@ -9,6 +9,11 @@ import {
   getEscrowDetails,
   getMyEscrows,
 } from '../controllers/escrowController';
+import {
+  postEscrowUpdate,
+  getEscrowUpdates,
+  reviewEscrowUpdate,
+} from '../controllers/escrowUpdateController';
 
 const router = Router();
 
@@ -23,5 +28,10 @@ router.put('/:id/refund', verifyToken, requireRole(['CLIENT']), refundEscrow);
 
 // Freelancer-only operations
 router.post('/:id/deliver', verifyToken, requireRole(['FREELANCER']), submitDelivery);
+
+// Escrow Workspace progress updates
+router.get('/:id/updates', verifyToken, getEscrowUpdates);
+router.post('/:id/updates', verifyToken, requireRole(['FREELANCER']), postEscrowUpdate);
+router.put('/updates/:id/review', verifyToken, requireRole(['CLIENT']), reviewEscrowUpdate);
 
 export default router;

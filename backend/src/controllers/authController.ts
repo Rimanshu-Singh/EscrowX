@@ -54,6 +54,16 @@ export async function signup(req: Request, res: Response) {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
+    // Generate unique username
+    let baseUsername = (name || email.split('@')[0]).toLowerCase().replace(/[^a-z0-9_]/g, '');
+    if (!baseUsername) baseUsername = 'user';
+    let uniqueUsername = baseUsername;
+    let counter = 1;
+    while (await User.findOne({ username: uniqueUsername })) {
+      uniqueUsername = `${baseUsername}_${counter}`;
+      counter++;
+    }
+
     // Create user model
     const user = new User({
       name,
@@ -61,7 +71,7 @@ export async function signup(req: Request, res: Response) {
       password: hashedPassword,
       walletAddress,
       role,
-      username: name || email.split('@')[0],
+      username: uniqueUsername,
       avatar: '',
       isVerified: false,
       isActive: true,

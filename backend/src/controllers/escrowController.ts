@@ -8,36 +8,59 @@ import { emitToUser } from '../sockets/chatSocket';
 // Create new escrow record in DB (Stellar smart contract is generated/deployed)
 export async function createEscrow(req: AuthRequest, res: Response) {
   try {
-    const { jobId, contractId, arbitratorAddress, amount, tokenType, deadline, txHash } = req.body;
+    const { jobId, listingId, contractId, arbitratorAddress, amount, tokenType, deadline, txHash, freelancerId } = req.body;
     const clientId = req.user?.userId;
 
-    if (!jobId || !contractId || !arbitratorAddress || !amount || !deadline) {
+    if ((!jobId && !listingId) || !contractId || !arbitratorAddress || !amount || !deadline) {
       return res.status(400).json({ error: 'Missing required escrow creation details' });
     }
 
-    const job = await Job.findById(jobId);
-    if (!job) {
-      return res.status(404).json({ error: 'Job not found' });
+    let finalJobId = jobId;
+    let jobTitleStr = '';
+
+    if (listingId) {
+      const { Listing } = require('../models/Listing');
+      const listing = await Listing.findById(listingId);
+      if (!listing) {
+        return res.status(404).json({ error: 'Listing not found' });
+      }
+
+      const newJob = new Job({
+        title: listing.title,
+        description: listing.description,
+        client: clientId,
+        budget: amount,
+        tokenType: tokenType || 'XLM',
+        status: 'in_progress'
+      });
+      await newJob.save();
+      finalJobId = newJob._id;
+      jobTitleStr = newJob.title;
+    } else {
+      const job = await Job.findById(jobId);
+      if (!job) {
+        return res.status(404).json({ error: 'Job not found' });
+      }
+      finalJobId = job._id;
+      jobTitleStr = job.title;
     }
 
-    // Identify freelancer (accepted applicant)
-    const freelancerUser = await User.findOne({ _id: { $ne: clientId }, role: 'FREELANCER' }); // simple mock fallback
-    // In production we look up accepted application:
-    // const application = await Application.findOne({ job: jobId, status: 'accepted' });
-    // const freelancerId = application.freelancer;
-    
-    // For production-grade mock, let's query the accepted freelancer from User collection or fallback
-    const freelancerId = freelancerUser ? freelancerUser._id : clientId; // fallback safety
+    // Identify freelancer
+    let finalFreelancerId = freelancerId;
+    if (!finalFreelancerId) {
+      const freelancerUser = await User.findOne({ _id: { $ne: clientId }, role: 'FREELANCER' });
+      finalFreelancerId = freelancerUser ? freelancerUser._id : clientId;
+    }
 
     // Find arbitrator user ID
     const arbitratorUser = await User.findOne({ walletAddress: arbitratorAddress });
-    const arbitratorId = arbitratorUser ? arbitratorUser._id : clientId; // fallback
+    const arbitratorId = arbitratorUser ? arbitratorUser._id : clientId;
 
     const escrow = new Escrow({
-      job: jobId,
+      job: finalJobId,
       contractId,
       client: clientId,
-      freelancer: freelancerId,
+      freelancer: finalFreelancerId,
       arbitrator: arbitratorId,
       amount,
       tokenType: tokenType || 'XLM',
@@ -65,10 +88,11 @@ export async function createEscrow(req: AuthRequest, res: Response) {
     await transaction.save();
 
     // Notify freelancer
+    const freelancerUser = await User.findById(finalFreelancerId);
     if (freelancerUser) {
       emitToUser(freelancerUser.walletAddress, 'notification', {
         title: 'Escrow Contract Deployed',
-        message: `Client has deployed an escrow for "${job.title}" of ${amount} ${tokenType}.`,
+        message: `Client has deployed an escrow for "${jobTitleStr}" of ${amount} ${tokenType}.`,
         link: `/escrow/${escrow._id}`
       });
     }

@@ -198,4 +198,176 @@ export const chatService = {
     });
     return res.data;
   },
+  getConversations: async () => {
+    const res = await apiClient.get('/chat/conversations');
+    return res.data;
+  },
+  getOrCreateConversation: async (participantId: string, listingId?: string) => {
+    const res = await apiClient.post('/chat/conversations', { participantId, listingId });
+    return res.data;
+  },
+  getConversationMessages: async (conversationId: string) => {
+    const res = await apiClient.get(`/chat/conversations/${conversationId}/messages`);
+    return res.data;
+  },
+};
+
+// LISTING SERVICES
+export const listingService = {
+  getListings: async (params?: { search?: string; type?: string; role?: string; minPrice?: number; maxPrice?: number; minBudget?: number; maxBudget?: number; skills?: string; sort?: string; page?: number; limit?: number }) => {
+    const res = await apiClient.get('/listings', { params });
+    return res.data;
+  },
+  getListing: async (id: string) => {
+    const res = await apiClient.get(`/listings/${id}`);
+    return res.data;
+  },
+  createListing: async (listingData: any) => {
+    const res = await apiClient.post('/listings', listingData);
+    return res.data;
+  },
+  updateListing: async (id: string, listingData: any) => {
+    const res = await apiClient.put(`/listings/${id}`, listingData);
+    return res.data;
+  },
+  deleteListing: async (id: string) => {
+    const res = await apiClient.delete(`/listings/${id}`);
+    return res.data;
+  },
+  getMyListings: async () => {
+    const res = await apiClient.get('/listings/my');
+    return res.data;
+  },
+};
+
+// APPLICATION SERVICES
+export const applicationService = {
+  applyToListing: async (listingId: string, applicationData: { coverLetter: string; portfolioUrl?: string; expectedDeliveryTime: number; bidAmount: number; previousExperience?: string }) => {
+    const res = await apiClient.post(`/applications/listing/${listingId}`, applicationData);
+    return res.data;
+  },
+  getMyApplications: async () => {
+    const res = await apiClient.get('/applications/my');
+    return res.data;
+  },
+  getListingApplications: async (listingId: string) => {
+    const res = await apiClient.get(`/applications/listing/${listingId}`);
+    return res.data;
+  },
+  reviewApplication: async (appId: string, status: 'ACCEPTED' | 'REJECTED') => {
+    const res = await apiClient.put(`/applications/${appId}/review`, { status });
+    return res.data;
+  },
+  withdrawApplication: async (appId: string) => {
+    const res = await apiClient.delete(`/applications/${appId}/withdraw`);
+    return res.data;
+  }
+};
+
+// HIRE REQUEST SERVICES
+export const hireRequestService = {
+  createHireRequest: async (hireRequestData: { listingId: string; projectTitle: string; projectDescription: string; requirements: string; deadline: string; budgetAmount: number }) => {
+    const res = await apiClient.post('/hire-requests', hireRequestData);
+    return res.data;
+  },
+  getMyHireRequests: async () => {
+    const res = await apiClient.get('/hire-requests/my');
+    return res.data;
+  },
+  respondToHireRequest: async (requestId: string, status: 'ACCEPTED' | 'REJECTED') => {
+    const res = await apiClient.put(`/hire-requests/${requestId}/respond`, { status });
+    return res.data;
+  }
+};
+
+// ESCROW UPDATE SERVICES
+export const escrowUpdateService = {
+  postUpdate: async (escrowId: string, updateData: { title: string; description: string; attachments?: string[] }) => {
+    const res = await apiClient.post(`/escrows/${escrowId}/updates`, updateData);
+    return res.data;
+  },
+  getUpdates: async (escrowId: string) => {
+    const res = await apiClient.get(`/escrows/${escrowId}/updates`);
+    return res.data;
+  },
+  reviewUpdate: async (updateId: string, action: 'approve' | 'revise', notes?: string) => {
+    const res = await apiClient.put(`/escrows/updates/${updateId}/review`, { action, notes });
+    return res.data;
+  }
+};
+
+// PROPOSAL SERVICES
+export const proposalService = {
+  applyToProject: async (projectId: string, proposalData: { coverLetter: string; portfolio?: string; expectedDelivery: number; bidAmount: number; experienceNotes?: string }) => {
+    const res = await apiClient.post(`/proposals/apply/${projectId}`, proposalData);
+    return res.data;
+  },
+  getReceivedProposals: async () => {
+    const res = await apiClient.get('/proposals/received');
+    return res.data;
+  },
+  getSentProposals: async () => {
+    const res = await apiClient.get('/proposals/sent');
+    return res.data;
+  },
+  acceptProposal: async (proposalId: string) => {
+    const res = await apiClient.put(`/proposals/${proposalId}/accept`);
+    return res.data;
+  },
+  rejectProposal: async (proposalId: string) => {
+    const res = await apiClient.put(`/proposals/${proposalId}/reject`);
+    return res.data;
+  },
+  withdrawProposal: async (proposalId: string) => {
+    const res = await apiClient.delete(`/proposals/${proposalId}/withdraw`);
+    return res.data;
+  }
+};
+
+// PROFILE SERVICES
+export const profileService = {
+  getProfile: async () => {
+    const res = await apiClient.get('/profiles/me');
+    return res.data;
+  },
+  updateProfile: async (profileData: { name?: string; username?: string; bio?: string; location?: string; profileImage?: string; skills?: string | string[]; website?: string; twitter?: string; github?: string; portfolio?: string }) => {
+    const res = await apiClient.put('/profiles/me', profileData);
+    return res.data;
+  },
+  getPublicProfile: async (username: string) => {
+    const res = await apiClient.get(`/profiles/user/${username}`);
+    return res.data;
+  }
+};
+
+// DELIVERY SERVICES
+export const deliveryService = {
+  getDeliveries: async () => {
+    const res = await apiClient.get('/deliveries');
+    return res.data;
+  },
+  initiateDelivery: async (projectId: string, freelancerId: string, clientId: string) => {
+    const res = await apiClient.post('/deliveries/initiate', { projectId, freelancerId, clientId });
+    return res.data;
+  },
+  getDelivery: async (id: string) => {
+    const res = await apiClient.get(`/deliveries/${id}`);
+    return res.data;
+  },
+  submitDelivery: async (id: string, deliveryData: { notes: string; demoLink?: string; files: string[]; previewFiles: string[] }) => {
+    const res = await apiClient.post(`/deliveries/${id}/submit`, deliveryData);
+    return res.data;
+  },
+  approveDelivery: async (id: string) => {
+    const res = await apiClient.put(`/deliveries/${id}/approve`);
+    return res.data;
+  },
+  rejectDelivery: async (id: string, reason: string) => {
+    const res = await apiClient.put(`/deliveries/${id}/reject`, { reason });
+    return res.data;
+  },
+  addComment: async (id: string, message: string) => {
+    const res = await apiClient.post(`/deliveries/${id}/comments`, { message });
+    return res.data;
+  }
 };
