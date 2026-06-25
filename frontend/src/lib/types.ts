@@ -93,3 +93,53 @@ export interface TopSeller {
   totalVolume: number;
   successRate: number;
 }
+
+export type OnChainEscrowStatus =
+  | 'PENDING'
+  | 'FUNDED'
+  | 'IN_PROGRESS'
+  | 'DELIVERED'
+  | 'REVISION_REQUESTED'
+  | 'APPROVED'
+  | 'DISPUTED'
+  | 'REFUNDED'
+  | 'COMPLETED';
+
+export interface EscrowTransaction {
+  escrowId: string;
+  txHash: string;
+  timestamp: string;
+  action: 'CREATE' | 'FUND' | 'DELIVER' | 'APPROVE' | 'REFUND' | 'DISPUTE' | 'RESOLVE';
+  walletAddress: string;
+  status: string;
+}
+
+export interface ContractResponse<T = any> {
+  success: boolean;
+  txHash?: string;
+  error?: string;
+  data?: T;
+}
+
+export interface DisputeResolution {
+  escrowId: string;
+  winner: 'CLIENT' | 'FREELANCER';
+  resolvedAt: string;
+  adminAddress: string;
+}
+
+export type EscrowStateMachine = {
+  [key in OnChainEscrowStatus]: OnChainEscrowStatus[];
+};
+
+export const ESCROW_STATE_TRANSITIONS: EscrowStateMachine = {
+  PENDING: ['FUNDED'],
+  FUNDED: ['IN_PROGRESS', 'DISPUTED', 'REFUNDED'],
+  IN_PROGRESS: ['DELIVERED', 'REVISION_REQUESTED', 'DISPUTED', 'REFUNDED'],
+  DELIVERED: ['COMPLETED', 'REVISION_REQUESTED', 'DISPUTED'],
+  REVISION_REQUESTED: ['DELIVERED', 'DISPUTED', 'REFUNDED'],
+  APPROVED: [],
+  DISPUTED: ['COMPLETED', 'REFUNDED'],
+  REFUNDED: [],
+  COMPLETED: [],
+};

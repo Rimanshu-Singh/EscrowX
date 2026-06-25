@@ -22,13 +22,12 @@ import {
   Horizon,
   TransactionBuilder,
   Networks,
-  Operation,
-  Asset,
-  Memo,
 } from '@stellar/stellar-sdk';
 import { DashboardLayout } from '../components/dashboard/DashboardLayout';
 import { escrowService } from '../services/api';
 import { useAuthStore } from '../store/authStore';
+import { STELLAR_CONFIG } from '../config/stellar.config';
+import { sorobanClient } from '../lib/soroban';
 
 export default function EscrowCreatePage() {
   const navigate = useNavigate();
@@ -49,6 +48,8 @@ export default function EscrowCreatePage() {
 
   // Confirmation states (Step 4 Success)
   const [successData, setSuccessData] = useState<any | null>(null);
+  const [escrowId, setEscrowId] = useState('');
+  const [statusMessage, setStatusMessage] = useState('');
 
   // Fee calculation (0.5%)
   const platformFee = Number((budget * 0.005).toFixed(4));
@@ -60,6 +61,11 @@ export default function EscrowCreatePage() {
       alert('Please fill out all required fields.');
       return;
     }
+    // Step 1: Generate unique escrowId using timestamp and randomness to prevent on-chain collisions
+    const timestamp = Date.now();
+    const rand = Math.floor(1000 + Math.random() * 9000);
+    const generatedId = `escrow_${timestamp}${rand}`;
+    setEscrowId(generatedId);
     setCurrentStep(2);
   };
 
@@ -71,49 +77,153 @@ export default function EscrowCreatePage() {
     }
     setWalletModalOpen(true);
   };
+
   const handleWalletConfirm = async () => {
     setLoading(true);
     try {
-      const TREASURY = 'GDGSHBO7VF2E6ZUB2DLGOBBRQUNNLL3V6M7JQEUUT6SEJOTEPAIGLMMX';
-      const server = new Horizon.Server('https://horizon-testnet.stellar.org');
+      const server = new Horizon.Server(STELLAR_CONFIG.HORIZON_URL);
 
-      // Load sender account
-      const sourceAccount = await server.loadAccount(clientWalletAddress!);
+      // STEP 1.1: Check if escrow already exists on-chain (to handle retries/idempotency)
+      setStatusMessage('Checking on-chain contract state...');
+      let escrowExists = false;
+      let isOnChainPending = false;
+      let isOnChainFunded = false;
 
-      // Build transaction
-      const tx = new TransactionBuilder(sourceAccount, {
-        fee: '100',
-        networkPassphrase: Networks.TESTNET,
-      })
-        .addOperation(
-          Operation.payment({
-            destination: TREASURY,
-            asset: Asset.native(),
-            amount: totalAmount.toString(),
-          })
-        )
-        .addMemo(Memo.text(`escrowx:fund`.slice(0, 28)))
-        .setTimeout(30)
-        .build();
+      try {
+        const existingEscrow = await sorobanClient.getEscrow(escrowId);
+        if (existingEscrow) {
+          escrowExists = true;
+          if (existingEscrow.status === 'PENDING') {
+            isOnChainPending = true;
+          } else if (existingEscrow.status === 'FUNDED') {
+            isOnChainFunded = true;
+          }
+        }
+      } catch (err) {
+        // EscrowNotFound (Contract Error #3) - this is expected if it hasn't been created yet
+      }
 
-      // Sign with Freighter — this triggers the popup
-      const result = await signTransaction(tx.toXDR(), {
-        networkPassphrase: Networks.TESTNET,
-      });
-      const signedXdr = result.signedTxXdr;
+      let realTxHash = '';
 
-      // Submit to Stellar testnet
-      const { Transaction } = await import('@stellar/stellar-sdk');
-      const signedTx = new Transaction(signedXdr, Networks.TESTNET);
-      const submitted = await server.submitTransaction(signedTx);
+      if (isOnChainFunded) {
+        setStatusMessage('Escrow is already funded on-chain.');
+        realTxHash = 'already_funded_tx_hash';
+      } else {
+        if (!isOnChainPending) {
+          // STEP 2: Call smart contract: createEscrow()
+          setStatusMessage('Step 1/4: Simulating escrow creation...');
+          const preparedCreateXdr = await sorobanClient.createEscrow(
+            escrowId,
+            clientWalletAddress!,
+            clientWalletAddress!, // freelancerWallet = null placeholder
+            budget
+          );
 
-      const realTxHash = submitted.hash;
+          setStatusMessage('Step 1/4: Waiting for Freighter wallet signature...');
+          let signedCreateXdr = '';
+          const createSigRes = await signTransaction(preparedCreateXdr, {
+            networkPassphrase: STELLAR_CONFIG.NETWORK_PASSPHRASE,
+          });
+          if (!createSigRes) {
+            throw new Error('WalletRejected');
+          }
+          if (typeof createSigRes === 'string') {
+            signedCreateXdr = createSigRes;
+          } else {
+            if ((createSigRes as any).error) {
+              throw new Error((createSigRes as any).error);
+            }
+            signedCreateXdr = (createSigRes as any).signedTxXdr || '';
+          }
+          if (!signedCreateXdr) {
+            throw new Error('WalletRejected');
+          }
 
-      // Now call your real backend
+          setStatusMessage('Step 1/4: Confirming escrow creation on-chain...');
+          const submittedCreate = await server.submitTransaction(
+            TransactionBuilder.fromXDR(signedCreateXdr, Networks.TESTNET)
+          );
+          console.log('Escrow created. Hash:', submittedCreate.hash);
+
+          // Wait for contract entry to be visible in Soroban RPC
+          setStatusMessage('Step 1/4: Waiting for transaction ingestion...');
+          let isIngested = false;
+          for (let i = 0; i < 12; i++) {
+            try {
+              const esc = await sorobanClient.getEscrow(escrowId);
+              if (esc) {
+                isIngested = true;
+                break;
+              }
+            } catch (e) {
+              // ignore and wait
+            }
+            await new Promise((resolve) => setTimeout(resolve, 2000));
+          }
+        }
+
+        // STEP 3: After successful escrow creation: Call: fundEscrow()
+        setStatusMessage('Step 2/4: Simulating escrow funding...');
+        const preparedFundXdr = await sorobanClient.fundEscrow(
+          escrowId,
+          clientWalletAddress!
+        );
+
+        setStatusMessage('Step 2/4: Waiting for Freighter wallet signature...');
+        let signedFundXdr = '';
+        const fundSigRes = await signTransaction(preparedFundXdr, {
+          networkPassphrase: STELLAR_CONFIG.NETWORK_PASSPHRASE,
+        });
+        if (!fundSigRes) {
+          throw new Error('WalletRejected');
+        }
+        if (typeof fundSigRes === 'string') {
+          signedFundXdr = fundSigRes;
+        } else {
+          if ((fundSigRes as any).error) {
+            throw new Error((fundSigRes as any).error);
+          }
+          signedFundXdr = (fundSigRes as any).signedTxXdr || '';
+        }
+        if (!signedFundXdr) {
+          throw new Error('WalletRejected');
+        }
+
+        // STEP 4: Wait for transaction confirmation. Receive: txHash
+        setStatusMessage('Step 2/4: Confirming escrow funding on-chain...');
+        const submittedFund = await server.submitTransaction(
+          TransactionBuilder.fromXDR(signedFundXdr, Networks.TESTNET)
+        );
+        realTxHash = submittedFund.hash;
+        console.log('Escrow funded. Hash:', realTxHash);
+      }
+
+      // VALIDATION RULES: Before listing publication: Verify: getEscrow(escrowId) returns: FUNDED
+      setStatusMessage('Step 3/4: Verifying escrow funding status on-chain...');
+      let onChainEscrow = null;
+      for (let i = 0; i < 12; i++) {
+        try {
+          onChainEscrow = await sorobanClient.getEscrow(escrowId);
+          if (onChainEscrow && onChainEscrow.status === 'FUNDED') {
+            break;
+          }
+        } catch (e) {
+          // ignore
+        }
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+      }
+
+      if (!onChainEscrow || onChainEscrow.status !== 'FUNDED') {
+        throw new Error('Validation failed. On-chain escrow status is not FUNDED.');
+      }
+
+      // STEP 5: Sync backend & STEP 6: Publish listing.
+      setStatusMessage('Step 4/4: Publishing listing and syncing database...');
       const skills = skillsStr.split(',').map(s => s.trim()).filter(Boolean);
       const tags = tagsStr.split(',').map(t => t.trim()).filter(Boolean);
 
       const response = await escrowService.createProjectEscrow({
+        escrowId,
         transactionHash: realTxHash,
         clientWallet: clientWalletAddress || '',
         budget,
@@ -141,12 +251,21 @@ export default function EscrowCreatePage() {
       setWalletModalOpen(false);
       setCurrentStep(4);
     } catch (err: any) {
-      console.error('Funding error:', err);
-      alert(
-        err?.message?.includes('User declined')
-          ? 'Transaction rejected by user.'
-          : err?.response?.data?.error || 'Transaction failed. Please try again.'
-      );
+      console.error('Escrow creation flow error:', err);
+      const msg = err?.message || String(err);
+      let userFriendly = 'Escrow creation failed. Please try again.';
+      if (msg.includes('WalletRejected') || msg.includes('User declined') || msg.includes('cancel')) {
+        userFriendly = 'Transaction was rejected or canceled by user.';
+      } else if (msg.includes('SimulationFailed') || msg.includes('simulation failed')) {
+        userFriendly = 'Transaction simulation failed. Please ensure you have sufficient XLM balance and try again.';
+      } else if (msg.includes('Validation failed')) {
+        userFriendly = msg;
+      } else if (err?.response?.data?.error) {
+        userFriendly = err.response.data.error;
+      } else {
+        userFriendly = msg;
+      }
+      alert(userFriendly);
       setWalletModalOpen(false);
     } finally {
       setLoading(false);
@@ -465,13 +584,13 @@ export default function EscrowCreatePage() {
                     </span>
                   </div>
 
-                  {/* Treasury */}
+                  {/* Escrow Contract */}
                   <div className="flex justify-between items-center py-2 border-b border-slate-50">
                     <span className="text-slate-400 font-semibold flex items-center gap-1.5">
-                      <Coins className="w-3 h-3" /> To Treasury
+                      <Shield className="w-3 h-3" /> Escrow Contract
                     </span>
-                    <span className="font-mono text-[10px] text-slate-500">
-                      GDGSH...MMOX
+                    <span className="font-mono text-[10px] text-[#A78BFA] truncate max-w-[180px]" title={STELLAR_CONFIG.CONTRACT_ID}>
+                      {STELLAR_CONFIG.CONTRACT_ID.slice(0, 8)}...{STELLAR_CONFIG.CONTRACT_ID.slice(-6)}
                     </span>
                   </div>
 
@@ -525,7 +644,7 @@ export default function EscrowCreatePage() {
                 <p className="text-[10px] font-black uppercase tracking-widest text-indigo-400">What Happens Next</p>
                 <div className="space-y-2.5">
                   {[
-                    { icon: '🔒', text: 'Your funds are locked in the EscrowX treasury vault' },
+                    { icon: '🔒', text: 'Your funds are locked in the Soroban smart contract' },
                     { icon: '📋', text: 'Your project listing is now live on the marketplace' },
                     { icon: '👀', text: 'Freelancers can view and send proposals to your project' },
                     { icon: '✅', text: 'Funds release only after you approve the delivered work' },
@@ -584,49 +703,65 @@ export default function EscrowCreatePage() {
               exit={{ scale: 0.95, opacity: 0 }}
               className="bg-white rounded-2xl w-full max-w-sm overflow-hidden shadow-2xl border border-slate-100 flex flex-col p-6 space-y-6 text-center"
             >
-              <div className="w-12 h-12 bg-purple-50 text-purple-600 rounded-full flex items-center justify-center mx-auto border border-purple-100 animate-pulse">
-                <Wallet className="w-6 h-6" />
-              </div>
-
-              <div className="space-y-2">
-                <h3 className="text-base font-bold text-[#0F172A]">Stellar Wallet Authorization</h3>
-                <p className="text-xs text-[#64748B] leading-relaxed">
-                  Review and sign the transaction in your Freighter wallet extension to lock <strong>{totalAmount} XLM</strong>.
-                </p>
-              </div>
-
-              <div className="bg-[#FAF9FF] border border-purple-100/50 rounded-xl p-3.5 text-left space-y-2.5 text-xs text-slate-600">
-                <div className="flex justify-between">
-                  <span>Operation:</span>
-                  <span className="font-semibold text-slate-800">Deploy & Fund Soroban Vault</span>
+              {loading ? (
+                <div className="space-y-6 py-6 flex flex-col items-center justify-center">
+                  <div className="w-12 h-12 bg-purple-50 text-purple-600 rounded-full flex items-center justify-center mx-auto border border-purple-100">
+                    <Loader2 className="w-6 h-6 animate-spin text-[#7C3AED]" />
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="text-base font-bold text-[#0F172A]">Processing Contract Operations</h3>
+                    <p className="text-xs text-[#64748B] leading-relaxed animate-pulse">
+                      {statusMessage}
+                    </p>
+                  </div>
                 </div>
-                <div className="flex justify-between">
-                  <span>Network:</span>
-                  <span className="font-bold text-amber-600">TESTNET</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Gas Limit:</span>
-                  <span className="font-mono text-slate-500">0.05 XLM</span>
-                </div>
-              </div>
+              ) : (
+                <>
+                  <div className="w-12 h-12 bg-purple-50 text-purple-600 rounded-full flex items-center justify-center mx-auto border border-purple-100 animate-pulse">
+                    <Wallet className="w-6 h-6" />
+                  </div>
 
-              <div className="flex gap-2">
-                <button
-                  type="button"
-                  onClick={handleWalletConfirm}
-                  className="flex-1 py-3 bg-[#0F172A] hover:bg-[#1E293B] text-white text-xs font-bold rounded-xl shadow-sm cursor-pointer flex items-center justify-center gap-2"
-                >
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                  Approve Transaction
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setWalletModalOpen(false)}
-                  className="px-4 py-3 border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-bold rounded-xl"
-                >
-                  Cancel
-                </button>
-              </div>
+                  <div className="space-y-2">
+                    <h3 className="text-base font-bold text-[#0F172A]">Stellar Wallet Authorization</h3>
+                    <p className="text-xs text-[#64748B] leading-relaxed">
+                      Review and sign the transaction in your Freighter wallet extension to lock <strong>{totalAmount} XLM</strong>.
+                    </p>
+                  </div>
+
+                  <div className="bg-[#FAF9FF] border border-purple-100/50 rounded-xl p-3.5 text-left space-y-2.5 text-xs text-slate-600">
+                    <div className="flex justify-between">
+                      <span>Operation:</span>
+                      <span className="font-semibold text-slate-800">Deploy & Fund Soroban Vault</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Network:</span>
+                      <span className="font-bold text-amber-600">TESTNET</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Gas Limit:</span>
+                      <span className="font-mono text-slate-500">0.05 XLM</span>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
+                      onClick={handleWalletConfirm}
+                      className="flex-1 py-3 bg-[#0F172A] hover:bg-[#1E293B] text-white text-xs font-bold rounded-xl shadow-sm cursor-pointer flex items-center justify-center gap-2"
+                    >
+                      <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                      Approve Transaction
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setWalletModalOpen(false)}
+                      className="px-4 py-3 border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-bold rounded-xl"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </>
+              )}
             </motion.div>
           </div>
         )}

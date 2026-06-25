@@ -104,6 +104,12 @@ export async function getDelivery(req: AuthRequest, res: Response) {
     // Convert to plain object for manipulation
     const responseData = delivery.toObject();
 
+    // Attach on-chain escrow ID if it exists
+    const projectEscrow = await ProjectEscrow.findOne({ projectId: delivery.projectId });
+    if (projectEscrow) {
+      responseData.escrowId = projectEscrow.escrowId;
+    }
+
     // Security Gate check: Client cannot see raw locked files before approval
     if (isClient && delivery.status !== 'approved') {
       responseData.files = []; // Lock original files

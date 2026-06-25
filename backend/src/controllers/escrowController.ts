@@ -412,13 +412,20 @@ export async function createProjectEscrow(req: AuthRequest, res: Response) {
     await listing.save();
 
     // 2. Generate unique escrowId (e.g. esc_12345)
-    let escrowId = '';
-    let isUnique = false;
-    while (!isUnique) {
-      escrowId = 'esc_' + Math.floor(10000 + Math.random() * 90000);
+    let escrowId = req.body.escrowId;
+    if (!escrowId) {
+      let isUnique = false;
+      while (!isUnique) {
+        escrowId = 'esc_' + Math.floor(10000 + Math.random() * 90000);
+        const existing = await ProjectEscrow.findOne({ escrowId });
+        if (!existing) {
+          isUnique = true;
+        }
+      }
+    } else {
       const existing = await ProjectEscrow.findOne({ escrowId });
-      if (!existing) {
-        isUnique = true;
+      if (existing) {
+        return res.status(400).json({ error: 'Provided escrowId is already in use.' });
       }
     }
 

@@ -24,11 +24,13 @@ import {
 import { DashboardLayout } from '../components/dashboard/DashboardLayout';
 import { deliveryService } from '../services/api';
 import { useAuthStore } from '../store/authStore';
+import { useEscrowContract } from '../hooks/useEscrowContract';
 
 export default function DeliveryPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { user: currentUser } = useAuthStore();
+  const { user: currentUser, walletAddress } = useAuthStore();
+  const { markDelivered, approveDelivery, requestRefund } = useEscrowContract();
 
   const [delivery, setDelivery] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
@@ -95,14 +97,41 @@ export default function DeliveryPage() {
         return;
       }
 
-      await deliveryService.submitDelivery(id!, {
-        notes,
-        demoLink,
-        files: parsedVaultFiles,
-        previewFiles: parsedPreviewFiles
-      });
+      const escrowId = delivery.escrowId;
+      if (!escrowId) {
+        setSubmitError('No on-chain escrow ID found for this project.');
+        setActionLoading(false);
+        return;
+      }
 
-      alert('Work submitted successfully!');
+      const activeWallet = walletAddress || currentUser?.walletAddress;
+      if (!activeWallet) {
+        setSubmitError('Please connect your wallet first.');
+        setActionLoading(false);
+        return;
+      }
+
+      // Call markDelivered on contract which also submits deliverables to backend
+      const res = await markDelivered(
+        escrowId,
+        activeWallet,
+        id!,
+        {
+          ipfsHash: parsedVaultFiles[0] || 'mock_ipfs_hash',
+          githubLink: demoLink,
+          notes,
+          previewFiles: parsedPreviewFiles
+        },
+        true // isProjectDelivery
+      );
+
+      if (!res.success) {
+        setSubmitError(res.error || 'Failed to submit deliverables to the smart contract.');
+        setActionLoading(false);
+        return;
+      }
+
+      alert('Work submitted successfully on-chain!');
       setUploadModalOpen(false);
       // Reset fields
       setNotes('');
@@ -111,7 +140,7 @@ export default function DeliveryPage() {
       setPreviewFilesInput('');
       fetchDeliveryDetails();
     } catch (err: any) {
-      setSubmitError(err.response?.data?.error || 'Failed to submit delivery.');
+      setSubmitError(err.message || 'Failed to submit delivery.');
     } finally {
       setActionLoading(false);
     }
@@ -119,13 +148,36 @@ export default function DeliveryPage() {
 
   const handleApprove = async () => {
     if (!window.confirm('Are you sure you want to approve this delivery? This will release locked escrow funds to the freelancer.')) return;
+    
+    const escrowId = delivery.escrowId;
+    if (!escrowId) {
+      alert('No on-chain escrow ID found for this project.');
+      return;
+    }
+
+    const activeWallet = walletAddress || currentUser?.walletAddress;
+    if (!activeWallet) {
+      alert('Please connect your wallet first.');
+      return;
+    }
+
     setActionLoading(true);
     try {
-      await deliveryService.approveDelivery(id!);
-      alert('Delivery approved and closed successfully!');
-      fetchDeliveryDetails();
+      const res = await approveDelivery(
+        escrowId,
+        activeWallet,
+        id!,
+        true // isProjectDelivery
+      );
+
+      if (res.success) {
+        alert('Delivery approved and funds released successfully!');
+        fetchDeliveryDetails();
+      } else {
+        alert(`Failed to approve delivery: ${res.error}`);
+      }
     } catch (err: any) {
-      alert(err.response?.data?.error || 'Failed to approve delivery.');
+      alert(err.message || 'Failed to approve delivery.');
     } finally {
       setActionLoading(false);
     }
@@ -137,16 +189,40 @@ export default function DeliveryPage() {
       setRevisionError('Please provide notes detailing what revisions are required.');
       return;
     }
+
+    const escrowId = delivery.escrowId;
+    if (!escrowId) {
+      setRevisionError('No on-chain escrow ID found for this project.');
+      return;
+    }
+
+    const activeWallet = walletAddress || currentUser?.walletAddress;
+    if (!activeWallet) {
+      setRevisionError('Please connect your wallet first.');
+      return;
+    }
+
     setRevisionError(null);
     setActionLoading(true);
     try {
-      await deliveryService.rejectDelivery(id!, revisionReason);
-      alert('Revision request submitted.');
-      setRevisionModalOpen(false);
-      setRevisionReason('');
-      fetchDeliveryDetails();
+      const res = await requestRefund(
+        escrowId,
+        activeWallet,
+        id!,
+        revisionReason,
+        true // isProjectDelivery
+      );
+
+      if (res.success) {
+        alert('Revision request submitted successfully.');
+        setRevisionModalOpen(false);
+        setRevisionReason('');
+        fetchDeliveryDetails();
+      } else {
+        setRevisionError(res.error || 'Failed to submit revision request.');
+      }
     } catch (err: any) {
-      setRevisionError(err.response?.data?.error || 'Failed to request revisions.');
+      setRevisionError(err.message || 'Failed to request revisions.');
     } finally {
       setActionLoading(false);
     }

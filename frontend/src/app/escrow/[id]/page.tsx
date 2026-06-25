@@ -2,12 +2,13 @@ import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
-  ArrowLeft, Copy, CheckCircle2, ShieldAlert, Lock, Clock, Calendar, Star, AlertCircle, PlusCircle, RefreshCw, AlertTriangle
+  ArrowLeft, Copy, CheckCircle2, ShieldAlert, Lock, Clock, Calendar, Star, AlertCircle, PlusCircle, RefreshCw, AlertTriangle, Play
 } from 'lucide-react';
 import { DashboardLayout } from '../../../components/dashboard/DashboardLayout';
 import { useAuthStore } from '../../../store/authStore';
 import { escrowService, disputeService, reviewService, escrowUpdateService } from '../../../services/api';
 import { FundEscrowModal } from '../../../components/escrow/FundEscrowModal';
+import { useEscrowContract } from '../../../hooks/useEscrowContract';
 
 const TIMELINE_STEPS = [
   { key: 'CREATED', label: 'Created' },
@@ -36,6 +37,7 @@ export default function EscrowDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { user, token, walletAddress } = useAuthStore();
+  const { approveDelivery, raiseDispute, markInProgress } = useEscrowContract();
 
   // Escrow funding modal states
   const [isFundModalOpen, setIsFundModalOpen] = useState(false);
@@ -202,14 +204,32 @@ export default function EscrowDetailPage() {
     }
   };
 
+  // Freelancer starts work on-chain
+  const handleStartWork = async () => {
+    try {
+      const res = await markInProgress(escrow.contractId, walletAddress || '', escrow._id);
+      if (res.success) {
+        alert('Work started successfully on-chain! Status updated to In Progress.');
+        loadWorkspaceDetails();
+      } else {
+        alert(`Failed to start work: ${res.error}`);
+      }
+    } catch (err) {
+      alert('Failed to start work');
+    }
+  };
+
   // Client approves and releases payment (escrow completion)
   const handleApproveEscrow = async () => {
     if (!window.confirm("Are you sure you want to approve this project deliverables and release contract funds? This action is final.")) return;
     try {
-      const txHash = 'mock_stellar_payment_release_tx_hash_' + Math.random().toString(36).slice(2);
-      await escrowService.approveEscrow(escrow._id, txHash);
-      alert('Payment released successfully! Soroban contract closed.');
-      loadWorkspaceDetails();
+      const res = await approveDelivery(escrow.contractId, walletAddress || '', escrow._id);
+      if (res.success) {
+        alert('Payment released successfully! Soroban contract closed.');
+        loadWorkspaceDetails();
+      } else {
+        alert(`Failed to release payment: ${res.error}`);
+      }
     } catch (err) {
       alert('Failed to release payment');
     }
@@ -221,18 +241,19 @@ export default function EscrowDetailPage() {
     if (!disputeReason) return;
     setRaisingDispute(true);
     try {
-      await disputeService.raiseDispute({
-        escrowId: escrow._id,
-        reason: disputeReason,
-        evidenceContent: 'Dispute raised from Escrow Workspace.'
-      });
-      alert('Dispute case created. Arbitrator has been notified.');
-      setDisputeReason('');
-      loadWorkspaceDetails();
+      const res = await raiseDispute(escrow.contractId, walletAddress || '', escrow._id, disputeReason);
+      if (res.success) {
+        alert('Dispute raised successfully on-chain!');
+        setDisputeReason('');
+        loadWorkspaceDetails();
+      } else {
+        alert(`Failed to raise dispute: ${res.error}`);
+      }
     } catch (err) {
-      alert('Dispute creation failed');
+      alert('Failed to raise dispute');
+    } finally {
+      setRaisingDispute(false);
     }
-    setRaisingDispute(false);
   };
 
   // Submit review
@@ -464,8 +485,24 @@ export default function EscrowDetailPage() {
                 </div>
               )}
 
+              {isFreelancer && escrow.status === 'FUNDED' && (
+                <div className="bg-[#FAF9FF] border border-[#7C3AED]/10 rounded-xl p-6 text-center space-y-3.5 mt-4">
+                  <Play className="w-8 h-8 text-[#7C3AED] mx-auto animate-pulse" />
+                  <h4 className="text-xs font-bold text-[#0F172A]">Start Project Milestone</h4>
+                  <p className="text-xs text-slate-500 max-w-sm mx-auto leading-relaxed">
+                    Set the contract status to In Progress on-chain. This registers your active start on the Stellar Testnet.
+                  </p>
+                  <button
+                    onClick={handleStartWork}
+                    className="px-5 py-2.5 rounded-xl bg-[#7C3AED] text-white text-xs font-bold hover:bg-[#6D28D9] transition-all shadow-sm cursor-pointer"
+                  >
+                    Start Work
+                  </button>
+                </div>
+              )}
+
               {/* Freelancer Post Update Form */}
-              {isFreelancer && (escrow.status === 'FUNDED' || escrow.status === 'IN_PROGRESS') && (
+              {isFreelancer && escrow.status === 'IN_PROGRESS' && (
                 <form onSubmit={handlePostUpdate} className="border-t border-[#F1F5F9] pt-5 space-y-4">
                   <div className="flex items-center gap-1.5">
                     <PlusCircle className="w-4 h-4 text-[#7C3AED]" />
@@ -700,9 +737,8 @@ export default function EscrowDetailPage() {
       <FundEscrowModal
         isOpen={isFundModalOpen}
         onClose={() => setIsFundModalOpen(false)}
-        escrowId={currentEscrowId}
-        amountXLM={currentAmountXLM}
-        walletAddress={walletAddress || user?.walletAddress || ''}
+        escrow={escrow}
+        clientWallet={walletAddress || user?.walletAddress || ''}
         onSuccess={(txHash) => {
           loadWorkspaceDetails();
         }}
