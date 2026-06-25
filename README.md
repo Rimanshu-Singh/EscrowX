@@ -4,7 +4,7 @@ A **next-generation decentralized freelance escrow system** built on **Stellar b
 
 ---
 
-# 🌟 What is EscrowX?
+## 🌟 What is EscrowX?
 
 EscrowX is a **Web3 freelance marketplace system** where:
 
@@ -17,7 +17,7 @@ EscrowX is a **Web3 freelance marketplace system** where:
 
 ---
 
-# ⚠️ Current Problem (Real World)
+## ⚠️ Current Problem (Real World)
 
 Traditional platforms like Fiverr / Upwork:
 
@@ -28,7 +28,7 @@ Traditional platforms like Fiverr / Upwork:
 
 ---
 
-# 💡 EscrowX Solution
+## 💡 EscrowX Solution
 
 EscrowX fixes this using blockchain escrow:
 ```text
@@ -42,7 +42,7 @@ Released only after approval OR refunded
 ```
 ---
 
-# 🧠 Real World Example
+## 🧠 Real World Example
 
 👉 John hires a designer
 
@@ -178,24 +178,26 @@ S->>X: Transfer XLM / USDC
 ```
 ---
 ## ⛓ SMART CONTRACT ARCHITECTURE
+
 ```mermaid
+
 flowchart TD
 
 SC[Escrow Smart Contract]
 
-SC --> C1[createEscrow()]
-SC --> C2[fundEscrow()]
-SC --> C3[markInProgress()]
-SC --> C4[markDelivered()]
-SC --> C5[approveDelivery()]
-SC --> C6[requestRefund()]
-SC --> C7[refundEscrow()]
-SC --> C8[raiseDispute()]
-SC --> C9[resolveDispute()]
-SC --> C10[getEscrow()]
+SC --> C1[createEscrow]
+SC --> C2[fundEscrow]
+SC --> C3[markInProgress]
+SC --> C4[markDelivered]
+SC --> C5[approveDelivery]
+SC --> C6[requestRefund]
+SC --> C7[refundEscrow]
+SC --> C8[raiseDispute]
+SC --> C9[resolveDispute]
+SC --> C10[getEscrow]
 ```
 ---
-# 🔄 CORE WORKFLOW (IMPORTANT)
+## 🔄 CORE WORKFLOW (IMPORTANT)
 ```text
 Client
   ↓
@@ -225,7 +227,7 @@ Funds → Freelancer
 ```
 ---
 
-# 🏗 Tech Stack
+## 🏗 Tech Stack
 
 Frontend
 - Vite + TypeScript
@@ -243,7 +245,7 @@ Blockchain Layer
 
 ---
 
-# ⛓ SMART CONTRACT (SOROBAN)
+## ⛓ SMART CONTRACT (SOROBAN)
 
 Contract ID (Testnet)
 UPCOMING / NOT SET YET
@@ -265,7 +267,7 @@ UPCOMING / NOT SET YET
 
 ---
 ```text
-# 📊 ESCROW STATE MACHINE
+## 📊 ESCROW STATE MACHINE
 
 PENDING
   ↓
@@ -309,7 +311,7 @@ COMPLETED
 
 ---
 
-# 🔥 WHY EscrowNotFound HAPPENS
+## 🔥 WHY EscrowNotFound HAPPENS
 
 Continue & Fund
    ↓
@@ -337,7 +339,7 @@ Publish listing ONLY AFTER SUCCESS
 ```
 ---
 
-# 🔗 FRONTEND ↔ CONTRACT FLOW
+## 🔗 FRONTEND ↔ CONTRACT FLOW
 
 Frontend NEVER stores money.
 
@@ -355,7 +357,7 @@ UI Update
 
 ---
 
-# 🎯 FUNCTION MAPPING
+## 🎯 FUNCTION MAPPING
 
 Create Escrow → createEscrow()
 Fund Escrow → fundEscrow()
@@ -370,7 +372,7 @@ View Status → getEscrow()
 
 ---
 
-# 👥 ROLE SYSTEM
+## 👥 ROLE SYSTEM
 
 Client:
 - createEscrow
@@ -388,7 +390,7 @@ Admin:
 
 ---
 
-# 📦 PROJECT STRUCTURE
+## 📦 PROJECT STRUCTURE
 
 frontend/
  ├── src/
@@ -410,7 +412,7 @@ contracts/
 
 ---
 
-# 🧾 FUNDING FLOW
+## 🧾 FUNDING FLOW
 
 Step 1:
 Continue & Fund clicked
@@ -432,7 +434,7 @@ NOT treasury wallet ❌
 
 ---
 
-# 🔐 SECURITY MODEL
+## 🔐 SECURITY MODEL
 
 - No direct treasury wallet
 - Funds locked in contract
@@ -441,7 +443,7 @@ NOT treasury wallet ❌
 
 ---
 
-# 📈 CURRENT STATUS
+## 📈 CURRENT STATUS
 
 Level 3 (Orange Belt)
 
@@ -460,7 +462,7 @@ In Progress:
 
 ---
 
-# 🚀 NEXT ROADMAP
+## 🚀 NEXT ROADMAP
 
 - Delivery Vault system
 - File locking system
@@ -470,13 +472,13 @@ In Progress:
 
 ---
 
-# 🧠 FINAL VISION
+## 🧠 FINAL VISION
 
 EscrowX = Fiverr + Upwork + Blockchain escrow trust layer
 
 ---
 
-# ⚡ CORE RULE
+## ⚡ CORE RULE
 
 If escrow not created → nothing exists  
 If escrow not funded → not visible  
