@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, ArrowUpDown, Calendar, ShieldAlert, Sparkles, Filter, X, Check } from 'lucide-react';
+import { Search, ArrowUpDown, Calendar, ShieldAlert, Sparkles, Filter, X, Check, ShieldCheck } from 'lucide-react';
 import { DashboardLayout } from '../components/dashboard/DashboardLayout';
 import { listingService } from '../services/api';
 import { useAuthStore } from '../store/authStore';
@@ -312,6 +312,19 @@ export default function MarketplacePage() {
                     <h4 className="text-[13px] font-extrabold text-[#0F172A] line-clamp-1 group-hover:text-[#7C3AED] transition-colors leading-tight">
                       {item.title}
                     </h4>
+
+                    {item.type === 'PROJECT' && (
+                      <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
+                        <span className="inline-flex items-center gap-1 text-[8px] font-black uppercase tracking-wide text-[#059669] bg-[#ECFDF5] border border-[#A7F3D0] px-2 py-0.5 rounded-md shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
+                          <ShieldCheck className="w-3.5 h-3.5 text-[#10B981]" />
+                          Escrow Protected
+                        </span>
+                        <span className="inline-flex items-center gap-1 text-[8px] font-black uppercase tracking-wide text-[#047857] bg-[#F0FDF4] border border-[#BCF0DA] px-2 py-0.5 rounded-md shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse" />
+                          Funding Confirmed
+                        </span>
+                      </div>
+                    )}
 
                     <p className="text-[10px] text-[#64748B] line-clamp-2 leading-relaxed">
                       {item.description}

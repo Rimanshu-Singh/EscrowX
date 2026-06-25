@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   PlusCircle, Briefcase, Shield, CreditCard, Star, Settings as SettingsIcon,
   Edit3, Trash2, CheckCircle, XCircle, Search, Filter, ChevronLeft, ChevronRight,
-  Eye, AlertTriangle, TrendingUp, Lock, DollarSign, Award, Users
+  Eye, AlertTriangle, TrendingUp, Lock, DollarSign, Award, Users, ExternalLink
 } from 'lucide-react';
 import { AppLayout } from '../../components/layout/AppLayout';
 import { useAuthStore } from '../../store/authStore';
@@ -47,6 +47,8 @@ export default function DashboardPage({ tab: initialTab = 'overview' }: Dashboar
   const [disputes, setDisputes] = useState<any[]>([]);
   const [reviews, setReviews] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [projectTransactions, setProjectTransactions] = useState<any[]>([]);
+  const [selectedTx, setSelectedTx] = useState<any | null>(null);
 
   // Search / filter / pagination for browse jobs (freelancer)
   const [search, setSearch] = useState('');
@@ -85,12 +87,14 @@ export default function DashboardPage({ tab: initialTab = 'overview' }: Dashboar
     setLoading(true);
     try {
       if (user.role === 'CLIENT') {
-        const [myJobsData, escrowsData] = await Promise.all([
+        const [myJobsData, escrowsData, transactionsData] = await Promise.all([
           jobService.getMyJobs(),
           escrowService.getMyEscrows(),
+          escrowService.getProjectTransactions().catch(() => []),
         ]);
         setMyJobs(myJobsData);
         setEscrows(escrowsData);
+        setProjectTransactions(transactionsData);
       } else if (user.role === 'FREELANCER') {
         const [jobsData, escrowsData] = await Promise.all([
           jobService.getJobs({ page: 1, limit: 10 }),
@@ -650,22 +654,75 @@ export default function DashboardPage({ tab: initialTab = 'overview' }: Dashboar
         {activeTab === 'payments' && (
           <div className="space-y-4">
             <h3 className="text-sm font-bold text-[#0F172A]">{user.role === 'FREELANCER' ? 'Earnings History' : 'Payment History'}</h3>
-            {escrows.length === 0
-              ? (
+            
+            {user.role === 'CLIENT' ? (
+              // CLIENT payment history: Transactions list
+              projectTransactions.length === 0 ? (
+                <div className="text-center py-16 bg-white border border-dashed border-[#E5E7EB] rounded-[16px]">
+                  <CreditCard className="w-10 h-10 text-gray-300 mx-auto mb-3" />
+                  <p className="text-sm font-bold text-gray-400">No payment history yet</p>
+                  <p className="text-xs text-gray-400 mt-1">Once you fund an escrow contract, transactions will appear here.</p>
+                </div>
+              ) : (
+                <div className="bg-white border border-[#E5E7EB] rounded-[16px] shadow-sm overflow-hidden">
+                  <table className="w-full text-xs text-left">
+                    <thead className="bg-[#F8F9FB] border-b border-[#E5E7EB]">
+                      <tr>
+                        <th className="px-5 py-3 text-[10px] font-bold uppercase text-gray-400 tracking-wider">Escrow ID</th>
+                        <th className="px-5 py-3 text-[10px] font-bold uppercase text-gray-400 tracking-wider">Date</th>
+                        <th className="px-5 py-3 text-[10px] font-bold uppercase text-gray-400 tracking-wider">Status</th>
+                        <th className="px-5 py-3 text-[10px] font-bold uppercase text-gray-400 tracking-wider">Budget</th>
+                        <th className="px-5 py-3 text-[10px] font-bold uppercase text-gray-400 tracking-wider">Fee</th>
+                        <th className="px-5 py-3 text-[10px] font-bold uppercase text-gray-400 tracking-wider">Total Paid</th>
+                        <th className="px-5 py-3 text-[10px] font-bold uppercase text-gray-400 tracking-wider text-right">Details</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-[#E5E7EB]">
+                      {projectTransactions.map(tx => (
+                        <tr 
+                          key={tx._id} 
+                          onClick={() => setSelectedTx(tx)}
+                          className="hover:bg-[#FAFAFA] transition-colors cursor-pointer"
+                        >
+                          <td className="px-5 py-3.5 font-bold text-[#0F172A] font-mono">{tx.escrowId}</td>
+                          <td className="px-5 py-3.5 text-slate-500">{new Date(tx.date || tx.createdAt).toLocaleDateString()}</td>
+                          <td className="px-5 py-3.5">
+                            <span className={`text-[9px] font-bold uppercase px-2 py-0.5 rounded-md ${
+                              tx.status === 'RELEASED' ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' :
+                              tx.status === 'REFUNDED' ? 'bg-slate-100 text-slate-600 border border-slate-200' :
+                              'bg-blue-50 text-blue-600 border border-blue-100'
+                            }`}>
+                              {tx.status}
+                            </span>
+                          </td>
+                          <td className="px-5 py-3.5 font-mono font-semibold text-slate-700">{tx.amount} XLM</td>
+                          <td className="px-5 py-3.5 font-mono text-slate-500">{tx.platformFee} XLM</td>
+                          <td className="px-5 py-3.5 font-mono font-bold text-[#7C3AED]">{tx.totalPaid} XLM</td>
+                          <td className="px-5 py-3.5 text-right font-bold text-[#7C3AED] hover:underline">
+                            View →
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )
+            ) : (
+              // FREELANCER (legacy earnings / escrows)
+              escrows.length === 0 ? (
                 <div className="text-center py-16 bg-white border border-dashed border-[#E5E7EB] rounded-[16px]">
                   <CreditCard className="w-10 h-10 text-gray-300 mx-auto mb-3" />
                   <p className="text-sm font-bold text-gray-400">No payment history yet</p>
                 </div>
-              )
-              : (
+              ) : (
                 <div className="bg-white border border-[#E5E7EB] rounded-[16px] shadow-sm overflow-hidden">
-                  <table className="w-full text-xs">
+                  <table className="w-full text-xs text-left">
                     <thead className="bg-[#F8F9FB] border-b border-[#E5E7EB]">
                       <tr>
-                        <th className="text-left px-5 py-3 text-[10px] font-bold uppercase text-gray-400 tracking-wider">Project</th>
-                        <th className="text-left px-5 py-3 text-[10px] font-bold uppercase text-gray-400 tracking-wider">Status</th>
-                        <th className="text-left px-5 py-3 text-[10px] font-bold uppercase text-gray-400 tracking-wider">Amount</th>
-                        <th className="text-left px-5 py-3 text-[10px] font-bold uppercase text-gray-400 tracking-wider">Action</th>
+                        <th className="px-5 py-3 text-[10px] font-bold uppercase text-gray-400 tracking-wider">Project</th>
+                        <th className="px-5 py-3 text-[10px] font-bold uppercase text-gray-400 tracking-wider">Status</th>
+                        <th className="px-5 py-3 text-[10px] font-bold uppercase text-gray-400 tracking-wider">Amount</th>
+                        <th className="px-5 py-3 text-[10px] font-bold uppercase text-gray-400 tracking-wider text-right">Action</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-[#E5E7EB]">
@@ -676,7 +733,7 @@ export default function DashboardPage({ tab: initialTab = 'overview' }: Dashboar
                             <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-full ${STATUS_COLOR[e.status]}`}>{e.status}</span>
                           </td>
                           <td className="px-5 py-3.5 font-mono font-bold">{e.amount} {e.tokenType}</td>
-                          <td className="px-5 py-3.5">
+                          <td className="px-5 py-3.5 text-right">
                             <Link to={`/escrow/${e._id}`} className="text-[#5B6BF8] font-bold hover:underline">View →</Link>
                           </td>
                         </tr>
@@ -685,7 +742,7 @@ export default function DashboardPage({ tab: initialTab = 'overview' }: Dashboar
                   </table>
                 </div>
               )
-            }
+            )}
           </div>
         )}
 
@@ -808,6 +865,90 @@ export default function DashboardPage({ tab: initialTab = 'overview' }: Dashboar
         )}
 
       </div>
+
+      {/* TRANSACTION DETAILS MODAL */}
+      <AnimatePresence>
+        {selectedTx && (
+          <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center z-50 p-4">
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="bg-white rounded-2xl w-full max-w-md overflow-hidden shadow-2xl border border-slate-100 flex flex-col p-6 space-y-6"
+            >
+              <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+                <h3 className="text-sm font-black text-[#0F172A] uppercase tracking-wider">Transaction Receipt</h3>
+                <button 
+                  onClick={() => setSelectedTx(null)}
+                  className="text-slate-400 hover:text-slate-600 font-bold cursor-pointer"
+                >
+                  Close
+                </button>
+              </div>
+
+              <div className="space-y-4 text-xs">
+                <div className="flex justify-between border-b border-slate-50 pb-2">
+                  <span className="text-slate-400 font-medium">Status:</span>
+                  <span className={`text-[9px] font-black uppercase px-2.5 py-0.5 rounded ${
+                    selectedTx.status === 'RELEASED' ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' :
+                    selectedTx.status === 'REFUNDED' ? 'bg-slate-100 text-slate-600 border border-slate-200' :
+                    'bg-blue-50 text-blue-600 border border-blue-100'
+                  }`}>
+                    {selectedTx.status}
+                  </span>
+                </div>
+
+                <div className="flex justify-between border-b border-slate-50 pb-2">
+                  <span className="text-slate-400 font-medium">Escrow ID:</span>
+                  <span className="font-mono font-bold text-slate-800 select-all">{selectedTx.escrowId}</span>
+                </div>
+
+                <div className="flex justify-between border-b border-slate-50 pb-2">
+                  <span className="text-slate-400 font-medium">Stellar Tx Hash:</span>
+                  <a 
+                    href={`https://stellar.expert/explorer/testnet/tx/${selectedTx.transactionHash}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="font-mono text-[#7C3AED] hover:underline flex items-center gap-1 shrink-0"
+                  >
+                    {selectedTx.transactionHash.slice(0, 10)}...{selectedTx.transactionHash.slice(-8)}
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                </div>
+
+                <div className="flex justify-between border-b border-slate-50 pb-2">
+                  <span className="text-slate-400 font-medium">Client Wallet:</span>
+                  <span className="font-mono text-slate-500 select-all shrink-0">
+                    {selectedTx.clientWallet.slice(0, 10)}...{selectedTx.clientWallet.slice(-8)}
+                  </span>
+                </div>
+
+                <div className="flex justify-between border-b border-slate-50 pb-2">
+                  <span className="text-slate-400 font-medium">Date & Time:</span>
+                  <span className="font-bold text-slate-700">
+                    {new Date(selectedTx.date || selectedTx.createdAt).toLocaleString()}
+                  </span>
+                </div>
+
+                <div className="pt-3 space-y-2 bg-[#FAF9FF] p-4 rounded-xl border border-[#7C3AED]/5 font-medium">
+                  <div className="flex justify-between text-slate-600">
+                    <span>Budget Amount:</span>
+                    <span className="font-mono font-bold">{selectedTx.amount} XLM</span>
+                  </div>
+                  <div className="flex justify-between text-slate-600">
+                    <span>Platform Fee (0.5%):</span>
+                    <span className="font-mono">{selectedTx.platformFee} XLM</span>
+                  </div>
+                  <div className="flex justify-between border-t border-[#E2E8F0] pt-2 text-[#0F172A] font-bold text-sm">
+                    <span>Total Amount Paid:</span>
+                    <span className="font-mono text-[#7C3AED] font-black">{selectedTx.totalPaid} XLM</span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </AppLayout>
   );
 }

@@ -1,0 +1,6 @@
+export const STELLAR_CONFIG = {
+  TREASURY_WALLET: 'GDGSHBO7VF2E6ZUB2DLGOBBRQUNNLL3V6M7JQEUUT6SEJOTEPAIGLMMX',
+  NETWORK_PASSPHRASE: 'Test SDF Network ; September 2015',
+  HORIZON_URL: 'https://horizon-testnet.stellar.org',
+  NETWORK: 'TESTNET',
+} as const;

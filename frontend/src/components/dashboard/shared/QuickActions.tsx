@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { UserRole } from '../../../types/dashboard.types';
 import { Plus, Search, AlertTriangle, Upload, Wallet, Gavel, UserMinus, FileSpreadsheet } from 'lucide-react';
 import { useDisputes } from '../../../hooks/useDashboard';
@@ -9,6 +10,7 @@ interface QuickActionsProps {
 }
 
 export const QuickActions: React.FC<QuickActionsProps> = ({ role, onAction }) => {
+  const navigate = useNavigate();
   const { data: disputes } = useDisputes();
   const openDisputesCount = disputes ? disputes.filter((d) => d.status === 'OPEN').length : 0;
 
@@ -16,7 +18,14 @@ export const QuickActions: React.FC<QuickActionsProps> = ({ role, onAction }) =>
     if (onAction) {
       onAction(actionName);
     } else {
-      alert(`Triggered action: "${actionName}" (Simulation)`);
+      if (actionName === 'create_escrow') {
+        navigate('/escrow/create');
+      } else if (actionName === 'create_gig') {
+        // Freelancers create Gigs/Listings directly
+        navigate('/freelancer/listings');
+      } else {
+        alert(`Triggered action: "${actionName}" (Simulation)`);
+      }
     }
   };
 

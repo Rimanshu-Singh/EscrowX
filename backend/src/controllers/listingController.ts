@@ -304,6 +304,10 @@ export async function createListing(req: AuthRequest, res: Response) {
       return res.status(400).json({ error: 'Title, description, type, role, and deliveryDays are required' });
     }
 
+    if (role === 'CLIENT' && type === 'PROJECT') {
+      return res.status(400).json({ error: 'Projects must be created and published through the Escrow Creation and Funding workflow.' });
+    }
+
     // Fetch owner details from DB
     const owner = await User.findById(userId);
     if (!owner) {

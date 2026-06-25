@@ -3,6 +3,9 @@ import { AuthRequest } from '../middleware/auth';
 import { Escrow, Delivery, Transaction } from '../models/Escrow';
 import { Job } from '../models/Job';
 import { User } from '../models/User';
+import { ProjectEscrow } from '../models/ProjectEscrow';
+import { ProjectTransaction } from '../models/ProjectTransaction';
+import { Listing } from '../models/Listing';
 import { emitToUser } from '../sockets/chatSocket';
 
 // Create new escrow record in DB (Stellar smart contract is generated/deployed)
@@ -350,6 +353,123 @@ export async function getMyEscrows(req: AuthRequest, res: Response) {
       .sort({ updatedAt: -1 });
 
     return res.json(escrows);
+  } catch (error: any) {
+    return res.status(500).json({ error: error.message });
+  }
+}
+
+// Create project escrow & active listing after successful funding
+export async function createProjectEscrow(req: AuthRequest, res: Response) {
+  try {
+    const { 
+      transactionHash, 
+      clientWallet, 
+      budget, 
+      platformFee, 
+      totalAmount,
+      title,
+      description,
+      type,
+      deliveryDays,
+      skills,
+      tags
+    } = req.body;
+
+    const clientId = req.user?.userId;
+
+    if (!transactionHash || !clientWallet || !budget || !title || !description || !deliveryDays) {
+      return res.status(400).json({ error: 'Missing required project escrow/listing details' });
+    }
+
+    // Get owner details
+    const owner = await User.findById(clientId);
+    if (!owner) {
+      return res.status(404).json({ error: 'Owner user not found' });
+    }
+
+    // 1. Create active listing
+    const listing = new Listing({
+      title,
+      description,
+      coverImage: '',
+      type: type || 'PROJECT',
+      role: 'CLIENT', // client is hiring
+      createdBy: clientId,
+      price: 0,
+      budget: Number(budget),
+      deliveryDays: Number(deliveryDays),
+      skills: skills || [],
+      tags: tags || [],
+      attachments: [],
+      status: 'active',
+      ownerId: clientId,
+      ownerWalletAddress: clientWallet,
+      ownerUsername: owner.username || owner.name,
+    });
+    await listing.save();
+
+    listing.projectId = listing._id;
+    await listing.save();
+
+    // 2. Generate unique escrowId (e.g. esc_12345)
+    let escrowId = '';
+    let isUnique = false;
+    while (!isUnique) {
+      escrowId = 'esc_' + Math.floor(10000 + Math.random() * 90000);
+      const existing = await ProjectEscrow.findOne({ escrowId });
+      if (!existing) {
+        isUnique = true;
+      }
+    }
+
+    // 3. Create ProjectEscrow record
+    const escrow = new ProjectEscrow({
+      escrowId,
+      transactionHash,
+      clientWallet,
+      budget: Number(budget),
+      platformFee: Number(platformFee),
+      totalAmount: Number(totalAmount),
+      status: 'FUNDED',
+      escrowStatus: 'LOCKED',
+      projectStatus: 'OPEN_FOR_PROPOSALS',
+      projectId: listing._id
+    });
+    await escrow.save();
+
+    // 4. Create Transaction record
+    const transaction = new ProjectTransaction({
+      escrowId,
+      transactionHash,
+      clientWallet,
+      amount: Number(budget),
+      platformFee: Number(platformFee),
+      totalPaid: Number(totalAmount),
+      status: 'FUNDED',
+      date: new Date()
+    });
+    await transaction.save();
+
+    return res.status(201).json({ escrow, listing });
+  } catch (error: any) {
+    return res.status(500).json({ error: error.message });
+  }
+}
+
+// Get all project transactions/payment history for the current client connected wallet
+export async function getProjectTransactions(req: AuthRequest, res: Response) {
+  try {
+    const userId = req.user?.userId;
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const transactions = await ProjectTransaction.find({
+      clientWallet: user.walletAddress
+    }).sort({ date: -1 });
+
+    return res.json(transactions);
   } catch (error: any) {
     return res.status(500).json({ error: error.message });
   }

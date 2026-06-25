@@ -114,6 +114,14 @@ export const jobService = {
 
 // ESCROW SERVICES
 export const escrowService = {
+  createProjectEscrow: async (data: any) => {
+    const res = await apiClient.post('/escrows/project-escrow', data);
+    return res.data;
+  },
+  getProjectTransactions: async () => {
+    const res = await apiClient.get('/escrows/project-escrow/transactions');
+    return res.data;
+  },
   getMyEscrows: async () => {
     const res = await apiClient.get('/escrows/my');
     return res.data;

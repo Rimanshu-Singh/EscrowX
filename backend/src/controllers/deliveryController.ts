@@ -2,6 +2,8 @@ import { Response } from 'express';
 import { AuthRequest } from '../middleware/auth';
 import { Delivery } from '../models/Delivery';
 import { User } from '../models/User';
+import { ProjectEscrow } from '../models/ProjectEscrow';
+import { ProjectTransaction } from '../models/ProjectTransaction';
 
 // Helper to find a delivery by ObjectId or custom deliveryId (e.g. dlv_12345)
 async function findDeliveryByIdOrCustomId(id: string) {
@@ -187,6 +189,31 @@ export async function approveDelivery(req: AuthRequest, res: Response) {
 
     delivery.status = 'approved';
     await delivery.save();
+
+    // Release associated ProjectEscrow if it exists
+    try {
+      const projectEscrow = await ProjectEscrow.findOne({ projectId: delivery.projectId });
+      if (projectEscrow) {
+        projectEscrow.status = 'RELEASED';
+        projectEscrow.escrowStatus = 'RELEASED';
+        projectEscrow.projectStatus = 'COMPLETED';
+        await projectEscrow.save();
+
+        const tx = new ProjectTransaction({
+          escrowId: projectEscrow.escrowId,
+          transactionHash: 'tx_released_' + Math.floor(10000 + Math.random() * 90000) + '_' + Date.now().toString().slice(-4),
+          clientWallet: projectEscrow.clientWallet,
+          amount: projectEscrow.budget,
+          platformFee: projectEscrow.platformFee,
+          totalPaid: projectEscrow.totalAmount,
+          status: 'RELEASED',
+          date: new Date()
+        });
+        await tx.save();
+      }
+    } catch (escrowErr) {
+      console.error('Error updating associated ProjectEscrow:', escrowErr);
+    }
 
     // Escrow Release Hook Trigger (Placeholder for future smart contract integration)
     console.log(`[ESCROW HOOK] Releasing funds for project ${delivery.projectId}. Soroban smart contract triggered.`);

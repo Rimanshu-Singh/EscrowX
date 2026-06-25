@@ -7,6 +7,7 @@ import {
 import { DashboardLayout } from '../../../components/dashboard/DashboardLayout';
 import { useAuthStore } from '../../../store/authStore';
 import { escrowService, disputeService, reviewService, escrowUpdateService } from '../../../services/api';
+import { FundEscrowModal } from '../../../components/escrow/FundEscrowModal';
 
 const TIMELINE_STEPS = [
   { key: 'CREATED', label: 'Created' },
@@ -34,7 +35,12 @@ const hasContactInfo = (text: string): boolean => {
 export default function EscrowDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { user, token } = useAuthStore();
+  const { user, token, walletAddress } = useAuthStore();
+
+  // Escrow funding modal states
+  const [isFundModalOpen, setIsFundModalOpen] = useState(false);
+  const [currentEscrowId, setCurrentEscrowId] = useState('');
+  const [currentAmountXLM, setCurrentAmountXLM] = useState('');
 
   // Auth Guard redirect
   useEffect(() => {
@@ -338,7 +344,11 @@ export default function EscrowDetailPage() {
                   Deploy and lock {escrow.amount} {escrow.tokenType} on the Stellar Soroban Ledger. This starts the project milestone flow.
                 </p>
                 <button
-                  onClick={handleFund}
+                  onClick={() => {
+                    setCurrentEscrowId(escrow._id);
+                    setCurrentAmountXLM(escrow.amount.toString());
+                    setIsFundModalOpen(true);
+                  }}
                   className="px-5 py-2.5 rounded-xl bg-[#7C3AED] text-white text-xs font-bold hover:bg-[#6D28D9] transition-all shadow-sm cursor-pointer"
                 >
                   Fund Contract Now
@@ -686,6 +696,17 @@ export default function EscrowDetailPage() {
           </div>
         </div>
       </div>
+
+      <FundEscrowModal
+        isOpen={isFundModalOpen}
+        onClose={() => setIsFundModalOpen(false)}
+        escrowId={currentEscrowId}
+        amountXLM={currentAmountXLM}
+        walletAddress={walletAddress || user?.walletAddress || ''}
+        onSuccess={(txHash) => {
+          loadWorkspaceDetails();
+        }}
+      />
     </DashboardLayout>
   );
 }

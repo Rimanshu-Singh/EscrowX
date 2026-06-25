@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Trash2, ClipboardList, Clock, ShieldAlert, Sparkles, X } from 'lucide-react';
 import { DashboardLayout } from '../components/dashboard/DashboardLayout';
@@ -104,12 +105,14 @@ export default function MyListingsPage() {
             <h1 className="text-2xl font-bold text-[#0F172A] tracking-tight">My Listings</h1>
             <p className="text-xs text-[#64748B] mt-0.5">Manage the gigs and projects you have posted on EscrowX.</p>
           </div>
-          <button
-            onClick={() => setShowCreateModal(true)}
-            className="px-4 py-2.5 rounded-lg bg-[#7C3AED] text-white text-xs font-bold hover:bg-[#6D28D9] transition-all flex items-center gap-1.5 shadow-sm cursor-pointer"
-          >
-            <Plus className="w-4 h-4" /> Create Listing
-          </button>
+          {user?.role !== 'CLIENT' && (
+            <button
+              onClick={() => setShowCreateModal(true)}
+              className="px-4 py-2.5 rounded-lg bg-[#7C3AED] text-white text-xs font-bold hover:bg-[#6D28D9] transition-all flex items-center gap-1.5 shadow-sm cursor-pointer"
+            >
+              <Plus className="w-4 h-4" /> Create Listing
+            </button>
+          )}
         </div>
 
         {/* Listings Display list */}
@@ -124,12 +127,21 @@ export default function MyListingsPage() {
             <ClipboardList className="w-12 h-12 text-[#94A3B8] mx-auto mb-4" />
             <h3 className="text-sm font-bold text-[#0F172A]">No Listings Yet</h3>
             <p className="text-xs text-[#64748B] mt-2">You haven't posted any gigs or projects. Create one now to show up in the marketplace!</p>
-            <button
-              onClick={() => setShowCreateModal(true)}
-              className="mt-4 px-4 py-2.5 bg-[#0F172A] text-white text-xs font-bold rounded-lg hover:bg-[#1E293B]"
-            >
-              Post a Listing
-            </button>
+            {user?.role !== 'CLIENT' ? (
+              <button
+                onClick={() => setShowCreateModal(true)}
+                className="mt-4 px-4 py-2.5 bg-[#0F172A] text-white text-xs font-bold rounded-lg hover:bg-[#1E293B]"
+              >
+                Post a Listing
+              </button>
+            ) : (
+              <Link
+                to="/escrow/create"
+                className="mt-4 inline-block px-4 py-2.5 bg-[#0F172A] text-white text-xs font-bold rounded-lg hover:bg-[#1E293B]"
+              >
+                Create Escrow & Project
+              </Link>
+            )}
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-4">
