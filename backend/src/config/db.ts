@@ -2,7 +2,10 @@ import mongoose from 'mongoose';
 
 export async function connectDB() {
   try {
-    const mongoURI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/escrowx';
+    const mongoURI = process.env.MONGO_URL;
+    if (!mongoURI) {
+      throw new Error('MONGO_URL is not defined');
+    }
     await mongoose.connect(mongoURI);
     console.log('MongoDB connected successfully to:', mongoURI);
   } catch (error) {
