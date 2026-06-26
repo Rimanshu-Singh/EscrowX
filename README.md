@@ -30,18 +30,11 @@ Traditional platforms like Fiverr / Upwork:
 
 ## 💡 EscrowX Solution
 
-EscrowX fixes this using blockchain escrow:
-```text
-Client Wallet
-↓
-Soroban Smart Contract (EscrowX)
-↓
-LOCKED FUNDS
-↓
-Released only after approval OR refunded
-```
----
+EscrowX solves one of the biggest problems in freelancing: **trust**.
 
+Clients often fear paying before receiving quality work, while freelancers fear completing work without getting paid. EscrowX eliminates this trust gap by locking funds inside a **Soroban Smart Contract** before work begins. The payment remains securely locked on-chain until the client approves the delivery or requests a refund, ensuring a transparent, secure, and decentralized workflow for both parties.
+
+---
 ## 🧠 Real World Example
 
 👉 John hires a designer
@@ -53,6 +46,63 @@ EscrowX System:
 John funds escrow → cannot access work until approval ✔ safe
 
 ---
+# ✅ Project Completion Checklist
+
+## ⚙️ Core Smart Contract Functions
+
+✔ `createEscrow()` — Create escrow agreement on-chain
+
+✔ `fundEscrow()` — Lock client funds inside the smart contract
+
+✔ `getEscrow()` — Read escrow details and current status
+
+✔ `markInProgress()` — Move escrow to **IN_PROGRESS**
+
+✔ `markDelivered()` — Mark work as **DELIVERED**
+
+✔ `approveDelivery()` — Release locked funds to freelancer
+
+✔ `refundEscrow()` — Return locked funds back to client
+
+---
+
+
+## 🔄 Escrow State Machine
+
+✔ PENDING
+
+✔ FUNDED
+
+✔ IN_PROGRESS
+
+✔ DELIVERED
+
+✔ COMPLETED
+
+✔ REFUNDED
+
+---
+
+## 🎯 Current MVP Status
+
+🟢 Smart Contract: Complete
+
+🟢 Frontend Integration: Complete
+
+🟢 Escrow Lifecycle: Complete
+
+🟢 Delivery Workflow: Complete
+
+🟢 Approval Workflow: Complete
+
+🟢 Refund Workflow: Complete
+
+🟢 Blockchain Synchronization: Complete
+
+🟢 Production-Ready 
+
+---
+
 
 ## 🏆 Stellar Journey to Master
 ## 🧭 Belt System Progress
@@ -74,9 +124,7 @@ John funds escrow → cannot access work until approval ✔ safe
 
 | Name | Address |
 |------|---------|
-| 🔐 Main Escrow Contract (v2) | `CCSJJFN2GRTNPGDYM7XPVEFCQ6NHRE7P7NVR4KAR2UISXQTWPIB6EYSB` |
-| 💎 Native XLM Token (SAC) | `need to add ` |
-| 🪙 Custom SPAY Token | `need to add ` |
+| 💎 Main Escrow Contract (v2) | `CALCCHS44ZJ6U7CFI2NNRIP6IP63XAMNFTGO4RROBGTBF5L7USASFAL7` |
 
 ---
 
@@ -84,9 +132,12 @@ John funds escrow → cannot access work until approval ✔ safe
 
 | Action | TX Hash |
 |--------|---------|
-| Contract Deploy ID | `CCSJJFN2GRTNPGDYM7XPVEFCQ6NHRE7P7NVR4KAR2UISXQTWPIB6EYSB` |
-| Deposit (XLM) | `need to add ` |
-| Inter-Contract Call | `need to add ` |
+| Contract Deploy ID | `CALCCHS44ZJ6U7CFI2NNRIP6IP63XAMNFTGO4RROBGTBF5L7USASFAL7` |
+## 📸 Demo Screenshots
+<img width="2551" height="1312" alt="Screenshot 2026-06-26 180236" src="https://github.com/user-attachments/assets/fe843108-59a0-4419-a853-92e087b9eddf" />
+
+## Analytics 
+<img width="2551" height="1305" alt="Screenshot 2026-06-26 175627" src="https://github.com/user-attachments/assets/385bd30b-9aa6-4c10-bd1e-d00c116c7534" />
 
 ---
 ## 🧠 HIGH LEVEL SYSTEM ARCHITECTURE
@@ -197,34 +248,57 @@ SC --> C9[resolveDispute]
 SC --> C10[getEscrow]
 ```
 ---
-## 🔄 CORE WORKFLOW (IMPORTANT)
-```text
-Client
-  ↓
-Continue & Fund
-  ↓
-createEscrow()
-  ↓
-fundEscrow()
-  ↓
-Funds LOCKED in Soroban Contract
-  ↓
-Listing Published
-  ↓
-Freelancer Applies
-  ↓
-Client Accepts Freelancer
-  ↓
-Work Starts
-  ↓
-Freelancer Delivers
-  ↓
-Client Approves
-  ↓
-approveDelivery()
-  ↓
-Funds → Freelancer
-```
+
+## 💳 Blockchain Integration
+
+✔ Freighter Wallet integration
+
+✔ Wallet transaction signing
+
+✔ On-chain transaction execution
+
+✔ Transaction hash captured
+
+✔ Smart contract invocation
+
+✔ Read-only contract queries
+
+✔ Frontend synchronized with blockchain state
+
+---
+
+## 🖥️ Frontend Integration
+
+✔ React + TypeScript integration
+
+✔ Smart contract service layer
+
+✔ Reusable contract hooks
+
+✔ Escrow status synchronization
+
+✔ Delivery workflow connected
+
+✔ Approval workflow connected
+
+✔ Refund workflow connected
+
+✔ Real-time UI state updates
+
+---
+
+## 🔐 Security
+
+✔ Funds never remain under platform control
+
+✔ Funds locked directly inside Soroban Smart Contract
+
+✔ Blockchain acts as the single source of truth
+
+✔ Escrow lifecycle validation implemented
+
+✔ Invalid state transitions prevented
+
 ---
 
 ## 🏗 Tech Stack
