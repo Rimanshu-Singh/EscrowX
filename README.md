@@ -1,6 +1,17 @@
-# 🚀 EscrowX - Decentralized Freelance Escrow Marketplace 
+<div align="center">
 
-A **next-generation decentralized freelance escrow system** built on **Stellar blockchain + Soroban smart contracts**, enabling trustless hiring, milestone-based delivery, and secure fund locking between clients and freelancers.
+# 🔐 EscrowX
+### Decentralized Freelance Escrow Marketplace on Stellar
+*Trustless hiring, milestone-based delivery, and secure fund locking between clients and freelancers.*
+
+![License](https://img.shields.io/badge/License-MIT-blue.svg)
+![Stellar](https://img.shields.io/badge/Built%20on-Stellar-000000?logo=stellar)
+![Soroban](https://img.shields.io/badge/Smart%20Contracts-Soroban-blueviolet)
+![React](https://img.shields.io/badge/Frontend-React-61DAFB?logo=react)
+![Node.js](https://img.shields.io/badge/Backend-Node.js-339933?logo=node.js)
+![Status](https://img.shields.io/badge/Status-Production%20Ready-brightgreen)
+
+</div>
 
 ---
 
@@ -8,12 +19,12 @@ A **next-generation decentralized freelance escrow system** built on **Stellar b
 
 EscrowX is a **Web3 freelance marketplace system** where:
 
-- Clients MUST fund escrow before publishing a job
-- Freelancers work only on funded projects
-- Funds are locked inside smart contracts (not platform wallets)
-- Payment is released ONLY after client approval
+- Clients **MUST** fund escrow before publishing a job
+- Freelancers work only on **funded projects**
+- Funds are **locked inside smart contracts** (not platform wallets)
+- Payment is released **ONLY** after client approval
 
-👉 This removes scams, chargebacks, and trust issues in freelancing.
+> 👉 This removes scams, chargebacks, and trust issues in freelancing.
 
 ---
 
@@ -35,75 +46,17 @@ EscrowX solves one of the biggest problems in freelancing: **trust**.
 Clients often fear paying before receiving quality work, while freelancers fear completing work without getting paid. EscrowX eliminates this trust gap by locking funds inside a **Soroban Smart Contract** before work begins. The payment remains securely locked on-chain until the client approves the delivery or requests a refund, ensuring a transparent, secure, and decentralized workflow for both parties.
 
 ---
+
 ## 🧠 Real World Example
 
-👉 John hires a designer
+> 👉 John hires a designer
 
-Old System:
-John receives logo → refuses payment ❌ scam
-
-EscrowX System:
-John funds escrow → cannot access work until approval ✔ safe
-
----
-# ✅ Project Completion Checklist
-
-## ⚙️ Core Smart Contract Functions
-
-✔ `createEscrow()` — Create escrow agreement on-chain
-
-✔ `fundEscrow()` — Lock client funds inside the smart contract
-
-✔ `getEscrow()` — Read escrow details and current status
-
-✔ `markInProgress()` — Move escrow to **IN_PROGRESS**
-
-✔ `markDelivered()` — Mark work as **DELIVERED**
-
-✔ `approveDelivery()` — Release locked funds to freelancer
-
-✔ `refundEscrow()` — Return locked funds back to client
+| System | Flow | Result |
+|---|---|---|
+| ❌ Old System | John receives logo → refuses payment | Scam |
+| ✅ EscrowX | John funds escrow → locked until approval | Safe |
 
 ---
-
-
-## 🔄 Escrow State Machine
-
-✔ PENDING
-
-✔ FUNDED
-
-✔ IN_PROGRESS
-
-✔ DELIVERED
-
-✔ COMPLETED
-
-✔ REFUNDED
-
----
-
-## 🎯 Current MVP Status
-
-🟢 Smart Contract: Complete
-
-🟢 Frontend Integration: Complete
-
-🟢 Escrow Lifecycle: Complete
-
-🟢 Delivery Workflow: Complete
-
-🟢 Approval Workflow: Complete
-
-🟢 Refund Workflow: Complete
-
-🟢 Blockchain Synchronization: Complete
-
-🟢 Production-Ready 
-
----
-
-
 ## 🏆 Stellar Journey to Master
 ## 🧭 Belt System Progress
  
@@ -120,19 +73,69 @@ John funds escrow → cannot access work until approval ✔ safe
 
 ## 🟢 Current Status: GREEN BELT (Completed)
 
- ## 📋 Contract Addresses (Testnet)
+ ## 📋 Deployed Contract
+ 
+| Property | Value |
+|---|---|
+| **Contract ID** | `CALCCHS44ZJ6U7CFI2NNRIP6IP63XAMNFTGO4RROBGTBF5L7USASFAL7` |
+| **Network** | Stellar Testnet |
+| **Explorer** | [View on Stellar.expert](https://stellar.expert/explorer/testnet/contract/CALCCHS44ZJ6U7CFI2NNRIP6IP63XAMNFTGO4RROBGTBF5L7USASFAL7) |
 
-| Name | Address |
-|------|---------|
-| 💎 Main Escrow Contract (v2) | `CALCCHS44ZJ6U7CFI2NNRIP6IP63XAMNFTGO4RROBGTBF5L7USASFAL7` |
+---
+## ⚡ Smart Contract Test Flow
+<img width="1968" height="1204" alt="Screenshot 2026-06-27 160720" src="https://github.com/user-attachments/assets/b52ce6af-d301-45ba-9fd8-4873e3be0e8a" />
+---
+## ⚙️ Core Smart Contract Functions
+
+| Function | Description |
+|---|---|
+| `create_escrow()` | Create escrow agreement on-chain |
+| `fund_escrow()` | Lock client funds inside smart contract |
+| `get_escrow()` | Read escrow details and current status |
+| `mark_in_progress()` | Move escrow to IN_PROGRESS |
+| `mark_delivered()` | Mark work as DELIVERED |
+| `approve_delivery()` | Release locked funds to freelancer |
+| `raise_dispute()` | Raise a dispute between parties |
+| `request_refund()` | Client requests refund |
+| `resolve_dispute()` | Admin resolves dispute |
+| `refund_escrow()` | Return locked funds back to client |
 
 ---
 
-## 🔗 Transaction Hashes (Testnet)
+## ✅ Smart Contract Test Cases
 
-| Action | TX Hash |
-|--------|---------|
-| Contract Deploy ID | `CALCCHS44ZJ6U7CFI2NNRIP6IP63XAMNFTGO4RROBGTBF5L7USASFAL7` |
+| # | Function | Status | Result |
+|---|---|---|---| 
+| 1 | `create_escrow` | ✅ Pass | Escrow ID `5` created |
+| 2 | `get_escrow` | ✅ Pass | Status `0` (Pending) |
+| 3 | `fund_escrow` | ✅ Pass | `1 XLM` locked in contract |
+| 4 | `mark_in_progress` | ✅ Pass | Status updated |
+| 5 | `mark_delivered` | ✅ Pass | Work marked delivered |
+| 6 | `approve_delivery` | ✅ Pass | `1 XLM` released to freelancer |
+| 7 | `raise_dispute` | ✅ Pass | Dispute raised on-chain |
+| 8 | `request_refund` | ✅ Pass | Refund requested |
+| 9 | `resolve_dispute` | ✅ Pass | Dispute resolved by admin |
+| 10 | `refund_escrow` | ✅ Pass | Funds returned to client |
+
+**10/10 Functions Passing on Stellar Testnet** 🚀
+
+---
+
+## 🎯 MVP Status
+
+| Feature | Status |
+|---|---|
+| Smart Contract | 🟢 Complete |
+| Frontend Integration | 🟢 Complete |
+| Escrow Lifecycle | 🟢 Complete |
+| Delivery Workflow | 🟢 Complete |
+| Approval Workflow | 🟢 Complete |
+| Refund Workflow | 🟢 Complete |
+| Dispute Resolution | 🟢 Complete |
+| Blockchain Synchronization | 🟢 Complete |
+| Production Ready | 🟢 Complete |
+
+---
 ## 📸 Demo Screenshots
 <img width="2551" height="1312" alt="Screenshot 2026-06-26 180236" src="https://github.com/user-attachments/assets/fe843108-59a0-4419-a853-92e087b9eddf" />
 
@@ -339,221 +342,159 @@ UPCOMING / NOT SET YET
 - resolveDispute()
 - getEscrow()
 
----
-```text
-## 📊 ESCROW STATE MACHINE
+# EscrowX
 
-PENDING
-  ↓
-FUNDED
-  ↓
-IN_PROGRESS
-  ↓
-DELIVERED
-  ↓
-COMPLETED
+> **Fiverr + Upwork + Blockchain Escrow Trust Layer**
+> Decentralized escrow protocol built on Soroban smart contracts — trustless, transparent, and tamper-proof.
 
 ---
 
-Revision Flow:
+## 📊 Escrow State Machine
 
-DELIVERED
-  ↓
-REVISION_REQUESTED
-  ↓
-DELIVERED
-  ↓
-COMPLETED
+### Primary Flow
 
----
-
-Dispute Flow:
-
-DELIVERED
-  ↓
-DISPUTED
-  ↓
-REFUNDED
-
-OR
-
-DELIVERED
-  ↓
-DISPUTED
-  ↓
-COMPLETED
-
----
-
-## 🔥 WHY EscrowNotFound HAPPENS
-
-Continue & Fund
-   ↓
-Money sent
-   ↓
-createEscrow() NOT called
-   ↓
-Escrow does not exist
-   ↓
-markDelivered() → EscrowNotFound
-
----
-
-# ✅ CORRECT RULE
-
-Continue & Fund
-   ↓
-createEscrow()
-   ↓
-fundEscrow()
-   ↓
-Store escrowId in DB
-   ↓
-Publish listing ONLY AFTER SUCCESS
 ```
----
+PENDING → FUNDED → IN_PROGRESS → DELIVERED → COMPLETED
+```
 
-## 🔗 FRONTEND ↔ CONTRACT FLOW
+### Revision Flow
 
-Frontend NEVER stores money.
+```
+DELIVERED → REVISION_REQUESTED → DELIVERED → COMPLETED
+```
 
-React UI
-↓
-Freighter Wallet
-↓
-Soroban Smart Contract
-↓
-Blockchain State
-↓
-Backend Sync
-↓
-UI Update
+### Dispute Flow
 
----
+```
+DELIVERED → DISPUTED → REFUNDED
+                    ↘ COMPLETED
+```
 
-## 🎯 FUNCTION MAPPING
 
-Create Escrow → createEscrow()
-Fund Escrow → fundEscrow()
-Start Work → markInProgress()
-Deliver Work → markDelivered()
-Approve Work → approveDelivery()
-Request Refund → requestRefund()
-Refund → refundEscrow()
-Raise Issue → raiseDispute()
-Resolve Issue → resolveDispute()
-View Status → getEscrow()
+### ✅ Correct — Proper Sequence
 
----
-
-## 👥 ROLE SYSTEM
-
-Client:
-- createEscrow
-- fundEscrow
-- approveDelivery
-- requestRefund
-- raiseDispute
-
-Freelancer:
-- markInProgress
-- markDelivered
-
-Admin:
-- resolveDispute
-
----
-
-## 📦 PROJECT STRUCTURE
-
-frontend/
- ├── src/
- │   ├── app/
- │   ├── components/
- │   ├── hooks/
- │   ├── lib/
- │   ├── config/
- │   └── assets/
-
-contracts/
- ├── escrow-contract/
- │   ├── src/
- │   │   ├── lib.rs
- │   │   ├── types.rs
- │   │   ├── storage.rs
- │   │   ├── escrow.rs
- │   │   ├── errors.rs
-
----
-
-## 🧾 FUNDING FLOW
-
-Step 1:
+```
 Continue & Fund clicked
+        ↓
+  createEscrow()
+        ↓
+   fundEscrow()
+        ↓
+Store escrowId in DB
+        ↓
+Publish listing ONLY AFTER SUCCESS ✔
+```
 
-Step 2:
-createEscrow()
-
-Step 3:
-fundEscrow()
-
-Step 4:
-Funds go:
-
-Client Wallet
-↓
-Soroban Contract (LOCKED)
-
-NOT treasury wallet ❌
+> **Rule:** No escrow created = nothing exists. No funding = not visible. No approval = money never moves.
 
 ---
 
-## 🔐 SECURITY MODEL
+## 🔗 Frontend ↔ Contract Flow
 
-- No direct treasury wallet
-- Funds locked in contract
-- State-based execution only
-- No bypass allowed
+> Frontend **never** stores or handles money directly.
 
----
-
-## 📈 CURRENT STATUS
-
-Level 3 (Orange Belt)
-
-Completed:
-✔ Wallet integration  
-✔ Contract deployment  
-✔ Escrow creation  
-✔ Funding flow  
-✔ Basic state machine  
-✔ getEscrow working  
-
-In Progress:
-- Delivery system
-- UI workflow
-- dispute module
+```
+React UI
+   ↓
+Freighter Wallet
+   ↓
+Soroban Smart Contract
+   ↓
+Blockchain State
+   ↓
+Backend Sync
+   ↓
+UI Update
+```
 
 ---
 
-## 🚀 NEXT ROADMAP
+## 🎯 Function Mapping
 
-- Delivery Vault system
-- File locking system
-- Real-time escrow tracker
-- Dispute system
-- Production mainnet deployment
+| Action | Contract Function |
+|---|---|
+| Create Escrow | `createEscrow()` |
+| Fund Escrow | `fundEscrow()` |
+| Start Work | `markInProgress()` |
+| Deliver Work | `markDelivered()` |
+| Approve Work | `approveDelivery()` |
+| Request Refund | `requestRefund()` |
+| Refund | `refundEscrow()` |
+| Raise Issue | `raiseDispute()` |
+| Resolve Issue | `resolveDispute()` |
+| View Status | `getEscrow()` |
 
 ---
 
-## 🧠 FINAL VISION
+## 👥 Role System
 
-EscrowX = Fiverr + Upwork + Blockchain escrow trust layer
+| Role | Permissions |
+|---|---|
+| **Client** | `createEscrow` · `fundEscrow` · `approveDelivery` · `requestRefund` · `raiseDispute` |
+| **Freelancer** | `markInProgress` · `markDelivered` |
+| **Admin** | `resolveDispute` |
 
 ---
 
-## ⚡ CORE RULE
+## 📦 Project Structure
 
-If escrow not created → nothing exists  
-If escrow not funded → not visible  
-If not approved → money never moves
+```
+escrowx/
+├── frontend/
+│   └── src/
+│       ├── app/
+│       ├── components/
+│       ├── hooks/
+│       ├── lib/
+│       ├── config/
+│       └── assets/
+└── contracts/
+    └── escrow-contract/
+        └── src/
+            ├── lib.rs
+            ├── types.rs
+            ├── storage.rs
+            ├── escrow.rs
+            └── errors.rs
+```
+
+---
+
+## 🧾 Funding Flow
+
+```
+Step 1 → "Continue & Fund" clicked
+Step 2 → createEscrow() called
+Step 3 → fundEscrow() called
+Step 4 → Funds locked:
+
+  Client Wallet
+       ↓
+  Soroban Contract (LOCKED ✔)
+       ↗
+  NOT treasury wallet ❌
+```
+
+---
+
+## 🔐 Security Model
+
+- No direct treasury wallet — funds are **never** custodied externally
+- All funds locked **inside the contract** until conditions are met
+- State-based execution only — no shortcuts, no bypasses
+- Every transition requires the correct role and state
+
+---
+
+
+## ⚡ Core Rules
+
+```
+If escrow not created  →  nothing exists
+If escrow not funded   →  not visible on-chain
+If not approved        →  money never moves
+```
+
+---
+
+*EscrowX — trustless work, guaranteed payments.*
