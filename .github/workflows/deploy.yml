@@ -40,7 +40,7 @@ jobs:
 
       - name: Install Stellar CLI
         run: |
-          cargo install --locked stellar-cli --features opt
+          cargo install --locked stellar-cli
 
       - name: Build smart contract (WASM)
         run: cargo build --target wasm32-unknown-unknown --release
