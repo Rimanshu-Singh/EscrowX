@@ -4,8 +4,9 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Wallet, Copy, LogOut, ExternalLink, ChevronDown } from 'lucide-react';
 import { truncateAddress, copyToClipboard } from '@/lib/utils';
-import { MOCK_WALLET } from '@/lib/mock-data';
 import { cn } from '@/lib/utils';
+
+const MOCK_WALLET = 'GBXPKM7VSKBKX5JKJHLXQWRX6IQZP3D4ZQKZLM2NFTD8RWKPHJCXYZ';
 
 interface WalletConnectButtonProps {
   variant?: 'outlined' | 'filled';

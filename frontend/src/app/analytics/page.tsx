@@ -9,8 +9,43 @@ import {
 import { TrendingUp, Users, Clock, CheckCircle, Calendar } from 'lucide-react';
 import { AppLayout } from '@/components/layout/AppLayout';
 import { StatCard } from '@/components/shared/StatCard';
-import { MOCK_ANALYTICS } from '@/lib/mock-data';
 import { truncateAddress, formatXLM } from '@/lib/utils';
+
+const MOCK_ANALYTICS = {
+    volumeOverTime: [
+        { date: 'Jan', volume: 8200, count: 12 },
+        { date: 'Feb', volume: 12500, count: 18 },
+        { date: 'Mar', volume: 9800, count: 14 },
+        { date: 'Apr', volume: 16200, count: 24 },
+        { date: 'May', volume: 21400, count: 31 },
+        { date: 'Jun', volume: 28900, count: 42 },
+    ],
+    outcomeBreakdown: [
+        { name: 'Approved', value: 68, color: '#16A865' },
+        { name: 'Disputed', value: 12, color: '#EF4444' },
+        { name: 'Refunded', value: 20, color: '#F59E0B' },
+    ],
+    categoryBreakdown: [
+        { name: 'Development', value: 38, color: '#5B6BF8' },
+        { name: 'Design', value: 24, color: '#7B68EE' },
+        { name: 'Audit', value: 18, color: '#16A865' },
+        { name: 'Content', value: 12, color: '#F59E0B' },
+        { name: 'Other', value: 8, color: '#9CA3AF' },
+    ],
+    topSellers: [
+        { address: 'GBXPKM7VSKBKX5JKJHLXQWRX6IQZP3D4ZQKZLM2NFTD8RWKPHJCXYZ', completedEscrows: 24, totalVolume: 48200, successRate: 96 },
+        { address: 'GDKPQN5XCZK8MNBRTV2HJMWLQZXUYJP6RSVTQHWFM3BKZEPD4CQWVLH', completedEscrows: 18, totalVolume: 32100, successRate: 94 },
+        { address: 'GCVMN6XTKJRPQWZ2HBYXLQDKRPQWZ2HBYXLQDKRPQWZ2HBYXLQDKRPQ', completedEscrows: 15, totalVolume: 28400, successRate: 87 },
+        { address: 'GHMRST4XCZK8MNBRTV2HJMWLQZXUYJP6RSVTQHWFM3BKZEPD4CQWEFG', completedEscrows: 11, totalVolume: 19800, successRate: 91 },
+        { address: 'GKLMNP8XCZK8MNBRTV2HJMWLQZXUYJP6RSVTQHWFM3BKZEPD4CQWMNO', completedEscrows: 9, totalVolume: 14600, successRate: 89 },
+    ],
+    kpis: {
+        totalVolume: 97800,
+        successRate: 88.4,
+        avgCompletionDays: 11.3,
+        activeUsers: 284,
+    },
+};
 
 const DATE_RANGES = ['7D', '30D', '90D', '1Y', 'All'];
 

@@ -1,10 +1,4 @@
 import React from 'react';
-import {
-  useAdminStats,
-  useDisputes,
-  useUsers,
-  useAssignDisputeToDAO,
-} from '../../hooks/useDashboard';
 import { StatCard } from './shared/StatCard';
 import {
   Database,
@@ -19,11 +13,49 @@ import {
 import { format } from 'date-fns';
 
 export const AdminDashboard: React.FC = () => {
-  const { data: stats, isLoading: statsLoading, isError: statsError } = useAdminStats();
-  const { data: disputes, isLoading: disputesLoading, isError: disputesError } = useDisputes();
-  const { data: users, isLoading: usersLoading, isError: usersError } = useUsers();
+  const stats = {
+    totalPlatformEscrows: 24,
+    activeDisputes: 2,
+    totalXlmOnPlatform: 84500,
+    flaggedUsers: 0,
+  };
 
-  const assignMutation = useAssignDisputeToDAO();
+  const disputes = [
+    {
+      id: "DISP-101",
+      jobTitle: "DEX Protocol Integration",
+      amountLocked: 1500,
+      clientName: "Priya Shah",
+      freelancerName: "Alex Rivera",
+      status: "IN_DISPUTE",
+      openedAt: "2026-06-24T12:00:00.000Z",
+      assignedToDAO: false
+    },
+    {
+      id: "DISP-102",
+      jobTitle: "Rust Web Server Audit",
+      amountLocked: 2200,
+      clientName: "Solidity Labs",
+      freelancerName: "Elena Rostova",
+      status: "IN_DISPUTE",
+      openedAt: "2026-06-25T11:00:00.000Z",
+      assignedToDAO: true
+    }
+  ];
+
+  const users = [
+    { id: "usr-1", name: "Priya Shah", walletAddress: "GBXPKM7VSKBKX5JKJHLXQWRX6IQZP3D4ZQKZLM2NFTD8RWKPHJCXYZ", role: "CLIENT" as any, flagged: false, joinedAt: "2026-01-10T12:00:00Z" },
+    { id: "usr-2", name: "Alex Rivera", walletAddress: "GDKPQN5XCZK8MNBRTV2HJMWLQZXUYJP6RSVTQHWFM3BKZEPD4CQWVLH", role: "FREELANCER" as any, flagged: false, joinedAt: "2026-02-15T09:30:00Z" },
+    { id: "usr-3", name: "Elena Rostova", walletAddress: "GCVMN6XTKJRPQWZ2HBYXLQDKRPQWZ2HBYXLQDKRPQWZ2HBYXLQDKRPQ", role: "FREELANCER" as any, flagged: false, joinedAt: "2026-03-20T14:45:00Z" }
+  ];
+
+  const assignMutation = {
+    isPending: false,
+    variables: null as any,
+    mutate: (id: string) => {
+      alert(`Assigned dispute ${id} to DAO (Simulation)`);
+    }
+  };
 
   const handleAssignToDAO = (id: string) => {
     assignMutation.mutate(id);
@@ -37,52 +69,41 @@ export const AdminDashboard: React.FC = () => {
     alert(`Sent warning to user: "${name}" (Simulation)`);
   };
 
-  if (statsError || disputesError || usersError) {
-    return (
-      <div className="p-6 rounded-xl border border-red-500/20 bg-red-500/5 text-red-400 text-center my-8">
-        <h3 className="font-semibold text-lg mb-2">Error Loading Admin Dashboard</h3>
-        <p className="text-sm text-red-400/80">
-          Please check that your mock server is running on port 3001 (`npm run mock-api`).
-        </p>
-      </div>
-    );
-  }
-
   return (
     <div className="space-y-6 animate-fadeIn">
       {/* SECTION 1 - TOP STATS ROW */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard
           title="Total Platform Escrows"
-          value={stats?.totalPlatformEscrows}
+          value={stats.totalPlatformEscrows}
           icon={Database}
           color="blue"
           trend="+8%"
-          isLoading={statsLoading}
+          isLoading={false}
         />
         <StatCard
           title="Active Disputes"
-          value={stats?.activeDisputes}
+          value={stats.activeDisputes}
           icon={AlertTriangle}
           color="red"
           trend="-2"
-          isLoading={statsLoading}
+          isLoading={false}
         />
         <StatCard
           title="Total XLM on Platform"
-          value={stats ? `${stats.totalXlmOnPlatform.toLocaleString()} XLM` : undefined}
+          value={`${stats.totalXlmOnPlatform.toLocaleString()} XLM`}
           icon={Globe}
           color="green"
           trend="+12%"
-          isLoading={statsLoading}
+          isLoading={false}
         />
         <StatCard
           title="Flagged Users"
-          value={stats?.flaggedUsers}
+          value={stats.flaggedUsers}
           icon={Flag}
           color="amber"
           trend="0"
-          isLoading={statsLoading}
+          isLoading={false}
         />
       </div>
 
@@ -90,7 +111,7 @@ export const AdminDashboard: React.FC = () => {
       <div className="space-y-3">
         <h3 className="text-lg font-semibold text-[#0F1117]">Disputes Resolution Queue</h3>
         <div className="rounded-xl border border-[#E4E8F0] bg-white overflow-hidden">
-          {disputesLoading ? (
+          {false ? (
             <div className="p-6 space-y-3 animate-pulse">
               <div className="h-4 bg-slate-100 rounded w-1/4"></div>
               <div className="h-3 bg-slate-100 rounded w-full"></div>
@@ -181,7 +202,7 @@ export const AdminDashboard: React.FC = () => {
         <div className="lg:col-span-6 space-y-3">
           <h3 className="text-lg font-semibold text-[#0F1117]">User Management</h3>
           <div className="rounded-xl border border-[#E4E8F0] bg-white overflow-hidden">
-            {usersLoading ? (
+            {false ? (
               <div className="p-6 space-y-3 animate-pulse">
                 <div className="h-4 bg-slate-100 rounded w-1/4"></div>
                 <div className="h-3 bg-slate-100 rounded w-full"></div>

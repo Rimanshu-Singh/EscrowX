@@ -26,7 +26,7 @@ import {
 import { DashboardLayout } from '../components/dashboard/DashboardLayout';
 import { escrowService } from '../services/api';
 import { useAuthStore } from '../store/authStore';
-import { STELLAR_CONFIG } from '../config/stellar.config';
+import { STELLAR_CONFIG } from '../lib/stellar.config';
 import { sorobanClient } from '../lib/soroban';
 
 export default function EscrowCreatePage() {

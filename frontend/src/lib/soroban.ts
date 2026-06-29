@@ -10,7 +10,7 @@ import {
   xdr,
   Account,
 } from '@stellar/stellar-sdk';
-import { STELLAR_CONFIG } from '../config/stellar.config';
+import { STELLAR_CONFIG } from './stellar.config';
 import { OnChainEscrowStatus } from './types';
 
 /**

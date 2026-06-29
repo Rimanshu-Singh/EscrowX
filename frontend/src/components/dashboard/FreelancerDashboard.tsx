@@ -1,12 +1,5 @@
 import React from 'react';
 import { useAuthStore } from '../../store/authStore';
-import {
-  useFreelancerStats,
-  useEscrows,
-  useGigs,
-  useActivities,
-  useMessages,
-} from '../../hooks/useDashboard';
 import { StatCard } from './shared/StatCard';
 import { ActivityFeed } from './shared/ActivityFeed';
 import { MessagesPreview } from './shared/MessagesPreview';
@@ -18,43 +11,97 @@ import {
   TrendingUp,
   Sparkles,
   Star,
-  Eye,
   Calendar,
 } from 'lucide-react';
 import { formatDistanceToNow, differenceInDays, format } from 'date-fns';
+
+const freelancerDashboardData = {
+  totalEarnings: "2500 XLM",
+  activeProjects: 2,
+  completedProjects: 8,
+  pendingDeliveries: 1,
+  recentWork: [
+    {
+      escrowId: "ESC-1001",
+      title: "Landing Page Design",
+      status: "IN_PROGRESS",
+      earnings: "300 XLM"
+    },
+    {
+      escrowId: "ESC-1003",
+      title: "UI Animation System",
+      status: "DELIVERED",
+      earnings: "400 XLM"
+    }
+  ]
+};
 
 export const FreelancerDashboard: React.FC = () => {
   const { user } = useAuthStore();
   const freelancerName = user?.name || 'Alex Rivera';
 
-  const { data: stats, isLoading: statsLoading, isError: statsError } = useFreelancerStats();
-  const { data: escrows, isLoading: escrowsLoading, isError: escrowsError } = useEscrows();
-  const { data: gigs, isLoading: gigsLoading, isError: gigsError } = useGigs();
-  const { data: activities, isLoading: activitiesLoading } = useActivities();
-  const { data: messages, isLoading: messagesLoading } = useMessages();
+  const stats = {
+    activeOrders: freelancerDashboardData.activeProjects,
+    pendingDeliveries: freelancerDashboardData.pendingDeliveries,
+    completedOrders: freelancerDashboardData.completedProjects,
+    totalXlmEarned: parseFloat(freelancerDashboardData.totalEarnings),
+  };
 
-  // Filter freelancer's incoming escrows (excluding RELEASED/REFUNDED for active work screen)
-  const freelancerEscrows = escrows
-    ? escrows.filter(
-        (esc) =>
-          esc.freelancerName === freelancerName &&
-          (esc.status === 'PENDING' || esc.status === 'DELIVERED' || esc.status === 'DISPUTED')
-      )
-    : [];
+  const freelancerEscrows = freelancerDashboardData.recentWork.map((work) => ({
+    id: work.escrowId,
+    clientName: "Priya Shah",
+    clientAvatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Priya",
+    freelancerName: freelancerName,
+    freelancerAvatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Alex",
+    jobTitle: work.title,
+    amountLocked: parseFloat(work.earnings),
+    deadline: work.escrowId === "ESC-1001" ? "2026-07-15T00:00:00Z" : "2026-06-30T00:00:00Z",
+    status: work.status as any,
+    createdAt: "2026-06-25T11:00:00Z",
+  }));
 
-  // Filter activities for freelancer events
-  const freelancerActivities = activities
-    ? activities.filter((act) => {
-        const msg = act.message.toLowerCase();
-        return (
-          msg.includes('freelancer') ||
-          msg.includes('delivery') ||
-          msg.includes('approved your') ||
-          msg.includes('your gig') ||
-          msg.includes('released')
-        );
-      })
-    : [];
+  const gigs = [
+    {
+      id: "gig-1",
+      title: "Rust / Soroban Smart Contract Development",
+      viewsThisWeek: 124,
+      ordersReceived: 5,
+      rating: 4.9,
+    },
+    {
+      id: "gig-2",
+      title: "Stellar Wallet & DApp Integration",
+      viewsThisWeek: 85,
+      ordersReceived: 3,
+      rating: 4.8,
+    }
+  ];
+
+  const activities = [
+    {
+      id: "act-1",
+      type: "DELIVERY" as any,
+      message: "You delivered 'UI Animation System' to Priya Shah",
+      timestamp: new Date(Date.now() - 3600000).toISOString(),
+    },
+    {
+      id: "act-2",
+      type: "NEW_ESCROW" as any,
+      message: "New incoming escrow contract 'Landing Page Design' funded by Priya Shah",
+      timestamp: new Date(Date.now() - 14400000).toISOString(),
+    }
+  ];
+
+  const messages = [
+    {
+      id: "msg-1",
+      from: "Priya Shah",
+      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Priya",
+      preview: "Hi Alex, the design looks fantastic. Let's start the animation phases next.",
+      timestamp: new Date(Date.now() - 1800000).toISOString(),
+      unread: true,
+    }
+  ];
 
   const renderStars = (rating: number) => {
     return (
@@ -87,59 +134,48 @@ export const FreelancerDashboard: React.FC = () => {
     );
   };
 
-  if (statsError || escrowsError || gigsError) {
-    return (
-      <div className="p-6 rounded-xl border border-red-500/20 bg-red-500/5 text-red-400 text-center my-8">
-        <h3 className="font-semibold text-lg mb-2">Error Loading Freelancer Dashboard</h3>
-        <p className="text-sm text-red-400/80">
-          Please check that your mock server is running on port 3001 (`npm run mock-api`).
-        </p>
-      </div>
-    );
-  }
-
   return (
     <div className="space-y-6 animate-fadeIn">
       {/* SECTION 1 - TOP STATS ROW */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard
           title="Active Orders"
-          value={stats?.activeOrders}
+          value={stats.activeOrders}
           icon={Briefcase}
           color="amber"
           trend="+2"
-          isLoading={statsLoading}
+          isLoading={false}
         />
         <StatCard
           title="Pending Deliveries"
-          value={stats?.pendingDeliveries}
+          value={stats.pendingDeliveries}
           icon={Clock}
           color="red"
           trend="+1"
-          isLoading={statsLoading}
+          isLoading={false}
         />
         <StatCard
           title="Completed Orders"
-          value={stats?.completedOrders}
+          value={stats.completedOrders}
           icon={CheckCircle}
           color="green"
           trend="+5"
-          isLoading={statsLoading}
+          isLoading={false}
         />
         <StatCard
           title="Total XLM Earned"
-          value={stats ? `${stats.totalXlmEarned} XLM` : undefined}
+          value={`${stats.totalXlmEarned} XLM`}
           icon={TrendingUp}
           color="purple"
           trend="+15%"
-          isLoading={statsLoading}
+          isLoading={false}
         />
       </div>
 
       {/* SECTION 2 - INCOMING ESCROWS (Cards Layout with Hover Glow) */}
       <div className="space-y-3">
         <h3 className="text-lg font-semibold text-[#0F1117]">Incoming & Active Escrows</h3>
-        {escrowsLoading ? (
+        {false ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {Array.from({ length: 2 }).map((_, i) => (
               <div key={i} className="h-44 bg-white border border-[#E4E8F0] rounded-xl animate-pulse" />
@@ -225,7 +261,7 @@ export const FreelancerDashboard: React.FC = () => {
       <div className="space-y-3">
         <h3 className="text-lg font-semibold text-[#0F1117]">My Gigs Performance</h3>
         <div className="rounded-xl border border-[#E4E8F0] bg-white overflow-hidden">
-          {gigsLoading ? (
+          {false ? (
             <div className="p-6 space-y-3 animate-pulse">
               <div className="h-4 bg-slate-100 rounded w-1/4"></div>
               <div className="h-3 bg-slate-100 rounded w-full"></div>
@@ -261,11 +297,11 @@ export const FreelancerDashboard: React.FC = () => {
       {/* SECTION 4 - TWO COLUMN ROW */}
       <div className="grid grid-cols-1 lg:grid-cols-10 gap-6">
         <div className="lg:col-span-6">
-          <ActivityFeed activities={freelancerActivities} isLoading={activitiesLoading} />
+          <ActivityFeed activities={activities} isLoading={false} />
         </div>
         <div className="lg:col-span-4 flex flex-col gap-6">
           <QuickActions role="FREELANCER" />
-          <MessagesPreview messages={messages} isLoading={messagesLoading} />
+          <MessagesPreview messages={messages} isLoading={false} />
         </div>
       </div>
     </div>

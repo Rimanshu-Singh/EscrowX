@@ -9,8 +9,9 @@ import { z } from 'zod';
 import { ArrowRight, ArrowLeft, Copy, ExternalLink, CheckCircle2, Wallet, Shield, Zap } from 'lucide-react';
 import { AppLayout } from '@/components/layout/AppLayout';
 import { StepProgress } from '@/components/shared/StepProgress';
-import { MOCK_WALLET } from '@/lib/mock-data';
 import { formatXLM, xlmToUSD, formatUSD } from '@/lib/utils';
+
+const MOCK_WALLET = 'GBXPKM7VSKBKX5JKJHLXQWRX6IQZP3D4ZQKZLM2NFTD8RWKPHJCXYZ';
 
 const STEPS = [
   { id: 1, label: 'Details' },

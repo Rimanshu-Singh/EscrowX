@@ -81,38 +81,153 @@ export default function DashboardPage({ tab: initialTab = 'overview' }: Dashboar
   const [arbiterNotes, setArbiterNotes] = useState('');
   const [resolvingDisputeId, setResolvingDisputeId] = useState<string | null>(null);
 
+  // Local static mock datasets for zero API dependency
+  const MOCK_JOBS = [
+    {
+      _id: "job-1001",
+      title: "Build Responsive React Landing Page",
+      description: "Looking for an expert to design and develop a single page React application with premium styles and responsive layout.",
+      budget: 300,
+      tokenType: "XLM",
+      status: "in_progress",
+      createdAt: "2026-06-20T10:00:00.000Z",
+      applications: [
+        { id: "app-1", bidder: "Alex Rivera", bidAmount: 300, coverLetter: "I specialize in premium React UI layout design and have worked on similar Stellar apps." }
+      ]
+    },
+    {
+      _id: "job-1002",
+      title: "Soroban Smart Contract Audit",
+      description: "Security review and penetration testing for Stellar Soroban contract vault. Needs Rust/WASM experience.",
+      budget: 500,
+      tokenType: "XLM",
+      status: "completed",
+      createdAt: "2026-06-15T09:00:00.000Z",
+      applications: []
+    },
+    {
+      _id: "job-1003",
+      title: "UI Animation System Integration",
+      description: "Create premium CSS & Framer Motion animation presets for a web3 platform landing page.",
+      budget: 400,
+      tokenType: "XLM",
+      status: "in_progress",
+      createdAt: "2026-06-25T11:00:00.000Z",
+      applications: []
+    }
+  ];
+
+  const MOCK_ESCROWS = [
+    {
+      _id: "ESC-1001",
+      id: "ESC-1001",
+      job: { title: "Build Landing Page" },
+      jobTitle: "Build Landing Page",
+      buyerAddress: "GBXPKM7VSKBKX5JKJHLXQWRX6IQZP3D4ZQKZLM2NFTD8RWKPHJCXYZ",
+      sellerAddress: "GDKPQN5XCZK8MNBRTV2HJMWLQZXUYJP6RSVTQHWFM3BKZEPD4CQWVLH",
+      clientName: "Priya Shah",
+      freelancerName: "Alex Rivera",
+      freelancerAvatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Alex",
+      clientAvatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Priya",
+      amount: 300,
+      amountLocked: 300,
+      tokenType: "XLM",
+      status: "IN_PROGRESS",
+      deadline: "2026-07-15T00:00:00Z",
+      createdAt: "2026-06-20T10:30:00Z"
+    },
+    {
+      _id: "ESC-1002",
+      id: "ESC-1002",
+      job: { title: "Smart Contract Audit" },
+      jobTitle: "Smart Contract Audit",
+      buyerAddress: "GBXPKM7VSKBKX5JKJHLXQWRX6IQZP3D4ZQKZLM2NFTD8RWKPHJCXYZ",
+      sellerAddress: "GDKPQN5XCZK8MNBRTV2HJMWLQZXUYJP6RSVTQHWFM3BKZEPD4CQWVLH",
+      clientName: "Priya Shah",
+      freelancerName: "Elena Rostova",
+      freelancerAvatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Elena",
+      clientAvatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Priya",
+      amount: 500,
+      amountLocked: 500,
+      tokenType: "XLM",
+      status: "DELIVERED",
+      deadline: "2026-07-01T00:00:00Z",
+      createdAt: "2026-06-15T09:15:00Z"
+    },
+    {
+      _id: "ESC-1003",
+      id: "ESC-1003",
+      job: { title: "UI Animation System" },
+      jobTitle: "UI Animation System",
+      buyerAddress: "GBXPKM7VSKBKX5JKJHLXQWRX6IQZP3D4ZQKZLM2NFTD8RWKPHJCXYZ",
+      sellerAddress: "GDKPQN5XCZK8MNBRTV2HJMWLQZXUYJP6RSVTQHWFM3BKZEPD4CQWVLH",
+      clientName: "Priya Shah",
+      freelancerName: "Alex Rivera",
+      freelancerAvatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Alex",
+      clientAvatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Priya",
+      amount: 400,
+      amountLocked: 400,
+      tokenType: "XLM",
+      status: "COMPLETED",
+      deadline: "2026-06-30T00:00:00Z",
+      createdAt: "2026-06-25T11:00:00Z"
+    }
+  ];
+
+  const MOCK_TRANSACTIONS = [
+    {
+      _id: "tx-1",
+      escrowId: "ESC-1001",
+      createdAt: "2026-06-20T10:30:00Z",
+      status: "FUNDED",
+      amount: 300,
+      platformFee: 1.5,
+      totalPaid: 301.5,
+      transactionHash: "000000000000000000000000000000000000000000000000000000000000tx1hash",
+      clientWallet: "GBXPKM7VSKBKX5JKJHLXQWRX6IQZP3D4ZQKZLM2NFTD8RWKPHJCXYZ"
+    },
+    {
+      _id: "tx-2",
+      escrowId: "ESC-1002",
+      createdAt: "2026-06-15T09:15:00Z",
+      status: "RELEASED",
+      amount: 500,
+      platformFee: 2.5,
+      totalPaid: 502.5,
+      transactionHash: "000000000000000000000000000000000000000000000000000000000000tx2hash",
+      clientWallet: "GBXPKM7VSKBKX5JKJHLXQWRX6IQZP3D4ZQKZLM2NFTD8RWKPHJCXYZ"
+    }
+  ];
+
+
+  const MOCK_DISPUTES = [
+    {
+      _id: "disp-1",
+      escrow: { id: "ESC-1004", amount: 1500, job: { title: "DEX Protocol Integration" } },
+      client: { name: "Priya Shah" },
+      freelancer: { name: "Alex Rivera" },
+      status: "open",
+      reason: "Late milestone delivery dispute",
+      createdAt: "2026-06-24T12:00:00.000Z"
+    }
+  ];
+
   // Load all data
   const loadData = async () => {
     if (!user) return;
     setLoading(true);
-    try {
-      if (user.role === 'CLIENT') {
-        const [myJobsData, escrowsData, transactionsData] = await Promise.all([
-          jobService.getMyJobs(),
-          escrowService.getMyEscrows(),
-          escrowService.getProjectTransactions().catch(() => []),
-        ]);
-        setMyJobs(myJobsData);
-        setEscrows(escrowsData);
-        setProjectTransactions(transactionsData);
-      } else if (user.role === 'FREELANCER') {
-        const [jobsData, escrowsData] = await Promise.all([
-          jobService.getJobs({ page: 1, limit: 10 }),
-          escrowService.getMyEscrows(),
-        ]);
-        setJobs(jobsData.jobs || []);
-        setTotalPages(jobsData.pagination?.pages || 1);
-        setEscrows(escrowsData);
-      } else if (user.role === 'ARBITRATOR' || user.role === 'ADMIN') {
-        const [disputesData, escrowsData] = await Promise.all([
-          disputeService.getDisputes(),
-          escrowService.getMyEscrows(),
-        ]);
-        setDisputes(disputesData);
-        setEscrows(escrowsData);
-      }
-    } catch (err) {
-      console.error('Error loading dashboard data:', err);
+    // Simulate instant mock data loading without calling Axios
+    if (user.role === 'CLIENT') {
+      setMyJobs(MOCK_JOBS);
+      setEscrows(MOCK_ESCROWS);
+      setProjectTransactions(MOCK_TRANSACTIONS);
+    } else if (user.role === 'FREELANCER') {
+      setJobs(MOCK_JOBS);
+      setTotalPages(1);
+      setEscrows(MOCK_ESCROWS);
+    } else if (user.role === 'ARBITRATOR' || user.role === 'ADMIN') {
+      setDisputes(MOCK_DISPUTES);
+      setEscrows(MOCK_ESCROWS);
     }
     setLoading(false);
   };
@@ -125,39 +240,19 @@ export default function DashboardPage({ tab: initialTab = 'overview' }: Dashboar
   const handleSearch = async () => {
     setSearching(true);
     setPage(1);
-    try {
-      const res = await jobService.getJobs({
-        search: search || undefined,
-        tokenType: filterToken || undefined,
-        minBudget: filterMinBudget ? Number(filterMinBudget) : undefined,
-        maxBudget: filterMaxBudget ? Number(filterMaxBudget) : undefined,
-        page: 1,
-        limit: 10,
-      });
-      setJobs(res.jobs || []);
-      setTotalPages(res.pagination?.pages || 1);
-    } catch (err) {
-      console.error('Error searching jobs:', err);
-    }
+    const filtered = MOCK_JOBS.filter(job => {
+      const matchSearch = search ? job.title.toLowerCase().includes(search.toLowerCase()) || job.description.toLowerCase().includes(search.toLowerCase()) : true;
+      const matchToken = filterToken ? job.tokenType === filterToken : true;
+      const matchMin = filterMinBudget ? job.budget >= Number(filterMinBudget) : true;
+      const matchMax = filterMaxBudget ? job.budget <= Number(filterMaxBudget) : true;
+      return matchSearch && matchToken && matchMin && matchMax;
+    });
+    setJobs(filtered);
     setSearching(false);
   };
 
   const handlePageChange = async (newPage: number) => {
     setPage(newPage);
-    try {
-      const res = await jobService.getJobs({
-        search: search || undefined,
-        tokenType: filterToken || undefined,
-        minBudget: filterMinBudget ? Number(filterMinBudget) : undefined,
-        maxBudget: filterMaxBudget ? Number(filterMaxBudget) : undefined,
-        page: newPage,
-        limit: 10,
-      });
-      setJobs(res.jobs || []);
-      setTotalPages(res.pagination?.pages || 1);
-    } catch (err) {
-      console.error('Error paginating jobs:', err);
-    }
   };
 
   // Create/edit job
@@ -182,42 +277,35 @@ export default function DashboardPage({ tab: initialTab = 'overview' }: Dashboar
   const handleSaveJob = async (e: React.FormEvent) => {
     e.preventDefault();
     setSavingJob(true);
-    try {
-      if (editingJob) {
-        await jobService.updateJob(editingJob._id, { title: jobTitle, description: jobDesc, budget: jobBudget, tokenType: jobToken });
-      } else {
-        await jobService.createJob({ title: jobTitle, description: jobDesc, budget: jobBudget, tokenType: jobToken });
-      }
-      setShowJobForm(false);
-      const data = await jobService.getMyJobs();
-      setMyJobs(data);
-    } catch (err: any) {
-      alert(err.response?.data?.error || 'Failed to save job');
+    const mockNewJob = {
+      _id: editingJob ? editingJob._id : 'job-' + Date.now(),
+      title: jobTitle,
+      description: jobDesc,
+      budget: jobBudget,
+      tokenType: jobToken,
+      status: editingJob ? editingJob.status : 'draft',
+      createdAt: editingJob ? editingJob.createdAt : new Date().toISOString(),
+      applications: []
+    };
+    if (editingJob) {
+      setMyJobs(prev => prev.map(j => j._id === editingJob._id ? mockNewJob : j));
+    } else {
+      setMyJobs(prev => [mockNewJob, ...prev]);
     }
+    setShowJobForm(false);
     setSavingJob(false);
   };
 
   const handleDeleteJob = async (jobId: string) => {
     if (!confirm('Delete this job and all its applications?')) return;
     setDeletingJob(jobId);
-    try {
-      await jobService.deleteJob(jobId);
-      setMyJobs(prev => prev.filter(j => j._id !== jobId));
-    } catch (err: any) {
-      alert(err.response?.data?.error || 'Failed to delete job');
-    }
+    setMyJobs(prev => prev.filter(j => j._id !== jobId));
     setDeletingJob(null);
   };
 
   const handlePublishJob = async (jobId: string) => {
     setPublishingJob(jobId);
-    try {
-      await jobService.publishJob(jobId);
-      const data = await jobService.getMyJobs();
-      setMyJobs(data);
-    } catch (err: any) {
-      alert(err.response?.data?.error || 'Failed to publish job');
-    }
+    setMyJobs(prev => prev.map(j => j._id === jobId ? { ...j, status: 'open' } : j));
     setPublishingJob(null);
   };
 
@@ -227,13 +315,8 @@ export default function DashboardPage({ tab: initialTab = 'overview' }: Dashboar
     const letter = coverLetters[jobId] || '';
     if (!letter) { alert('Cover letter is required'); return; }
     setSubmittingBid(jobId);
-    try {
-      await jobService.applyToJob(jobId, bid, letter);
-      alert('Application submitted successfully!');
-      setCoverLetters(prev => ({ ...prev, [jobId]: '' }));
-    } catch (err: any) {
-      alert(err.response?.data?.error || 'Failed to submit application');
-    }
+    alert('Application submitted successfully! (Simulation)');
+    setCoverLetters(prev => ({ ...prev, [jobId]: '' }));
     setSubmittingBid(null);
   };
 
@@ -244,19 +327,8 @@ export default function DashboardPage({ tab: initialTab = 'overview' }: Dashboar
       return;
     }
     setResolvingDisputeId(disputeId);
-    try {
-      await disputeService.resolveDispute(disputeId, {
-        clientPayout,
-        freelancerPayout,
-        arbitratorNotes: arbiterNotes,
-        resolution: `Split: Client ${clientPayout} XLM, Freelancer ${freelancerPayout} XLM.`,
-        txHash: 'mock_arbitration_tx_' + Date.now(),
-      });
-      const data = await disputeService.getDisputes();
-      setDisputes(data);
-    } catch (err) {
-      alert('Dispute resolution failed');
-    }
+    setDisputes(prev => prev.filter(d => d._id !== disputeId));
+    alert('Dispute resolved successfully! (Simulation)');
     setResolvingDisputeId(null);
   };
 

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { signTransaction } from '@stellar/freighter-api';
 import { Horizon, TransactionBuilder, Networks } from '@stellar/stellar-sdk';
 import axios from 'axios';
-import { STELLAR_CONFIG } from '../config/stellar.config';
+import { STELLAR_CONFIG } from '../lib/stellar.config';
 import { sorobanClient, parseContractError, EscrowOnChain } from '../lib/soroban';
 import { ContractResponse } from '../lib/types';
 
