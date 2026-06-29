@@ -38,14 +38,23 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-cargo-
 
+      # Cache stellar-cli binary so it doesn't recompile every run (~10-15 min)
+      - name: Cache Stellar CLI
+        id: cache-stellar-cli
+        uses: actions/cache@v4
+        with:
+          path: ~/.cargo/bin/stellar
+          key: ${{ runner.os }}-stellar-cli-v27
+
       - name: Install system dependencies
+        if: steps.cache-stellar-cli.outputs.cache-hit != 'true'
         run: |
           sudo apt-get update
-          sudo apt-get install -y pkg-config libdbus-1-dev
+          sudo apt-get install -y pkg-config libdbus-1-dev libudev-dev libhidapi-dev libusb-1.0-0-dev
 
       - name: Install Stellar CLI
-        run: |
-          cargo install --locked stellar-cli
+        if: steps.cache-stellar-cli.outputs.cache-hit != 'true'
+        run: cargo install --locked stellar-cli
 
       - name: Build smart contract (WASM)
         run: cargo build --target wasm32-unknown-unknown --release
@@ -79,12 +88,12 @@ jobs:
           cache-dependency-path: frontend/package-lock.json
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci --legacy-peer-deps
 
       - name: Build
         run: npm run build
         env:
-          VITE_CONTRACT_ID: ${{ secrets.VITE_CONTRACT_ID }}
+          VITE_CONTRACT_ID: ${{ secrets.VITE_CONTRACT_ID || 'placeholder_for_ci' }}
 
   # ─────────────────────────────────────────
   # JOB 3: Deploy Frontend to Vercel
@@ -110,11 +119,20 @@ jobs:
       - name: Pull Vercel environment
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
         working-directory: frontend
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
       - name: Build for Vercel
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
         working-directory: frontend
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
       - name: Deploy to Vercel
         run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
         working-directory: frontend
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
