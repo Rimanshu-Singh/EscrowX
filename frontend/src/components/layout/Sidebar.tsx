@@ -34,7 +34,6 @@ const CLIENT_NAV = [
   { href: '/client/escrows', label: 'My Escrows', icon: Shield },
   { href: '/escrow/create', label: 'Create Escrows', icon: PlusCircle },
   { href: '/client/payments', label: 'Payments', icon: CreditCard },
-  { href: '/client/reviews', label: 'Reviews', icon: Star },
   { href: '/client/analytics', label: 'Analytics', icon: BarChart2 },
   { href: '/client/settings', label: 'Settings', icon: Settings },
 ];
@@ -47,9 +46,7 @@ const FREELANCER_NAV = [
   { href: '/freelancer/hire-requests', label: 'Hire Requests', icon: Inbox },
   { href: '/delivery', label: 'Deliveries', icon: PackageOpen },
   { href: '/chat', label: 'Messages', icon: MessageSquare },
-  { href: '/escrow/create', label: 'Create Escrows', icon: PlusCircle },
   { href: '/freelancer/payments', label: 'Earnings', icon: CreditCard },
-  { href: '/freelancer/reviews', label: 'Reviews', icon: Star },
   { href: '/freelancer/analytics', label: 'Analytics', icon: BarChart2 },
   { href: '/freelancer/settings', label: 'Settings', icon: Settings },
 ];
@@ -68,7 +65,15 @@ const ADMIN_NAV = [
   { href: '/admin/settings', label: 'Settings', icon: Settings },
 ];
 
-export function Sidebar() {
+import { useThemeStore } from '@/store/themeStore';
+import { Sun, Moon } from 'lucide-react';
+
+interface SidebarProps {
+  isOpenOnMobile?: boolean;
+  onCloseMobile?: () => void;
+}
+
+export function Sidebar({ isOpenOnMobile = false, onCloseMobile }: SidebarProps) {
   const { pathname } = useLocation();
   const { user, walletAddress, logout } = useAuthStore();
   const navigate = useNavigate();
@@ -87,9 +92,13 @@ export function Sidebar() {
   };
 
   return (
-    <aside className="fixed left-0 top-0 h-full w-[240px] bg-white border-r border-[#E4E8F0] flex flex-col z-40">
+    <aside className={cn(
+      "fixed left-0 top-0 h-full w-[240px] bg-card border-r border-border flex flex-col z-50 transition-all duration-300",
+      "md:translate-x-0",
+      isOpenOnMobile ? "translate-x-0" : "-translate-x-full"
+    )}>
       {/* Logo */}
-      <div className="px-5 h-16 flex items-center border-b border-[#E4E8F0]">
+      <div className="px-5 h-16 flex items-center border-b border-border transition-colors duration-200 justify-between">
         <Link to="/" className="flex items-center gap-2.5 group">
           <div className="w-7 h-7 rounded-[7px] bg-[#7C3AED] flex items-center justify-center">
             <svg width="15" height="15" viewBox="0 0 18 18" fill="none">
@@ -99,8 +108,17 @@ export function Sidebar() {
               <path d="M9 10.5v1.5" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
             </svg>
           </div>
-          <span className="text-[16px] font-bold text-[#0F172A] tracking-tight">EscrowX</span>
+          <span className="text-[16px] font-bold text-text-primary tracking-tight">EscrowX</span>
         </Link>
+        {/* Close mobile menu button */}
+        <button 
+          onClick={onCloseMobile} 
+          className="p-1 rounded-md hover:bg-surface-elevated md:hidden cursor-pointer text-text-secondary hover:text-text-primary"
+        >
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
       </div>
 
       {/* Role badge */}
@@ -108,14 +126,14 @@ export function Sidebar() {
         <div className="px-5 pt-4 pb-2">
           <span className={cn(
             'text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded-full',
-            user.role === 'CLIENT' && 'bg-blue-50 text-blue-600',
-            user.role === 'FREELANCER' && 'bg-purple-50 text-purple-600',
-            user.role === 'ARBITRATOR' && 'bg-amber-50 text-amber-600',
-            user.role === 'ADMIN' && 'bg-red-50 text-red-600',
+            user.role === 'CLIENT' && 'bg-blue-50 dark:bg-blue-950/30 text-blue-600 dark:text-blue-400',
+            user.role === 'FREELANCER' && 'bg-purple-50 dark:bg-purple-950/30 text-purple-600 dark:text-purple-400',
+            user.role === 'ARBITRATOR' && 'bg-amber-50 dark:bg-amber-950/30 text-amber-600 dark:text-amber-400',
+            user.role === 'ADMIN' && 'bg-red-50 dark:bg-red-950/30 text-red-600 dark:text-red-400',
           )}>
             {user.role}
           </span>
-          <p className="text-xs font-semibold text-[#0F172A] mt-1 truncate">{user.name || user.email}</p>
+          <p className="text-xs font-semibold text-text-primary mt-1 truncate">{user.name || user.email}</p>
         </div>
       )}
 
@@ -129,22 +147,23 @@ export function Sidebar() {
             <Link
               key={link.href}
               to={link.href}
+              onClick={onCloseMobile}
               className={cn(
                 'flex items-center gap-3 px-3 py-2.5 rounded-[8px] text-sm font-medium transition-all duration-150 group',
                 isActive
-                  ? 'bg-[#F5F3FF] text-[#7C3AED] border-l-[3px] border-l-[#7C3AED] pl-[calc(0.75rem_-_3px)]'
-                  : 'text-[#475569] hover:bg-[#F1F5F9] hover:text-[#0F172A]'
+                  ? 'bg-[#F5F3FF] dark:bg-purple-950/20 text-[#7C3AED] dark:text-[#9F7AEA] border-l-[3px] border-l-[#7C3AED] dark:border-l-[#9F7AEA] pl-[calc(0.75rem_-_3px)]'
+                  : 'text-text-secondary hover:bg-surface-elevated hover:text-text-primary'
               )}
             >
               <Icon
                 className={cn(
                   'w-4 h-4 shrink-0 transition-colors',
-                  isActive ? 'text-[#7C3AED]' : 'text-[#64748B] group-hover:text-[#475569]'
+                  isActive ? 'text-[#7C3AED] dark:text-[#9F7AEA]' : 'text-text-muted group-hover:text-text-secondary'
                 )}
               />
               {link.label}
               {(link as any).badge && (
-                <span className="ml-auto text-[10px] font-bold bg-red-50 text-red-500 px-1.5 py-0.5 rounded-[4px]">
+                <span className="ml-auto text-[10px] font-bold bg-red-50 dark:bg-red-950/30 text-red-500 dark:text-red-400 px-1.5 py-0.5 rounded-[4px]">
                   !
                 </span>
               )}
@@ -153,32 +172,13 @@ export function Sidebar() {
         })}
       </nav>
 
-      {/* Wallet info + Logout */}
-      <div className="p-3 border-t border-[#E4E8F0] space-y-2">
-        <div className="bg-[#F8F9FB] rounded-[10px] p-3">
-          <div className="flex items-center gap-2 mb-1.5">
-            <div className="w-2 h-2 rounded-full bg-[#16A865]" />
-            <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#9CA3AF]">
-              Connected
-            </span>
-          </div>
-          <p className="font-mono text-[11px] text-[#6B7280] mb-1.5 break-all leading-relaxed">
-            {truncateAddress(walletAddress || '', 8)}
-          </p>
-          {user && (
-            <div className="flex items-center gap-1.5">
-              <span className="text-[10px] font-bold text-amber-600 bg-amber-50 border border-amber-200 px-1.5 py-0.5 rounded-[4px]">
-                {user.badge}
-              </span>
-              <span className="text-xs font-bold text-[#0F1117]">Score: {user.trustScore}</span>
-            </div>
-          )}
-        </div>
+      {/* Logout */}
+      <div className="p-3 border-t border-border transition-colors duration-200">
         <button
           onClick={handleLogout}
-          className="w-full flex items-center gap-2 px-3 py-2 rounded-[8px] text-xs font-semibold text-red-500 hover:bg-red-50 transition-colors"
+          className="w-full flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-[8px] text-xs font-semibold text-red-500 hover:bg-red-50 dark:hover:bg-red-950/20 transition-colors border border-red-500/20 cursor-pointer"
         >
-          <LogOut className="w-4 h-4" />
+          <LogOut className="w-3.5 h-3.5" />
           Logout
         </button>
       </div>
