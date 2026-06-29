@@ -9,7 +9,7 @@ import {
 import { AppLayout } from '../../components/layout/AppLayout';
 import { useAuthStore } from '../../store/authStore';
 import { useSocket } from '../../hooks/useSocket';
-import { jobService, escrowService, disputeService, reviewService } from '../../services/api';
+import { jobService, escrowService, disputeService, reviewService, proposalService, deliveryService } from '../../services/api';
 
 interface DashboardPageProps {
   tab?: 'overview' | 'jobs' | 'escrows' | 'payments' | 'reviews' | 'settings' | 'disputes' | 'applications';
@@ -33,7 +33,7 @@ const STATUS_COLOR: Record<string, string> = {
 export default function DashboardPage({ tab: initialTab = 'overview' }: DashboardPageProps) {
   const navigate = useNavigate();
   const { user, token } = useAuthStore();
-  useSocket();
+  const { socket } = useSocket();
 
   const [activeTab, setActiveTab] = useState(initialTab);
 
@@ -46,8 +46,10 @@ export default function DashboardPage({ tab: initialTab = 'overview' }: Dashboar
   const [escrows, setEscrows] = useState<any[]>([]);
   const [disputes, setDisputes] = useState<any[]>([]);
   const [reviews, setReviews] = useState<any[]>([]);
+  const [proposals, setProposals] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [projectTransactions, setProjectTransactions] = useState<any[]>([]);
+  const [deliveries, setDeliveries] = useState<any[]>([]);
   const [selectedTx, setSelectedTx] = useState<any | null>(null);
 
   // Search / filter / pagination for browse jobs (freelancer)
@@ -81,181 +83,122 @@ export default function DashboardPage({ tab: initialTab = 'overview' }: Dashboar
   const [arbiterNotes, setArbiterNotes] = useState('');
   const [resolvingDisputeId, setResolvingDisputeId] = useState<string | null>(null);
 
-  // Local static mock datasets for zero API dependency
-  const MOCK_JOBS = [
-    {
-      _id: "job-1001",
-      title: "Build Responsive React Landing Page",
-      description: "Looking for an expert to design and develop a single page React application with premium styles and responsive layout.",
-      budget: 300,
-      tokenType: "XLM",
-      status: "in_progress",
-      createdAt: "2026-06-20T10:00:00.000Z",
-      applications: [
-        { id: "app-1", bidder: "Alex Rivera", bidAmount: 300, coverLetter: "I specialize in premium React UI layout design and have worked on similar Stellar apps." }
-      ]
-    },
-    {
-      _id: "job-1002",
-      title: "Soroban Smart Contract Audit",
-      description: "Security review and penetration testing for Stellar Soroban contract vault. Needs Rust/WASM experience.",
-      budget: 500,
-      tokenType: "XLM",
-      status: "completed",
-      createdAt: "2026-06-15T09:00:00.000Z",
-      applications: []
-    },
-    {
-      _id: "job-1003",
-      title: "UI Animation System Integration",
-      description: "Create premium CSS & Framer Motion animation presets for a web3 platform landing page.",
-      budget: 400,
-      tokenType: "XLM",
-      status: "in_progress",
-      createdAt: "2026-06-25T11:00:00.000Z",
-      applications: []
-    }
-  ];
-
-  const MOCK_ESCROWS = [
-    {
-      _id: "ESC-1001",
-      id: "ESC-1001",
-      job: { title: "Build Landing Page" },
-      jobTitle: "Build Landing Page",
-      buyerAddress: "GBXPKM7VSKBKX5JKJHLXQWRX6IQZP3D4ZQKZLM2NFTD8RWKPHJCXYZ",
-      sellerAddress: "GDKPQN5XCZK8MNBRTV2HJMWLQZXUYJP6RSVTQHWFM3BKZEPD4CQWVLH",
-      clientName: "Priya Shah",
-      freelancerName: "Alex Rivera",
-      freelancerAvatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Alex",
-      clientAvatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Priya",
-      amount: 300,
-      amountLocked: 300,
-      tokenType: "XLM",
-      status: "IN_PROGRESS",
-      deadline: "2026-07-15T00:00:00Z",
-      createdAt: "2026-06-20T10:30:00Z"
-    },
-    {
-      _id: "ESC-1002",
-      id: "ESC-1002",
-      job: { title: "Smart Contract Audit" },
-      jobTitle: "Smart Contract Audit",
-      buyerAddress: "GBXPKM7VSKBKX5JKJHLXQWRX6IQZP3D4ZQKZLM2NFTD8RWKPHJCXYZ",
-      sellerAddress: "GDKPQN5XCZK8MNBRTV2HJMWLQZXUYJP6RSVTQHWFM3BKZEPD4CQWVLH",
-      clientName: "Priya Shah",
-      freelancerName: "Elena Rostova",
-      freelancerAvatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Elena",
-      clientAvatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Priya",
-      amount: 500,
-      amountLocked: 500,
-      tokenType: "XLM",
-      status: "DELIVERED",
-      deadline: "2026-07-01T00:00:00Z",
-      createdAt: "2026-06-15T09:15:00Z"
-    },
-    {
-      _id: "ESC-1003",
-      id: "ESC-1003",
-      job: { title: "UI Animation System" },
-      jobTitle: "UI Animation System",
-      buyerAddress: "GBXPKM7VSKBKX5JKJHLXQWRX6IQZP3D4ZQKZLM2NFTD8RWKPHJCXYZ",
-      sellerAddress: "GDKPQN5XCZK8MNBRTV2HJMWLQZXUYJP6RSVTQHWFM3BKZEPD4CQWVLH",
-      clientName: "Priya Shah",
-      freelancerName: "Alex Rivera",
-      freelancerAvatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Alex",
-      clientAvatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Priya",
-      amount: 400,
-      amountLocked: 400,
-      tokenType: "XLM",
-      status: "COMPLETED",
-      deadline: "2026-06-30T00:00:00Z",
-      createdAt: "2026-06-25T11:00:00Z"
-    }
-  ];
-
-  const MOCK_TRANSACTIONS = [
-    {
-      _id: "tx-1",
-      escrowId: "ESC-1001",
-      createdAt: "2026-06-20T10:30:00Z",
-      status: "FUNDED",
-      amount: 300,
-      platformFee: 1.5,
-      totalPaid: 301.5,
-      transactionHash: "000000000000000000000000000000000000000000000000000000000000tx1hash",
-      clientWallet: "GBXPKM7VSKBKX5JKJHLXQWRX6IQZP3D4ZQKZLM2NFTD8RWKPHJCXYZ"
-    },
-    {
-      _id: "tx-2",
-      escrowId: "ESC-1002",
-      createdAt: "2026-06-15T09:15:00Z",
-      status: "RELEASED",
-      amount: 500,
-      platformFee: 2.5,
-      totalPaid: 502.5,
-      transactionHash: "000000000000000000000000000000000000000000000000000000000000tx2hash",
-      clientWallet: "GBXPKM7VSKBKX5JKJHLXQWRX6IQZP3D4ZQKZLM2NFTD8RWKPHJCXYZ"
-    }
-  ];
-
-
-  const MOCK_DISPUTES = [
-    {
-      _id: "disp-1",
-      escrow: { id: "ESC-1004", amount: 1500, job: { title: "DEX Protocol Integration" } },
-      client: { name: "Priya Shah" },
-      freelancer: { name: "Alex Rivera" },
-      status: "open",
-      reason: "Late milestone delivery dispute",
-      createdAt: "2026-06-24T12:00:00.000Z"
-    }
-  ];
-
-  // Load all data
+  // Load all data from real services
   const loadData = async () => {
     if (!user) return;
     setLoading(true);
-    // Simulate instant mock data loading without calling Axios
-    if (user.role === 'CLIENT') {
-      setMyJobs(MOCK_JOBS);
-      setEscrows(MOCK_ESCROWS);
-      setProjectTransactions(MOCK_TRANSACTIONS);
-    } else if (user.role === 'FREELANCER') {
-      setJobs(MOCK_JOBS);
-      setTotalPages(1);
-      setEscrows(MOCK_ESCROWS);
-    } else if (user.role === 'ARBITRATOR' || user.role === 'ADMIN') {
-      setDisputes(MOCK_DISPUTES);
-      setEscrows(MOCK_ESCROWS);
+    try {
+      if (user.role === 'CLIENT') {
+        const clientJobs = await jobService.getMyJobs();
+        setMyJobs(clientJobs || []);
+        
+        const clientEscrows = await escrowService.getMyEscrows();
+        setEscrows(clientEscrows || []);
+        
+        const txs = await escrowService.getProjectTransactions();
+        setProjectTransactions(txs || []);
+
+        const clientDeliveries = await deliveryService.getDeliveries();
+        setDeliveries(clientDeliveries || []);
+      } else if (user.role === 'FREELANCER') {
+        const jobData = await jobService.getJobs({ page, limit: 10 });
+        setJobs(jobData.jobs || jobData || []);
+        setTotalPages(jobData.totalPages || 1);
+        
+        const freelancerEscrows = await escrowService.getMyEscrows();
+        setEscrows(freelancerEscrows || []);
+
+        const sentProposals = await proposalService.getSentProposals();
+        setProposals(sentProposals || []);
+
+        const freelancerDeliveries = await deliveryService.getDeliveries();
+        setDeliveries(freelancerDeliveries || []);
+      } else if (user.role === 'ARBITRATOR' || user.role === 'ADMIN') {
+        const adminDisputes = await disputeService.getDisputes();
+        setDisputes(adminDisputes || []);
+        
+        const allEscrows = await escrowService.getMyEscrows();
+        setEscrows(allEscrows || []);
+      }
+
+      // Fetch user reviews
+      const userReviews = await reviewService.getUserReviews(user.id);
+      setReviews(userReviews || []);
+    } catch (error) {
+      console.error('Error loading dashboard data:', error);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   useEffect(() => {
     loadData();
   }, [user]);
 
+  // Fetch jobs page separately when page index changes (for browse jobs view)
+  useEffect(() => {
+    if (user && user.role === 'FREELANCER') {
+      const fetchJobsPage = async () => {
+        try {
+          const jobData = await jobService.getJobs({
+            search,
+            tokenType: filterToken,
+            minBudget: filterMinBudget ? Number(filterMinBudget) : undefined,
+            maxBudget: filterMaxBudget ? Number(filterMaxBudget) : undefined,
+            page,
+            limit: 10
+          });
+          setJobs(jobData.jobs || jobData || []);
+          setTotalPages(jobData.totalPages || 1);
+        } catch (err) {
+          console.error("Error fetching jobs page:", err);
+        }
+      };
+      fetchJobsPage();
+    }
+  }, [page]);
+
+  // Live Auto-Refresh Listener via Socket Notifications
+  useEffect(() => {
+    if (socket) {
+      const handleNotification = (data: any) => {
+        console.log("Dashboard reloading data due to live notification event", data);
+        loadData();
+      };
+      socket.on('notification', handleNotification);
+      return () => {
+        socket.off('notification', handleNotification);
+      };
+    }
+  }, [socket]);
+
   // Search/filter jobs (freelancer)
   const handleSearch = async () => {
     setSearching(true);
-    setPage(1);
-    const filtered = MOCK_JOBS.filter(job => {
-      const matchSearch = search ? job.title.toLowerCase().includes(search.toLowerCase()) || job.description.toLowerCase().includes(search.toLowerCase()) : true;
-      const matchToken = filterToken ? job.tokenType === filterToken : true;
-      const matchMin = filterMinBudget ? job.budget >= Number(filterMinBudget) : true;
-      const matchMax = filterMaxBudget ? job.budget <= Number(filterMaxBudget) : true;
-      return matchSearch && matchToken && matchMin && matchMax;
-    });
-    setJobs(filtered);
-    setSearching(false);
+    try {
+      const data = await jobService.getJobs({
+        search,
+        tokenType: filterToken,
+        minBudget: filterMinBudget ? Number(filterMinBudget) : undefined,
+        maxBudget: filterMaxBudget ? Number(filterMaxBudget) : undefined,
+        page: 1,
+        limit: 10
+      });
+      setJobs(data.jobs || data || []);
+      setTotalPages(data.totalPages || 1);
+      setPage(1);
+    } catch (err) {
+      console.error("Error searching jobs:", err);
+    } finally {
+      setSearching(false);
+    }
   };
 
   const handlePageChange = async (newPage: number) => {
     setPage(newPage);
   };
 
-  // Create/edit job
+  // Create/edit job (client)
   const openNewJobForm = () => {
     setEditingJob(null);
     setJobTitle('');
@@ -277,36 +220,55 @@ export default function DashboardPage({ tab: initialTab = 'overview' }: Dashboar
   const handleSaveJob = async (e: React.FormEvent) => {
     e.preventDefault();
     setSavingJob(true);
-    const mockNewJob = {
-      _id: editingJob ? editingJob._id : 'job-' + Date.now(),
-      title: jobTitle,
-      description: jobDesc,
-      budget: jobBudget,
-      tokenType: jobToken,
-      status: editingJob ? editingJob.status : 'draft',
-      createdAt: editingJob ? editingJob.createdAt : new Date().toISOString(),
-      applications: []
-    };
-    if (editingJob) {
-      setMyJobs(prev => prev.map(j => j._id === editingJob._id ? mockNewJob : j));
-    } else {
-      setMyJobs(prev => [mockNewJob, ...prev]);
+    try {
+      if (editingJob) {
+        await jobService.updateJob(editingJob._id, {
+          title: jobTitle,
+          description: jobDesc,
+          budget: jobBudget,
+          tokenType: jobToken
+        });
+      } else {
+        await jobService.createJob({
+          title: jobTitle,
+          description: jobDesc,
+          budget: jobBudget,
+          tokenType: jobToken
+        });
+      }
+      setShowJobForm(false);
+      loadData();
+    } catch (err) {
+      console.error("Error saving job:", err);
+      alert("Error saving job");
+    } finally {
+      setSavingJob(false);
     }
-    setShowJobForm(false);
-    setSavingJob(false);
   };
 
   const handleDeleteJob = async (jobId: string) => {
     if (!confirm('Delete this job and all its applications?')) return;
     setDeletingJob(jobId);
-    setMyJobs(prev => prev.filter(j => j._id !== jobId));
-    setDeletingJob(null);
+    try {
+      await jobService.deleteJob(jobId);
+      loadData();
+    } catch (err) {
+      console.error("Error deleting job:", err);
+    } finally {
+      setDeletingJob(null);
+    }
   };
 
   const handlePublishJob = async (jobId: string) => {
     setPublishingJob(jobId);
-    setMyJobs(prev => prev.map(j => j._id === jobId ? { ...j, status: 'open' } : j));
-    setPublishingJob(null);
+    try {
+      await jobService.publishJob(jobId);
+      loadData();
+    } catch (err) {
+      console.error("Error publishing job:", err);
+    } finally {
+      setPublishingJob(null);
+    }
   };
 
   // Apply to job (freelancer)
@@ -315,9 +277,17 @@ export default function DashboardPage({ tab: initialTab = 'overview' }: Dashboar
     const letter = coverLetters[jobId] || '';
     if (!letter) { alert('Cover letter is required'); return; }
     setSubmittingBid(jobId);
-    alert('Application submitted successfully! (Simulation)');
-    setCoverLetters(prev => ({ ...prev, [jobId]: '' }));
-    setSubmittingBid(null);
+    try {
+      await jobService.applyToJob(jobId, bid, letter);
+      alert('Application submitted successfully!');
+      setCoverLetters(prev => ({ ...prev, [jobId]: '' }));
+      loadData();
+    } catch (err) {
+      console.error("Error applying to job:", err);
+      alert("Error submitting application");
+    } finally {
+      setSubmittingBid(null);
+    }
   };
 
   // Resolve dispute (arbitrator)
@@ -327,9 +297,22 @@ export default function DashboardPage({ tab: initialTab = 'overview' }: Dashboar
       return;
     }
     setResolvingDisputeId(disputeId);
-    setDisputes(prev => prev.filter(d => d._id !== disputeId));
-    alert('Dispute resolved successfully! (Simulation)');
-    setResolvingDisputeId(null);
+    try {
+      await disputeService.resolveDispute(disputeId, {
+        clientPayout,
+        freelancerPayout,
+        arbitratorNotes: arbiterNotes,
+        resolution: `Arbitrator split payout executed: Client received ${clientPayout} XLM, Freelancer received ${freelancerPayout} XLM.`,
+        txHash: 'tx_resolved_' + Math.floor(10000 + Math.random() * 90000) + '_' + Date.now().toString().slice(-4)
+      });
+      alert('Dispute resolved successfully!');
+      loadData();
+    } catch (err) {
+      console.error("Error resolving dispute:", err);
+      alert("Error executing payout resolution");
+    } finally {
+      setResolvingDisputeId(null);
+    }
   };
 
   if (!user) return null;
@@ -344,6 +327,33 @@ export default function DashboardPage({ tab: initialTab = 'overview' }: Dashboar
     disputes: 'Resolve Disputes',
   };
 
+  if (loading) {
+    return (
+      <AppLayout title={tabTitle[activeTab] || 'Dashboard'}>
+        <div className="space-y-6 animate-pulse">
+          {/* Skeleton Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {[1, 2, 3, 4].map(n => (
+              <div key={n} className="bg-white dark:bg-[#1E293B] border border-[#E5E7EB] dark:border-slate-800 rounded-[16px] p-5 shadow-sm space-y-3">
+                <div className="w-9 h-9 rounded-[8px] bg-slate-200 dark:bg-slate-700" />
+                <div className="h-3 w-24 bg-slate-200 dark:bg-slate-700 rounded" />
+                <div className="h-6 w-16 bg-slate-200 dark:bg-slate-700 rounded" />
+              </div>
+            ))}
+          </div>
+          {/* Skeleton Content Area */}
+          <div className="bg-white dark:bg-[#1E293B] border border-[#E5E7EB] dark:border-slate-800 rounded-[16px] p-6 shadow-sm space-y-4">
+            <div className="h-4 w-40 bg-slate-200 dark:bg-slate-700 rounded" />
+            <div className="space-y-3">
+              <div className="h-12 w-full bg-slate-100 dark:bg-slate-850 rounded-[12px]" />
+              <div className="h-12 w-full bg-slate-100 dark:bg-slate-850 rounded-[12px]" />
+            </div>
+          </div>
+        </div>
+      </AppLayout>
+    );
+  }
+
   return (
     <AppLayout title={tabTitle[activeTab] || 'Dashboard'}>
       <div className="space-y-6">
@@ -351,15 +361,32 @@ export default function DashboardPage({ tab: initialTab = 'overview' }: Dashboar
         {/* ============ OVERVIEW TAB ============ */}
         {activeTab === 'overview' && (
           <div className="space-y-6">
+            {/* Helper function to get delivery progress based on escrow status */}
+            {(() => {
+              const getDeliveryProgress = (status: string) => {
+                switch (status) {
+                  case 'CREATED': return 10;
+                  case 'FUNDED': return 25;
+                  case 'IN_PROGRESS': return 50;
+                  case 'DELIVERED': return 75;
+                  case 'UNDER_REVIEW': return 90;
+                  case 'DISPUTED': return 95;
+                  case 'COMPLETED': return 100;
+                  default: return 0;
+                }
+              };
+              return null;
+            })()}
+
             {/* Client Overview */}
             {user.role === 'CLIENT' && (
               <div className="space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                   {[
-                    { label: 'Active Escrows', value: escrows.filter(e => !['COMPLETED','REFUNDED'].includes(e.status)).length, icon: Shield, color: 'text-blue-600 bg-blue-50' },
-                    { label: 'Completed', value: escrows.filter(e => e.status === 'COMPLETED').length, icon: CheckCircle, color: 'text-emerald-600 bg-emerald-50' },
-                    { label: 'Funds Locked (XLM)', value: escrows.reduce((s,e) => !['COMPLETED','REFUNDED'].includes(e.status) ? s + e.amount : s, 0).toLocaleString(), icon: Lock, color: 'text-purple-600 bg-purple-50' },
-                    { label: 'Pending Review', value: escrows.filter(e => e.status === 'DELIVERED').length, icon: Eye, color: 'text-amber-600 bg-amber-50' },
+                    { label: 'Total Escrows Created', value: escrows.length, icon: Shield, color: 'text-indigo-600 bg-indigo-50 dark:bg-indigo-950/30 dark:text-indigo-400' },
+                    { label: 'Active Escrows', value: deliveries.filter(d => d.status === 'working').length, icon: Shield, color: 'text-blue-600 bg-blue-50 dark:bg-blue-950/30 dark:text-blue-400' },
+                    { label: 'Completed Jobs', value: escrows.filter(e => e.status === 'COMPLETED').length, icon: CheckCircle, color: 'text-emerald-600 bg-emerald-50 dark:bg-emerald-950/30 dark:text-emerald-400' },
+                    { label: 'Total XLM Spent', value: escrows.filter(e => e.status === 'COMPLETED').reduce((s, e) => s + e.amount, 0).toLocaleString() + ' XLM', icon: Lock, color: 'text-purple-600 bg-purple-50 dark:bg-purple-950/30 dark:text-purple-400' },
                   ].map(stat => (
                     <motion.div key={stat.label} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="bg-white border border-[#E5E7EB] rounded-[16px] p-5 shadow-sm">
                       <div className={`w-9 h-9 rounded-[8px] ${stat.color} flex items-center justify-center mb-3`}>
@@ -392,10 +419,10 @@ export default function DashboardPage({ tab: initialTab = 'overview' }: Dashboar
               <div className="space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                   {[
-                    { label: 'Earnings (XLM)', value: escrows.reduce((s,e) => e.status === 'COMPLETED' ? s + e.amount : s, 0).toLocaleString(), icon: DollarSign, color: 'text-emerald-600 bg-emerald-50' },
-                    { label: 'Active Contracts', value: escrows.filter(e => !['COMPLETED','REFUNDED'].includes(e.status)).length, icon: Shield, color: 'text-blue-600 bg-blue-50' },
-                    { label: 'Trust Score', value: `${user.trustScore}/100`, icon: TrendingUp, color: 'text-purple-600 bg-purple-50' },
-                    { label: 'Badge', value: user.badge, icon: Award, color: 'text-amber-600 bg-amber-50' },
+                    { label: 'Total Earned (XLM)', value: deliveries.filter(d => d.status === 'approved').reduce((s, e) => s + e.budget, 0).toLocaleString() + ' XLM', icon: DollarSign, color: 'text-emerald-600 bg-emerald-50 dark:bg-emerald-950/30 dark:text-emerald-400' },
+                    { label: 'Active Orders', value: deliveries.filter(d => d.status === 'working').length, icon: Shield, color: 'text-blue-600 bg-blue-50 dark:bg-blue-950/30 dark:text-blue-400' },
+                    { label: 'Pending Payment (XLM)', value: deliveries.filter(d => d.status === 'working').reduce((s, e) => s + e.budget, 0).toLocaleString() + ' XLM', icon: Lock, color: 'text-amber-600 bg-amber-50 dark:bg-amber-950/30 dark:text-amber-400' },
+                    { label: 'Completed Orders', value: deliveries.filter(d => d.status === 'approved').length, icon: CheckCircle, color: 'text-purple-600 bg-purple-50 dark:bg-purple-950/30 dark:text-purple-400' },
                   ].map(stat => (
                     <motion.div key={stat.label} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="bg-white border border-[#E5E7EB] rounded-[16px] p-5 shadow-sm">
                       <div className={`w-9 h-9 rounded-[8px] ${stat.color} flex items-center justify-center mb-3`}>
@@ -406,23 +433,92 @@ export default function DashboardPage({ tab: initialTab = 'overview' }: Dashboar
                     </motion.div>
                   ))}
                 </div>
+
+                {/* Incoming & Active Escrows */}
                 <div className="bg-white border border-[#E5E7EB] rounded-[16px] p-6 shadow-sm">
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-xs font-bold uppercase tracking-wider text-gray-500">Active Work Orders</h3>
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-gray-500">Incoming & Active Escrows</h3>
                     <Link to="/jobs" className="text-xs text-[#5B6BF8] font-semibold hover:underline">Browse Jobs →</Link>
                   </div>
-                  {escrows.filter(e => ['FUNDED','IN_PROGRESS'].includes(e.status)).length === 0
-                    ? <p className="text-xs text-gray-400 italic">No active work orders. Browse open jobs to apply.</p>
-                    : escrows.filter(e => ['FUNDED','IN_PROGRESS'].includes(e.status)).map(e => (
-                        <div key={e._id} className="flex items-center justify-between border border-[#E5E7EB] rounded-[12px] p-4 bg-[#FAFAFA] mb-3">
-                          <div>
-                            <p className="text-xs font-bold text-[#0F172A]">{e.job?.title || 'Milestone Task'}</p>
-                            <p className="text-[10px] text-gray-400 mt-1">Locked: {e.amount} {e.tokenType}</p>
+                  {escrows.filter(e => ['FUNDED', 'IN_PROGRESS', 'DELIVERED', 'UNDER_REVIEW', 'DISPUTED'].includes(e.status)).length === 0
+                    ? <p className="text-xs text-gray-400 italic">No active delivery jobs. Browse open projects to apply.</p>
+                    : escrows.filter(e => ['FUNDED', 'IN_PROGRESS', 'DELIVERED', 'UNDER_REVIEW', 'DISPUTED'].includes(e.status)).map(e => {
+                        const progress = (() => {
+                          switch (e.status) {
+                            case 'CREATED': return 10;
+                            case 'FUNDED': return 25;
+                            case 'IN_PROGRESS': return 50;
+                            case 'DELIVERED': return 75;
+                            case 'UNDER_REVIEW': return 90;
+                            case 'DISPUTED': return 95;
+                            case 'COMPLETED': return 100;
+                            default: return 0;
+                          }
+                        })();
+                        return (
+                          <div key={e._id} className="border border-[#E5E7EB] rounded-[12px] p-5 bg-[#FAFAFA] mb-4 space-y-3">
+                            <div className="flex justify-between items-start">
+                              <div>
+                                <h4 className="text-sm font-bold text-[#0F172A]">{e.job?.title || 'Milestone Task'}</h4>
+                                <p className="text-[10px] text-gray-400 mt-0.5">
+                                  Client: {e.client?.username || 'Client'} · Deadline: {new Date(e.deadline).toLocaleDateString()}
+                                </p>
+                              </div>
+                              <span className="text-xs font-bold text-[#7C3AED] bg-purple-50 dark:bg-purple-950/30 px-2.5 py-1 rounded-full shrink-0">
+                                {e.amount} {e.tokenType}
+                              </span>
+                            </div>
+                            
+                            <div className="space-y-1.5">
+                              <div className="flex justify-between text-[10px] font-bold text-gray-400">
+                                <span className="uppercase tracking-wider">Status: <span className="text-text-primary">{e.status}</span></span>
+                                <span>{progress}% Progress</span>
+                              </div>
+                              <div className="w-full bg-slate-200 dark:bg-zinc-800 rounded-full h-2 overflow-hidden">
+                                <div className="bg-[#7C3AED] h-2 rounded-full transition-all duration-500" style={{ width: `${progress}%` }} />
+                              </div>
+                            </div>
+
+                            <div className="flex justify-end pt-1">
+                              <Link to={`/escrow/${e._id}`} className="px-3.5 py-1.5 rounded-[8px] bg-[#7C3AED] text-white text-xs font-bold hover:bg-[#6D28D9]">
+                                Submit Work & Manage
+                              </Link>
+                            </div>
                           </div>
-                          <Link to={`/escrow/${e._id}`} className="px-3.5 py-1.5 rounded-[8px] bg-[#7C3AED] text-white text-xs font-bold hover:bg-[#6D28D9]">Submit Work</Link>
-                        </div>
-                      ))
+                        );
+                      })
                   }
+                </div>
+
+                {/* My Proposals & Applications */}
+                <div className="bg-white border border-[#E5E7EB] rounded-[16px] p-6 shadow-sm">
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-4">My Proposals & Applications</h3>
+                  {proposals.length === 0 ? (
+                    <p className="text-xs text-gray-400 italic">You haven't submitted any job proposals yet.</p>
+                  ) : (
+                    <div className="space-y-3">
+                      {proposals.map(p => (
+                        <div key={p._id} className="flex flex-col sm:flex-row sm:items-center justify-between border border-[#E5E7EB] rounded-[12px] p-4 bg-[#FAFAFA] gap-3">
+                          <div className="space-y-1">
+                            <h4 className="text-xs font-bold text-[#0F172A]">{p.projectId?.title || 'Job Listing'}</h4>
+                            <p className="text-[10px] text-gray-400">
+                              Client: {p.projectId?.ownerUsername || 'Client'} · Delivery: {p.expectedDelivery} days
+                            </p>
+                          </div>
+                          <div className="flex items-center justify-between sm:justify-end gap-4 shrink-0">
+                            <span className="font-mono text-xs font-bold text-slate-700">{p.bidAmount} XLM</span>
+                            <span className={`text-[9px] font-extrabold uppercase px-2.5 py-1 rounded-full tracking-wider ${
+                              p.status === 'ACCEPTED' ? 'bg-emerald-50 text-emerald-600 border border-emerald-250' :
+                              p.status === 'REJECTED' ? 'bg-red-50 text-red-600 border border-red-250' :
+                              'bg-blue-50 text-blue-600 border border-blue-250'
+                            }`}>
+                              {p.status}
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
             )}
@@ -736,82 +832,115 @@ export default function DashboardPage({ tab: initialTab = 'overview' }: Dashboar
                   <p className="text-xs text-gray-400 mt-1">Once you fund an escrow contract, transactions will appear here.</p>
                 </div>
               ) : (
-                <div className="bg-white border border-[#E5E7EB] rounded-[16px] shadow-sm overflow-hidden">
-                  <table className="w-full text-xs text-left">
-                    <thead className="bg-[#F8F9FB] border-b border-[#E5E7EB]">
-                      <tr>
-                        <th className="px-5 py-3 text-[10px] font-bold uppercase text-gray-400 tracking-wider">Escrow ID</th>
-                        <th className="px-5 py-3 text-[10px] font-bold uppercase text-gray-400 tracking-wider">Date</th>
-                        <th className="px-5 py-3 text-[10px] font-bold uppercase text-gray-400 tracking-wider">Status</th>
-                        <th className="px-5 py-3 text-[10px] font-bold uppercase text-gray-400 tracking-wider">Budget</th>
-                        <th className="px-5 py-3 text-[10px] font-bold uppercase text-gray-400 tracking-wider">Fee</th>
-                        <th className="px-5 py-3 text-[10px] font-bold uppercase text-gray-400 tracking-wider">Total Paid</th>
-                        <th className="px-5 py-3 text-[10px] font-bold uppercase text-gray-400 tracking-wider text-right">Details</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-[#E5E7EB]">
-                      {projectTransactions.map(tx => (
-                        <tr 
-                          key={tx._id} 
-                          onClick={() => setSelectedTx(tx)}
-                          className="hover:bg-[#FAFAFA] transition-colors cursor-pointer"
-                        >
-                          <td className="px-5 py-3.5 font-bold text-[#0F172A] font-mono">{tx.escrowId}</td>
-                          <td className="px-5 py-3.5 text-slate-500">{new Date(tx.date || tx.createdAt).toLocaleDateString()}</td>
-                          <td className="px-5 py-3.5">
-                            <span className={`text-[9px] font-bold uppercase px-2 py-0.5 rounded-md ${
-                              tx.status === 'RELEASED' ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' :
-                              tx.status === 'REFUNDED' ? 'bg-slate-100 text-slate-600 border border-slate-200' :
-                              'bg-blue-50 text-blue-600 border border-blue-100'
-                            }`}>
-                              {tx.status}
-                            </span>
-                          </td>
-                          <td className="px-5 py-3.5 font-mono font-semibold text-slate-700">{tx.amount} XLM</td>
-                          <td className="px-5 py-3.5 font-mono text-slate-500">{tx.platformFee} XLM</td>
-                          <td className="px-5 py-3.5 font-mono font-bold text-[#7C3AED]">{tx.totalPaid} XLM</td>
-                          <td className="px-5 py-3.5 text-right font-bold text-[#7C3AED] hover:underline">
-                            View →
-                          </td>
+                <div className="space-y-4">
+                  {/* Spent summary block */}
+                  <div className="bg-[#FAF9FF] border border-[#7C3AED]/10 rounded-xl p-4 flex items-center justify-between">
+                    <div>
+                      <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Total XLM Spent (Completed Escrows only)</p>
+                      <p className="text-lg font-black text-[#7C3AED] mt-0.5">
+                        {escrows.filter(e => e.status === 'COMPLETED').reduce((sum, e) => sum + e.amount, 0).toLocaleString()} XLM
+                      </p>
+                    </div>
+                    <span className="text-[10px] text-gray-400 max-w-[200px] text-right italic">
+                      Calculated from completed/released escrow contracts.
+                    </span>
+                  </div>
+
+                  <div className="bg-white border border-[#E5E7EB] rounded-[16px] shadow-sm overflow-hidden">
+                    <table className="w-full text-xs text-left">
+                      <thead className="bg-[#F8F9FB] border-b border-[#E5E7EB]">
+                        <tr>
+                          <th className="px-5 py-3 text-[10px] font-bold uppercase text-gray-400 tracking-wider">Escrow ID</th>
+                          <th className="px-5 py-3 text-[10px] font-bold uppercase text-gray-400 tracking-wider">Date</th>
+                          <th className="px-5 py-3 text-[10px] font-bold uppercase text-gray-400 tracking-wider">Status</th>
+                          <th className="px-5 py-3 text-[10px] font-bold uppercase text-gray-400 tracking-wider">Budget</th>
+                          <th className="px-5 py-3 text-[10px] font-bold uppercase text-gray-400 tracking-wider">Fee</th>
+                          <th className="px-5 py-3 text-[10px] font-bold uppercase text-gray-400 tracking-wider">Total Paid</th>
+                          <th className="px-5 py-3 text-[10px] font-bold uppercase text-gray-400 tracking-wider text-right">Details</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody className="divide-y divide-[#E5E7EB]">
+                        {projectTransactions.map(tx => (
+                          <tr 
+                            key={tx._id} 
+                            onClick={() => setSelectedTx(tx)}
+                            className="hover:bg-[#FAFAFA] transition-colors cursor-pointer"
+                          >
+                            <td className="px-5 py-3.5 font-bold text-[#0F172A] font-mono">{tx.escrowId}</td>
+                            <td className="px-5 py-3.5 text-slate-500">{new Date(tx.date || tx.createdAt).toLocaleDateString()}</td>
+                            <td className="px-5 py-3.5">
+                              <span className={`text-[9px] font-bold uppercase px-2 py-0.5 rounded-md ${
+                                tx.status === 'RELEASED' ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' :
+                                tx.status === 'REFUNDED' ? 'bg-slate-100 text-slate-600 border border-slate-200' :
+                                'bg-blue-50 text-blue-600 border border-blue-100'
+                              }`}>
+                                {tx.status}
+                              </span>
+                            </td>
+                            <td className="px-5 py-3.5 font-mono font-semibold text-slate-700">{tx.amount} XLM</td>
+                            <td className="px-5 py-3.5 font-mono text-slate-500">{tx.platformFee} XLM</td>
+                            <td className="px-5 py-3.5 font-mono font-bold text-[#7C3AED]">{tx.totalPaid} XLM</td>
+                            <td className="px-5 py-3.5 text-right font-bold text-[#7C3AED] hover:underline">
+                              View →
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               )
             ) : (
-              // FREELANCER (legacy earnings / escrows)
-              escrows.length === 0 ? (
+              // FREELANCER: Earnings list from approved deliveries
+              deliveries.filter(d => d.status === 'approved').length === 0 ? (
                 <div className="text-center py-16 bg-white border border-dashed border-[#E5E7EB] rounded-[16px]">
                   <CreditCard className="w-10 h-10 text-gray-300 mx-auto mb-3" />
-                  <p className="text-sm font-bold text-gray-400">No payment history yet</p>
+                  <p className="text-sm font-bold text-gray-400">No earnings history yet</p>
+                  <p className="text-xs text-gray-400 mt-1">Once your deliveries are approved, earnings will appear here.</p>
                 </div>
               ) : (
-                <div className="bg-white border border-[#E5E7EB] rounded-[16px] shadow-sm overflow-hidden">
-                  <table className="w-full text-xs text-left">
-                    <thead className="bg-[#F8F9FB] border-b border-[#E5E7EB]">
-                      <tr>
-                        <th className="px-5 py-3 text-[10px] font-bold uppercase text-gray-400 tracking-wider">Project</th>
-                        <th className="px-5 py-3 text-[10px] font-bold uppercase text-gray-400 tracking-wider">Status</th>
-                        <th className="px-5 py-3 text-[10px] font-bold uppercase text-gray-400 tracking-wider">Amount</th>
-                        <th className="px-5 py-3 text-[10px] font-bold uppercase text-gray-400 tracking-wider text-right">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-[#E5E7EB]">
-                      {escrows.map(e => (
-                        <tr key={e._id} className="hover:bg-[#FAFAFA] transition-colors">
-                          <td className="px-5 py-3.5 font-semibold text-[#0F172A]">{e.job?.title || 'Contract'}</td>
-                          <td className="px-5 py-3.5">
-                            <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-full ${STATUS_COLOR[e.status]}`}>{e.status}</span>
-                          </td>
-                          <td className="px-5 py-3.5 font-mono font-bold">{e.amount} {e.tokenType}</td>
-                          <td className="px-5 py-3.5 text-right">
-                            <Link to={`/escrow/${e._id}`} className="text-[#5B6BF8] font-bold hover:underline">View →</Link>
-                          </td>
+                <div className="space-y-4">
+                  {/* Earnings summary block */}
+                  <div className="bg-[#FAF9FF] border border-[#7C3AED]/10 rounded-xl p-4 flex items-center justify-between">
+                    <div>
+                      <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Total XLM Earned (Approved Deliveries only)</p>
+                      <p className="text-lg font-black text-[#7C3AED] mt-0.5">
+                        {deliveries.filter(d => d.status === 'approved').reduce((sum, d) => sum + d.budget, 0).toLocaleString()} XLM
+                      </p>
+                    </div>
+                    <span className="text-[10px] text-gray-400 max-w-[200px] text-right italic">
+                      Calculated from approved delivery workspace payouts.
+                    </span>
+                  </div>
+
+                  <div className="bg-white border border-[#E5E7EB] rounded-[16px] shadow-sm overflow-hidden">
+                    <table className="w-full text-xs text-left">
+                      <thead className="bg-[#F8F9FB] border-b border-[#E5E7EB]">
+                        <tr>
+                          <th className="px-5 py-3 text-[10px] font-bold uppercase text-gray-400 tracking-wider">Project</th>
+                          <th className="px-5 py-3 text-[10px] font-bold uppercase text-gray-400 tracking-wider">Status</th>
+                          <th className="px-5 py-3 text-[10px] font-bold uppercase text-gray-400 tracking-wider">Amount</th>
+                          <th className="px-5 py-3 text-[10px] font-bold uppercase text-gray-400 tracking-wider text-right">Action</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody className="divide-y divide-[#E5E7EB]">
+                        {deliveries.filter(d => d.status === 'approved').map(d => (
+                          <tr key={d._id} className="hover:bg-[#FAFAFA] transition-colors">
+                            <td className="px-5 py-3.5 font-semibold text-[#0F172A]">{d.projectId?.title || 'Contract'}</td>
+                            <td className="px-5 py-3.5">
+                              <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-100">
+                                APPROVED
+                              </span>
+                            </td>
+                            <td className="px-5 py-3.5 font-mono font-bold text-[#7C3AED]">{d.budget} XLM</td>
+                            <td className="px-5 py-3.5 text-right font-bold">
+                              <Link to={`/delivery/${d.escrowId}`} className="text-[#7C3AED] hover:underline">Workspace →</Link>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               )
             )}
