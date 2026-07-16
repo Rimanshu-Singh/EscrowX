@@ -52,9 +52,8 @@ EscrowX is a **Web3 freelance marketplace system** where:
 | **Live Demo** | [https://escrow-x-one.vercel.app/](https://escrow-x-one.vercel.app/) |
 | **Demo Video** | [Watch Demo](https://drive.google.com/file/d/1pHkUh87o4vdMT-Epk5SiSPdH6K7WndQZ/view?usp=sharing) |
 | **Smart Contract** | [View on Stellar Expert](https://stellar.expert/explorer/testnet/contract/CALCCHS44ZJ6U7CFI2NNRIP6IP63XAMNFTGO4RROBGTBF5L7USASFAL7) |
-| **Project Repository** | [GitHub Repository](YOUR_GITHUB_REPO_LINK) |
-| **User Testing & Feedback** | [User Feedback Sheet](https://docs.google.com/spreadsheets/d/1a7P61RaO0p5gYnp3ycYoum8UCzzIL3zNhjPiuz9HAjs/edit?usp=sharing)
-) |
+| **transaction activity** | [transaction ](https://stellar.expert/explorer/testnet/account/GCVE5QXJ33NFGVMUCGUTTUVJQ7F6O4G6OPLCIU5O6OQXPYNORGDP3UIY) |
+| **User Testing & Feedback** | [50+ verified users Excel Sheet Data](https://docs.google.com/spreadsheets/d/1a7P61RaO0p5gYnp3ycYoum8UCzzIL3zNhjPiuz9HAjs/edit?usp=sharing) |
 
 ---
 
@@ -135,9 +134,9 @@ Clients often fear paying before receiving quality work, while freelancers fear 
 ---
 
 
-## 🟢 Current Status: GREEN BELT (Completed)
 
-## 👥 User Onboarding
+
+## 👥 June User Onboarding
 
 🔗 **Google Form:** [User Onboarding Form](https://forms.gle/kt3paMMW7R5Z8n4V8)
 📊 **Response Sheet:** [Response Sheet](https://docs.google.com/spreadsheets/d/1wNVI66xNcUv4GB5jwpczFReUv0-vwmFET2adsLgS9VE/edit?usp=sharing)
