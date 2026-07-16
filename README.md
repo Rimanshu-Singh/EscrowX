@@ -14,7 +14,24 @@
 </div>
 
 ---
+<img width="2558" height="1310" alt="image" src="https://github.com/user-attachments/assets/42ddece9-a518-4f2e-8526-ab92e358a1ed" />
 
+## 🎥 EscrowX - demo 
+https://drive.google.com/file/d/1pHkUh87o4vdMT-Epk5SiSPdH6K7WndQZ/view?usp=sharing
+
+## 🏆 Stellar Journey to Master
+## 🧭 Belt System Progress
+ 
+| Level | Belt | Focus | Status |
+|-------|------|-------|--------|
+| ⚪️ Level 1 | White Belt | Wallets & transactions | ✅ Completed |
+| 🟡 Level 2 | Yellow Belt | Multi-wallet, contracts & events | ✅ Completed |
+| 🟠 Level 3 | Orange Belt | Mini dApp + tests | ✅ Completed |
+| 🟢 Level 4 | Green Belt | Advanced contracts & production readiness | ✅ Completed |
+| 🔵 Level 5 | Blue Belt | Real MVP (50+ users) | ✅ Completed |
+| ⚫️ Level 6 | Black Belt | Scale + Demo Day readiness | 🔜 Upcoming |
+ 
+---
 ## 🌟 What is EscrowX?
 
 EscrowX is a **Web3 freelance marketplace system** where:
@@ -28,6 +45,65 @@ EscrowX is a **Web3 freelance marketplace system** where:
 
 ---
 
+## Quick Links
+
+| Resource | Link |
+|----------|------|
+| **Live Demo** | [https://escrow-x-one.vercel.app/](https://escrow-x-one.vercel.app/) |
+| **Demo Video** | [Watch Demo](https://drive.google.com/file/d/1pHkUh87o4vdMT-Epk5SiSPdH6K7WndQZ/view?usp=sharing) |
+| **Smart Contract** | [View on Stellar Expert](https://stellar.expert/explorer/testnet/contract/CALCCHS44ZJ6U7CFI2NNRIP6IP63XAMNFTGO4RROBGTBF5L7USASFAL7) |
+| **Project Repository** | [GitHub Repository](YOUR_GITHUB_REPO_LINK) |
+| **User Testing & Feedback** | [User Feedback Sheet](https://docs.google.com/spreadsheets/d/1a7P61RaO0p5gYnp3ycYoum8UCzzIL3zNhjPiuz9HAjs/edit?usp=sharing)
+) |
+
+---
+
+# Level 5 Hackathon Submission Checklist
+
+| Requirement | Status | Evidence |
+|-------------|--------|----------|
+| **Live Demo Deployed** | ✅ Complete | https://escrow-x-one.vercel.app/ |
+| **CI/CD Pipeline** | ✅ Complete | GitHub Actions Enabled |
+| **Smart Contract Deployed** | ✅ Complete | `CALCCHS44ZJ6U7CFI2NNRIP6IP63XAMNFTGO4RROBGTBF5L7USASFAL7` |
+| **Mobile Responsive** | ✅ Complete | Optimized for Desktop, Tablet & Mobile |
+| **Escrow Workflow Implemented** | ✅ Complete | Create → Fund → Deliver → Approve → Release / Dispute |
+| **Documentation** | ✅ Complete | README, ARCHITECTURE.md, TECHNICAL_DOCS.md |
+| **Security Review** | ✅ Complete | Contract tested and documented |
+| **User Testing Completed** | ✅ Complete | Feedback collected and improvements implemented |
+
+---
+
+# Level 5 Upgrade (v1.1) — Product & Technical Improvements
+
+Following the user feedback collection, EscrowX received multiple usability, performance, and workflow improvements to meet the Level 5 product expectations.
+
+| Requirement | What Changed |
+|---|---|
+| **Improved User Onboarding** | Added guided onboarding tooltips and a step-by-step walkthrough for first-time users, making the escrow workflow easier to understand. |
+| **Mobile Optimization** | Fixed responsive layout issues, optimized rendering performance, and improved overall mobile experience. |
+| **Escrow Status Improvements** | Added descriptive status badges and informative tooltips to clearly indicate every escrow stage. |
+| **UI/UX Polish** | Enhanced transition animations, improved component consistency, and refined overall user interface. |
+| **Smart Contract Integration** | Fully connected all escrow lifecycle functions with the frontend through Soroban SDK. |
+| **Technical Standard** | Application architecture refined, contract interactions modularized, and production-ready deployment completed. |
+| **Documentation Update** | Updated README, Technical Documentation, Architecture, and User Guide to reflect all Level 5 improvements. |
+
+---
+
+
+
+# Smart Contract Details
+
+| Property | Value |
+|---|---|
+| **Contract ID** | `CALCCHS44ZJ6U7CFI2NNRIP6IP63XAMNFTGO4RROBGTBF5L7USASFAL7` |
+| **Network** | Stellar Testnet |
+| **Explorer** | https://stellar.expert/explorer/testnet/contract/CALCCHS44ZJ6U7CFI2NNRIP6IP63XAMNFTGO4RROBGTBF5L7USASFAL7 |
+
+---
+
+> **Level 5 Submission Note**
+
+EscrowX was successfully deployed on the **Stellar Testnet** and validated through complete end-to-end transaction flows. The application supports the full decentralized escrow lifecycle including escrow creation, funding, work progress tracking, delivery confirmation, approval, dispute resolution, and secure refunds. All smart contract interactions are executed through Soroban and signed directly from the connected Stellar wallet. The latest release also incorporates user-driven improvements from testing, including guided onboarding, enhanced mobile responsiveness, clearer escrow status indicators, and refined UI interactions, resulting in a more intuitive and production-ready decentralized escrow platform.
 ## ⚠️ Current Problem (Real World)
 
 Traditional platforms like Fiverr / Upwork:
@@ -57,22 +133,7 @@ Clients often fear paying before receiving quality work, while freelancers fear 
 | ✅ EscrowX | John funds escrow → locked until approval | Safe |
 
 ---
-## 🎥 EscrowX - demo 
-https://drive.google.com/file/d/1pHkUh87o4vdMT-Epk5SiSPdH6K7WndQZ/view?usp=sharing
 
-## 🏆 Stellar Journey to Master
-## 🧭 Belt System Progress
- 
-| Level | Belt | Focus | Status |
-|-------|------|-------|--------|
-| ⚪️ Level 1 | White Belt | Wallets & transactions | ✅ Completed |
-| 🟡 Level 2 | Yellow Belt | Multi-wallet, contracts & events | ✅ Completed |
-| 🟠 Level 3 | Orange Belt | Mini dApp + tests | ✅ Completed |
-| 🟢 Level 4 | Green Belt | Advanced contracts & production readiness | ✅ Completed |
-| 🔵 Level 5 | Blue Belt | Real MVP (5+ users) | 🔜 Upcoming |
-| ⚫️ Level 6 | Black Belt | Scale + Demo Day readiness | 🔜 Upcoming |
- 
----
 
 ## 🟢 Current Status: GREEN BELT (Completed)
 
