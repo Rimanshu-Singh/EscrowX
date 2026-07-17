@@ -54,6 +54,7 @@ EscrowX is a **Web3 freelance marketplace system** where:
 | **Smart Contract** | [View on Stellar Expert](https://stellar.expert/explorer/testnet/contract/CALCCHS44ZJ6U7CFI2NNRIP6IP63XAMNFTGO4RROBGTBF5L7USASFAL7) |
 | **transaction activity** | [transaction ](https://stellar.expert/explorer/testnet/account/GCVE5QXJ33NFGVMUCGUTTUVJQ7F6O4G6OPLCIU5O6OQXPYNORGDP3UIY) |
 | **User Testing & Feedback** | [50+ verified users Excel Sheet Data](https://docs.google.com/spreadsheets/d/1a7P61RaO0p5gYnp3ycYoum8UCzzIL3zNhjPiuz9HAjs/edit?usp=sharing) |
+| **Pitch Desk** | [Google Slides](https://docs.google.com/presentation/d/1_7ObQlr7dwE5A4kCh9NBKh7hUzCttYzIFFcXpKR1Gzk/edit?usp=sharing) |
 
 ---
 
@@ -69,6 +70,7 @@ EscrowX is a **Web3 freelance marketplace system** where:
 | **Documentation** | ✅ Complete | README, ARCHITECTURE.md, TECHNICAL_DOCS.md |
 | **Security Review** | ✅ Complete | Contract tested and documented |
 | **User Testing Completed** | ✅ Complete | Feedback collected and improvements implemented |
+| **Pitch Desk** | ✅ Complete | Google Slide Pitch Desk implemented |
 
 ---
 
@@ -274,6 +276,9 @@ All required integration files, hooks, configuration, and utility modules alread
 ---
 ## ⚡ Smart Contract Test Flow
 <img width="1968" height="1204" alt="Screenshot 2026-06-27 160720" src="https://github.com/user-attachments/assets/b52ce6af-d301-45ba-9fd8-4873e3be0e8a" />
+
+## 🟢 CI&CD Flow Passing 
+<img width="2558" height="1085" alt="image" src="https://github.com/user-attachments/assets/7d19fcd0-08ee-42f9-a12f-693c5ba76052" />
 
 ---
 
