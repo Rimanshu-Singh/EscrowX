@@ -102,9 +102,43 @@ Following the user feedback collection, EscrowX received multiple usability, per
 
 ---
 
+### 💬 Feedback & Improvements
+
+| # | Name | Wallet Address | Feedback | Improvement Made | Git Commit |
+|---|------|----------------|----------|-----------------|------------|
+| 1 | Rupam Ghosh | `GBPIWK56...C7VJ` | Make the platform beginner-friendly and easier to understand | Added onboarding tooltips, guided walkthrough, and improved first-time user experience | [96eff35](https://github.com/rimanshupatel/EscrowX/commit/96eff3585cae692f7e0b860a8df36869dac4c101) |
+| 2 | Smriti Adhikari | `GADBNX7O...KH5H` | UI has responsiveness issues on mobile devices | Fixed responsive layout issues and optimized the mobile UI | [73bcb1e](https://github.com/rimanshupatel/EscrowX/commit/73bcb1e9bce7a2720863acbc30fec15d73fd03af) |
+| 3 | Reema Singh | `GDGSHBO7...MMXI` | Improve the UI and make interactions smoother | Enhanced UI, refined animations, and improved transition effects | [96eff35](https://github.com/rimanshupatel/EscrowX/commit/96eff3585cae692f7e0b860a8df36869dac4c101) |
+| 4 | Paris | `GDJT3HI5...NJVZKF` | Improve the overall user interface | Polished UI components, spacing, and visual consistency | [96eff35](https://github.com/rimanshupatel/EscrowX/commit/96eff3585cae692f7e0b860a8df36869dac4c101) |
+| 5 | Somenath Gorai | `0xd29c7A...5894` | Overall experience is good | No improvements required based on this feedback |  [96eff35](https://github.com/rimanshupatel/EscrowX/commit/96eff3585cae692f7e0b860a8df36869dac4c101) |
+| 6 | Sumedh Chandanshive | `GBDTN3VS...C5P` | The platform feels slow on mobile devices | Optimized rendering performance and reduced unnecessary re-renders | [96eff35](https://github.com/rimanshupatel/EscrowX/commit/96eff3585cae692f7e0b860a8df36869dac4c101) |
+| 7 | Pritam Mondal | `GATJMD6B...BS3X` | Improve the overall data pipeline and application performance | Refactored and optimized the frontend data pipeline and state management | [d923a03](https://github.com/rimanshupatel/EscrowX/commit/d923a03526852abba16d4f505243766e4368680c) |
+| 8 | Parth Karan | `GCAQNSZQ...G7F` | No major issues found during testing | No improvements required | — |
+| 9 | Ayush Sarkar | `9EkKnoZh...YA6C` | Nothing to improve at the moment | No improvements required | — |
+| 10 | Rudra Pratap Singh | `GBAOLJDF...CGFC` | The platform is ready for use | No improvements required | — |
+| 11 | Rohan Kumar | `GBVC7GUZ...QSUG` | Suggested making the UI even better | Enhanced UI polish, improved visual consistency, and refined user interactions | [96eff35](https://github.com/rimanshupatel/EscrowX/commit/96eff3585cae692f7e0b860a8df36869dac4c101) |
+
+---
+
+## 📈✅ Improvement Summary
+
+- **Feedback:** Users wanted a more beginner-friendly experience
+  - **Fix:** Added guided onboarding tooltips and a step-by-step walkthrough for new users
+
+- **Feedback:** Mobile devices experienced lag and layout issues
+  - **Fix:** Optimized rendering pipeline and fixed responsive CSS breakpoints for mobile
+
+- **Feedback:** Users wanted clearer escrow status labels
+  - **Fix:** Updated status badges with descriptive tooltips
+
+- **Feedback:** General UI smoothness and polish requested
+  - **Fix:** Improved transition animations and visual consistency across pages
+
+  
 > **Level 5 Submission Note**
 
 EscrowX was successfully deployed on the **Stellar Testnet** and validated through complete end-to-end transaction flows. The application supports the full decentralized escrow lifecycle including escrow creation, funding, work progress tracking, delivery confirmation, approval, dispute resolution, and secure refunds. All smart contract interactions are executed through Soroban and signed directly from the connected Stellar wallet. The latest release also incorporates user-driven improvements from testing, including guided onboarding, enhanced mobile responsiveness, clearer escrow status indicators, and refined UI interactions, resulting in a more intuitive and production-ready decentralized escrow platform.
+
 ## ⚠️ Current Problem (Real World)
 
 Traditional platforms like Fiverr / Upwork:
@@ -164,37 +198,6 @@ Clients often fear paying before receiving quality work, while freelancers fear 
 
 ---
 
-### 💬 Feedback & Improvements
-
-| # | Name | Wallet Address | Feedback | Improvement Made | Git Commit |
-|---|------|----------------|----------|-----------------|------------|
-| 1 | Rupam Ghosh | `GBPIWK56...C7VJ` | Make the platform beginner-friendly and easier to understand | Added onboarding tooltips, guided walkthrough, and improved first-time user experience | [96eff35](https://github.com/rimanshupatel/EscrowX/commit/96eff3585cae692f7e0b860a8df36869dac4c101) |
-| 2 | Smriti Adhikari | `GADBNX7O...KH5H` | UI has responsiveness issues on mobile devices | Fixed responsive layout issues and optimized the mobile UI | [73bcb1e](https://github.com/rimanshupatel/EscrowX/commit/73bcb1e9bce7a2720863acbc30fec15d73fd03af) |
-| 3 | Reema Singh | `GDGSHBO7...MMXI` | Improve the UI and make interactions smoother | Enhanced UI, refined animations, and improved transition effects | [96eff35](https://github.com/rimanshupatel/EscrowX/commit/96eff3585cae692f7e0b860a8df36869dac4c101) |
-| 4 | Paris | `GDJT3HI5...NJVZKF` | Improve the overall user interface | Polished UI components, spacing, and visual consistency | [96eff35](https://github.com/rimanshupatel/EscrowX/commit/96eff3585cae692f7e0b860a8df36869dac4c101) |
-| 5 | Somenath Gorai | `0xd29c7A...5894` | Overall experience is good | No improvements required based on this feedback |  [96eff35](https://github.com/rimanshupatel/EscrowX/commit/96eff3585cae692f7e0b860a8df36869dac4c101) |
-| 6 | Sumedh Chandanshive | `GBDTN3VS...C5P` | The platform feels slow on mobile devices | Optimized rendering performance and reduced unnecessary re-renders | [96eff35](https://github.com/rimanshupatel/EscrowX/commit/96eff3585cae692f7e0b860a8df36869dac4c101) |
-| 7 | Pritam Mondal | `GATJMD6B...BS3X` | Improve the overall data pipeline and application performance | Refactored and optimized the frontend data pipeline and state management | [d923a03](https://github.com/rimanshupatel/EscrowX/commit/d923a03526852abba16d4f505243766e4368680c) |
-| 8 | Parth Karan | `GCAQNSZQ...G7F` | No major issues found during testing | No improvements required | — |
-| 9 | Ayush Sarkar | `9EkKnoZh...YA6C` | Nothing to improve at the moment | No improvements required | — |
-| 10 | Rudra Pratap Singh | `GBAOLJDF...CGFC` | The platform is ready for use | No improvements required | — |
-| 11 | Rohan Kumar | `GBVC7GUZ...QSUG` | Suggested making the UI even better | Enhanced UI polish, improved visual consistency, and refined user interactions | [96eff35](https://github.com/rimanshupatel/EscrowX/commit/96eff3585cae692f7e0b860a8df36869dac4c101) |
-
----
-
-## 📈✅ Improvement Summary
-
-- **Feedback:** Users wanted a more beginner-friendly experience
-  - **Fix:** Added guided onboarding tooltips and a step-by-step walkthrough for new users
-
-- **Feedback:** Mobile devices experienced lag and layout issues
-  - **Fix:** Optimized rendering pipeline and fixed responsive CSS breakpoints for mobile
-
-- **Feedback:** Users wanted clearer escrow status labels
-  - **Fix:** Updated status badges with descriptive tooltips
-
-- **Feedback:** General UI smoothness and polish requested
-  - **Fix:** Improved transition animations and visual consistency across pages
 
 | Contract Function | Frontend Call | File |
 |---|---|---|
