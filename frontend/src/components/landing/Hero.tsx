@@ -32,33 +32,33 @@ export function Hero() {
   };
 
   return (
-    <section id="home" className="relative flex min-h-screen items-center px-4 pb-20 pt-28 sm:px-6 lg:pt-32">
+    <section id="home" className="relative flex min-h-screen items-center px-4 pb-14 pt-24 sm:px-6 lg:pt-28">
       <motion.div
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.55, ease: 'easeOut' }}
         className="relative mx-auto flex w-full max-w-6xl flex-col items-center text-center"
       >
-        <p className="mb-6 inline-flex items-center gap-2 rounded-full border border-black/10 bg-[#F0EDE5] px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-[#56633D]">
+        <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-black/10 bg-[#F0EDE5] px-4 py-2 text-xs font-medium uppercase tracking-[0.12em] text-[#56633D]">
           <Circle className="size-2 fill-current" aria-hidden="true" />
           Stellar Soroban - Escrow Smart Contracts
         </p>
 
-        <h1 className="mx-auto max-w-5xl text-balance font-serif text-[clamp(3.25rem,7.2vw,6.85rem)] leading-[0.92] tracking-normal text-[#1A1A18]">
+        <h1 className="mx-auto max-w-4xl text-balance font-serif text-[clamp(2.85rem,5.6vw,4.9rem)] font-normal leading-[0.98] tracking-normal text-[#1A1A18]">
           Easy Escrows For Everyone,
           <span className="block">Anywhere.</span>
         </h1>
 
-        <p className="mt-5 font-serif text-[clamp(2.45rem,5.2vw,5.05rem)] italic leading-[0.95] tracking-normal text-[#6F7D4B]">
+        <p className="mt-4 font-serif text-[clamp(2rem,3.9vw,3.65rem)] font-normal italic leading-[1] tracking-normal text-[#6F7D4B]">
           Seamlessly On Stellar.
         </p>
 
-        <p className="mt-6 max-w-[760px] text-balance text-[clamp(1.08rem,1.55vw,1.45rem)] font-medium leading-[1.62] tracking-normal text-[#6B6A63]">
+        <p className="mt-5 max-w-[720px] text-balance text-[clamp(1rem,1.25vw,1.125rem)] font-normal leading-[1.65] tracking-normal text-[#6B6A63]">
           No Middlemen. No delays. Just secure, smart contract-powered
           <span className="block">agreements.</span>
         </p>
 
-        <div className="mt-10 flex w-full max-w-[610px] flex-col items-stretch justify-center gap-4 sm:flex-row sm:items-center">
+        <div className="mt-8 flex w-full max-w-[610px] flex-col items-stretch justify-center gap-4 sm:flex-row sm:items-center">
           <button
             type="button"
             onClick={() => handleContinue('CLIENT')}

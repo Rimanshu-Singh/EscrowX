@@ -1,3 +1,5 @@
+import { Logo } from '@/components/brand/Logo';
+
 const links = [
   { label: 'Home', href: '#home' },
   { label: 'About', href: '#about' },
@@ -13,9 +15,7 @@ export function Footer() {
       <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-4">
         <div>
           <div className="mb-3 flex items-center gap-3">
-            <span className="grid size-9 place-items-center rounded-full bg-[#FAF8F3] text-sm font-black text-[#151513]">
-              E
-            </span>
+            <Logo className="size-9 text-[#FAF8F3]" />
             <span className="text-lg font-black">EscrowX</span>
           </div>
           <p className="max-w-sm text-sm leading-6 text-[#D0CBBE]">
