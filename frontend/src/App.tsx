@@ -46,12 +46,28 @@ function DashboardRedirect() {
   return <Navigate to="/" replace />;
 }
 
+function ProfileRedirect() {
+  const { user, token } = useAuthStore();
+  if (!token || !user) {
+    return <Navigate to="/auth/sign-in" replace />;
+  }
+  if (user.role === 'CLIENT') {
+    return <Navigate to="/client/settings" replace />;
+  } else if (user.role === 'FREELANCER') {
+    return <Navigate to="/freelancer/settings" replace />;
+  } else if (user.role === 'ADMIN' || user.role === 'ARBITRATOR') {
+    return <Navigate to="/admin/settings" replace />;
+  }
+  return <Navigate to="/auth/sign-in" replace />;
+}
+
 export default function App() {
   return (
     <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<LandingPage />} />
+        <Route path="/auth" element={<Navigate to="/auth/sign-in" replace />} />
         <Route path="/auth/sign-up" element={<SignUpPage />} />
         <Route path="/auth/sign-in" element={<SignInPage />} />
         <Route path="/auth/login" element={<Navigate to="/auth/sign-in" replace />} />
@@ -115,6 +131,7 @@ export default function App() {
         <Route path="/escrow/:id" element={<DashboardRedirect />} />
         <Route path="/disputes" element={<DashboardRedirect />} />
         <Route path="/analytics" element={<DashboardRedirect />} />
+        <Route path="/profile" element={<ProfileRedirect />} />
 
         {/* Catch-all */}
         <Route path="*" element={<Navigate to="/" replace />} />
