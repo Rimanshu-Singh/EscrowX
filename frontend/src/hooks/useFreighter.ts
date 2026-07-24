@@ -7,6 +7,8 @@ import {
   getNetwork,
   signMessage,
 } from '@stellar/freighter-api';
+import { Horizon } from '@stellar/stellar-sdk';
+import { STELLAR_CONFIG } from '../lib/stellar.config';
 
 /**
  * Custom React hook for connecting and interacting with the Freighter Wallet.
@@ -19,6 +21,9 @@ export function useFreighter() {
   const [network, setNetwork] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [balance, setBalance] = useState<number | null>(null);
+  const [balanceLoading, setBalanceLoading] = useState<boolean>(false);
+  const [balanceError, setBalanceError] = useState<string | null>(null);
 
   // Normalized check for freighter installation
   const checkConnected = async (): Promise<boolean> => {
@@ -141,10 +146,40 @@ export function useFreighter() {
     setNetwork(null);
     setError(null);
     setIsLoading(false);
+    setBalance(null);
+    setBalanceError(null);
+    setBalanceLoading(false);
 
     // Sync with global auth store (which also handles localStorage)
     setWallet(null);
   }, [setWallet]);
+
+  const refreshBalance = useCallback(async (address = walletAddress): Promise<number | null> => {
+    if (!address) {
+      setBalance(null);
+      setBalanceError(null);
+      return null;
+    }
+
+    setBalanceLoading(true);
+    setBalanceError(null);
+    try {
+      const server = new Horizon.Server(STELLAR_CONFIG.HORIZON_URL);
+      const account = await server.loadAccount(address);
+      const nativeBalance = account.balances.find((entry) => entry.asset_type === 'native');
+      const nextBalance = nativeBalance ? Number(nativeBalance.balance) : 0;
+
+      setBalance(nextBalance);
+      setBalanceLoading(false);
+      return nextBalance;
+    } catch (err: any) {
+      const errMsg = err?.message || 'Failed to fetch wallet balance';
+      setBalance(null);
+      setBalanceError(errMsg);
+      setBalanceLoading(false);
+      return null;
+    }
+  }, [walletAddress]);
 
   // Cryptographic message signing (retained for LoginPage compatibility)
   const signAuthChallenge = useCallback(async (challenge: string): Promise<string | null> => {
@@ -228,10 +263,25 @@ export function useFreighter() {
     restoreSession();
   }, [setWallet]);
 
+  useEffect(() => {
+    if (!isConnected || !walletAddress) {
+      setBalance(null);
+      setBalanceError(null);
+      setBalanceLoading(false);
+      return;
+    }
+
+    void refreshBalance(walletAddress);
+  }, [isConnected, refreshBalance, walletAddress]);
+
   return {
     isConnected,
     walletAddress,
     network,
+    balance,
+    balanceLoading,
+    balanceError,
+    refreshBalance,
     connectWallet,
     disconnectWallet,
     isLoading,

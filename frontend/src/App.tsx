@@ -28,6 +28,7 @@ import SettingsPage from '@/pages/SettingsPage';
 import PublicProfilePage from '@/pages/PublicProfilePage';
 import DeliveryPage from '@/pages/DeliveryPage';
 import DeliveryListPage from '@/pages/DeliveryListPage';
+import MonitoringDashboardPage from '@/pages/MonitoringDashboardPage';
 
 // Redirect route for general /dashboard access
 function DashboardRedirect() {
@@ -56,8 +57,8 @@ export default function App() {
         <Route path="/auth/login" element={<Navigate to="/auth/sign-in" replace />} />
         <Route path="/auth/login-legacy" element={<LoginPage />} />
 
-        {/* Generic Dashboard Redirect */}
-        <Route path="/dashboard" element={<DashboardRedirect />} />
+        {/* Public Monitoring Dashboard */}
+        <Route path="/dashboard" element={<MonitoringDashboardPage />} />
 
         {/* Unified Marketplace & Listing Detail Routes */}
         <Route path="/marketplace" element={<ProtectedRoute allowedRoles={['CLIENT', 'FREELANCER']}><MarketplacePage /></ProtectedRoute>} />

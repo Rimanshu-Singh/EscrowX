@@ -40,7 +40,7 @@ export function Hero() {
         className="relative mx-auto flex w-full max-w-6xl flex-col items-center text-center"
       >
         <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-black/10 bg-[#F0EDE5] px-4 py-2 text-xs font-medium uppercase tracking-[0.12em] text-[#56633D]">
-          <Circle className="size-2 fill-current" aria-hidden="true" />
+          <Circle className="size-2 fill-current text-green-400 animate-pulse " aria-hidden="true" />
           Stellar Soroban - Escrow Smart Contracts
         </p>
 

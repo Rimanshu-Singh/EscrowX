@@ -3,13 +3,17 @@ import { useEffect, useState } from 'react';
 import { useFreighter } from '@/hooks/useFreighter';
 import { Logo } from '@/components/brand/Logo';
 
-const links = [
+const defaultLinks = [
   { label: 'Home', href: '#home' },
   { label: 'About', href: '#about' },
-  { label: 'Dashboard', href: '/dashboard' },
+  { label: 'Monitoring', href: '/dashboard' },
 ];
 
-export function Navbar() {
+interface NavbarProps {
+  links?: Array<{ label: string; href: string }>;
+}
+
+export function Navbar({ links = defaultLinks }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [walletMenuOpen, setWalletMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -107,6 +111,10 @@ export function Navbar() {
                 {isLoading ? 'Connecting...' : 'Connect Wallet'}
               </button>
             )}
+
+            <span className="grid size-10 place-items-center rounded-full bg-[#A55A3E] text-sm font-bold text-white">
+              EX
+            </span>
 
             {walletMenuOpen && isConnected && (
               <div className="absolute right-0 top-full mt-3 w-48 rounded-2xl border border-black/10 bg-[#FAF8F3] p-2 shadow-[0_16px_40px_rgba(26,26,24,0.12)]">
