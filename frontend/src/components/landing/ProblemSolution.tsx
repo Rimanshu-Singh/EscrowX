@@ -17,7 +17,7 @@ const escrowx = [
 
 export function ProblemSolution() {
   return (
-    <section id="about" className="relative px-4 py-24 sm:px-6">
+    <section id="about" className="relative bg-[#F0EDE5] px-4 py-24 sm:px-6">
       <div className="mx-auto max-w-6xl">
         <motion.div
           initial={{ opacity: 0, y: 18 }}
@@ -26,10 +26,13 @@ export function ProblemSolution() {
           transition={{ duration: 0.45 }}
           className="mx-auto mb-12 max-w-3xl text-center"
         >
-          <p className="mb-4 text-xs font-bold uppercase tracking-[0.22em] text-[#93c5fd]">Problem / Solution</p>
-          <h2 className="text-balance text-4xl font-black leading-tight tracking-normal text-white sm:text-5xl md:text-6xl">
+          <p className="mb-4 text-xs font-bold uppercase tracking-[0.22em] text-[#56633D]">Problem / Solution</p>
+          <h2 className="text-balance font-serif text-4xl leading-tight tracking-normal text-[#1A1A18] sm:text-6xl">
             Trust Shouldn't Be The Hardest Part Of Freelancing.
           </h2>
+          <p className="mt-5 text-base leading-8 text-[#6B6A63] sm:text-lg">
+            Traditional platforms ask both sides to trust the marketplace first. EscrowX makes secured payment the starting point.
+          </p>
         </motion.div>
 
         <div className="grid gap-4 md:grid-cols-2">
@@ -68,16 +71,16 @@ function ComparisonColumn({
     <div
       className={
         tone === 'accent'
-          ? 'rounded-[8px] border border-[#60a5fa]/20 bg-[#07111f]/80 p-6 shadow-[0_22px_80px_rgba(37,99,235,0.12)] sm:p-8'
-          : 'rounded-[8px] border border-white/10 bg-white/[0.025] p-6 sm:p-8'
+          ? 'rounded-2xl border border-black/10 bg-[#FAF8F3] p-6 sm:p-8'
+          : 'rounded-2xl border border-black/10 bg-[#FAF8F3]/70 p-6 sm:p-8'
       }
     >
-      <h3 className="mb-7 text-xl font-black text-white">{title}</h3>
+      <h3 className="mb-7 text-xl font-black text-[#1A1A18]">{title}</h3>
       <ul className="space-y-4">
         {items.map((item) => (
-          <li key={item} className="flex items-start gap-3 text-sm leading-6 text-slate-300 sm:text-base">
+          <li key={item} className="flex items-start gap-3 text-sm leading-6 text-[#6B6A63] sm:text-base">
             <Icon
-              className={tone === 'accent' ? 'mt-1 size-5 shrink-0 text-emerald-300' : 'mt-1 size-5 shrink-0 text-slate-500'}
+              className={tone === 'accent' ? 'mt-1 size-5 shrink-0 text-[#56633D]' : 'mt-1 size-5 shrink-0 text-[#8D8A80]'}
               aria-hidden="true"
             />
             <span>{item}</span>

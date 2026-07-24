@@ -21,6 +21,12 @@ export default function SignUpPage() {
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
+    if (!isConnected || !walletAddress) {
+      showToast("Please connect your wallet to continue.", "error");
+      navigate('/');
+      return;
+    }
+
     // Read selected role from localStorage
     const savedRole = localStorage.getItem('selectedRole') as 'CLIENT' | 'FREELANCER';
     if (savedRole && (savedRole === 'CLIENT' || savedRole === 'FREELANCER')) {
@@ -29,7 +35,7 @@ export default function SignUpPage() {
       showToast("No role selected. Redirecting to landing page.", "error");
       navigate('/');
     }
-  }, [navigate]);
+  }, [isConnected, walletAddress, navigate, showToast]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

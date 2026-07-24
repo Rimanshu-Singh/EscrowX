@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Shield, Lock, Mail, Wallet, Eye, EyeOff, CheckCircle2, ArrowLeft } from 'lucide-react';
@@ -16,6 +16,23 @@ export default function SignInPage() {
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [selectedRole, setSelectedRole] = useState<'CLIENT' | 'FREELANCER' | ''>('');
+
+  useEffect(() => {
+    if (!isConnected || !walletAddress) {
+      showToast("Please connect your wallet to continue.", "error");
+      navigate('/');
+      return;
+    }
+
+    const savedRole = localStorage.getItem('selectedRole') as 'CLIENT' | 'FREELANCER';
+    if (savedRole && (savedRole === 'CLIENT' || savedRole === 'FREELANCER')) {
+      setSelectedRole(savedRole);
+    } else {
+      showToast("No role selected. Redirecting to landing page.", "error");
+      navigate('/');
+    }
+  }, [isConnected, walletAddress, navigate, showToast]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,6 +49,10 @@ export default function SignInPage() {
       showToast("Connect your wallet before signing in.", "error");
       return;
     }
+    if (!selectedRole) {
+      showToast("Selected role is missing", "error");
+      return;
+    }
 
     setSubmitting(true);
     try {
@@ -41,11 +62,16 @@ export default function SignInPage() {
         walletAddress
       });
 
+      // Redirect by role
+      const userRole = res.user.role;
+      if (userRole !== selectedRole) {
+        showToast(`This wallet is registered as ${userRole}. Please choose the matching role.`, "error");
+        return;
+      }
+
       setAuth(res.token, res.user);
       showToast("Signed in successfully!", "success");
 
-      // Redirect by role
-      const userRole = res.user.role;
       if (userRole === 'CLIENT') {
         navigate('/client/dashboard');
       } else if (userRole === 'FREELANCER') {
