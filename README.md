@@ -14,7 +14,7 @@
 </div>
 
 ---
-<img width="2558" height="1310" alt="image" src="https://github.com/user-attachments/assets/42ddece9-a518-4f2e-8526-ab92e358a1ed" />
+<img width="1917" height="905" alt="image" src="https://github.com/user-attachments/assets/4205b7e7-0686-42cd-a31b-37590444e365" />
 
 ## 🎥 EscrowX - demo 
 https://drive.google.com/file/d/1pHkUh87o4vdMT-Epk5SiSPdH6K7WndQZ/view?usp=sharing
@@ -32,18 +32,6 @@ https://drive.google.com/file/d/1pHkUh87o4vdMT-Epk5SiSPdH6K7WndQZ/view?usp=shari
 | ⚫️ Level 6 | Black Belt | Scale + Demo Day readiness | 🔜 Upcoming |
  
 ---
-## 🌟 What is EscrowX?
-
-EscrowX is a **Web3 freelance marketplace system** where:
-
-- Clients **MUST** fund escrow before publishing a job
-- Freelancers work only on **funded projects**
-- Funds are **locked inside smart contracts** (not platform wallets)
-- Payment is released **ONLY** after client approval
-
-> 👉 This removes scams, chargebacks, and trust issues in freelancing.
-
----
 
 ## Quick Links
 
@@ -52,13 +40,34 @@ EscrowX is a **Web3 freelance marketplace system** where:
 | **Live Demo** | [https://escrow-x-one.vercel.app/](https://escrow-x-one.vercel.app/) |
 | **Demo Video** | [Watch Demo](https://drive.google.com/file/d/1pHkUh87o4vdMT-Epk5SiSPdH6K7WndQZ/view?usp=sharing) |
 | **Smart Contract** | [View on Stellar Expert](https://stellar.expert/explorer/testnet/contract/CALCCHS44ZJ6U7CFI2NNRIP6IP63XAMNFTGO4RROBGTBF5L7USASFAL7) |
-| **transaction activity** | [transaction ](https://stellar.expert/explorer/testnet/account/GCVE5QXJ33NFGVMUCGUTTUVJQ7F6O4G6OPLCIU5O6OQXPYNORGDP3UIY) |
+| **Monitoring Dashboard** | [/monitoring ](https://escrow-x-one.vercel.app/dashboard) |
+| **Analytics** | [/Analytics ](https://github.com/Rimanshu-Singh/EscrowX/edit/main/README.md#-analytics--monitoring) |
 | **User Testing & Feedback** | [50+ verified users Excel Sheet Data](https://docs.google.com/spreadsheets/d/1a7P61RaO0p5gYnp3ycYoum8UCzzIL3zNhjPiuz9HAjs/edit?usp=sharing) |
 | **Pitch Desk** | [Google Slides](https://docs.google.com/presentation/d/1_7ObQlr7dwE5A4kCh9NBKh7hUzCttYzIFFcXpKR1Gzk/edit?usp=sharing) |
 
 ---
 
-# Level 5 Hackathon Submission Checklist
+## Documentation
+
+| Document | Description |
+|----------|-------------|
+| [README.md](https://github.com/Rimanshu-Singh/EscrowX/blob/main/README.md) | Full Consise Details About Project |
+| [ARCHITECTURE.md](https://github.com/Rimanshu-Singh/EscrowX/blob/main/architecture.md) | System architecture and design |
+| [USER_GUIDE.md](https://github.com/Rimanshu-Singh/EscrowX/blob/main/USER_GUIDE.md) | End-user documentation |
+| [FEEDBACK.md](https://github.com/Rimanshu-Singh/EscrowX/blob/main/FEEDBACK.md) | User feedback documentation |
+| [SECURITY_CHECKLIST.md](./SECURITY_CHECKLIST.md) | Security audit checklist |
+
+---
+# Smart Contract Details
+
+| Property | Value |
+|---|---|
+| **Contract ID** | `CALCCHS44ZJ6U7CFI2NNRIP6IP63XAMNFTGO4RROBGTBF5L7USASFAL7` |
+| **Network** | Stellar Testnet |
+| **Explorer** | https://stellar.expert/explorer/testnet/contract/CALCCHS44ZJ6U7CFI2NNRIP6IP63XAMNFTGO4RROBGTBF5L7USASFAL7 |
+
+---
+# Level 5 Submission Checklist 
 
 | Requirement | Status | Evidence |
 |-------------|--------|----------|
@@ -76,7 +85,7 @@ EscrowX is a **Web3 freelance marketplace system** where:
 
 # Level 5 Upgrade (v1.1) — Product & Technical Improvements
 
-Following the user feedback collection, EscrowX received multiple usability, performance, and workflow improvements to meet the Level 5 product expectations.
+Following the user feedback collection in [Feedback.md](https://github.com/Rimanshu-Singh/EscrowX/blob/main/FEEDBACK.md), EscrowX received multiple usability, performance, and workflow improvements to meet the Level 5 product expectations.
 
 | Requirement | What Changed |
 |---|---|
@@ -86,22 +95,113 @@ Following the user feedback collection, EscrowX received multiple usability, per
 | **UI/UX Polish** | Enhanced transition animations, improved component consistency, and refined overall user interface. |
 | **Smart Contract Integration** | Fully connected all escrow lifecycle functions with the frontend through Soroban SDK. |
 | **Technical Standard** | Application architecture refined, contract interactions modularized, and production-ready deployment completed. |
-| **Documentation Update** | Updated README, Technical Documentation, Architecture, and User Guide to reflect all Level 5 improvements. |
+| **Documentation Update** | Updated [README.md](https://github.com/Rimanshu-Singh/EscrowX/blob/main/README.md), [ARCHITECTURE.md](https://github.com/Rimanshu-Singh/EscrowX/blob/main/architecture.md), and [USER_GUIDE.md](https://github.com/Rimanshu-Singh/EscrowX/blob/main/USER_GUIDE.md) to reflect all Level 5 improvements. |
+
+---
+### 💬 Feedback & Improvements - Level 5 (v1.1) 
+---
+| #  | Name               | Wallet Address         | Feedback                                                                       | Improvement Made                                                               | Git Commit                                                                                          |
+| -- | ------------------ | ---------------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------- |
+| 1  | Rupa Das           | `GDDEMSPP...E23REJ`    | Wallet connection sometimes fails when trying to continue                      | Improved wallet connection checks and added clear connection feedback          | [07f83ec](https://github.com/Rimanshu-Singh/EscrowX/commit/07f83ecf00548257ab3c29f0c1634cc2b3cdd96f) |
+| 2  | MANIK LAL          | `GB5GF6NA...ZFL526`    | Better onboarding tutorial for new users                                       | Added clearer onboarding guidance and improved first-time user experience      | [e116a45](https://github.com/Rimanshu-Singh/EscrowX/commit/e116a459416d95dc120c28902cb6fee4765b4752) |
+| 3  | Srijan bhowmik     | `GAVQE6CK...AQ5V7C6Q`  | Landing page feels basic, make it more SaaS-like                               | Revamped landing page with modern sections and improved visual styling         | [e116a45](https://github.com/Rimanshu-Singh/EscrowX/commit/e116a459416d95dc120c28902cb6fee4765b4752) |
+| 4  | Rani Kundu         | `GCIRDZXU...AL2BWVL`   | I liked everything                                                             | No improvements required based on this feedback                                | —                                                                                                   |
+| 5  | Sreeja Samaddar    | `GCWUUJPX...BB72NBJE`  | Add a proper favicon to improve website branding                               | Added a favicon for better branding and browser tab recognition                | [e116a45](https://github.com/Rimanshu-Singh/EscrowX/commit/e116a459416d95dc120c28902cb6fee4765b4752) |
+| 6  | Reyansh Jain       | `GDCAB4Q6...6B75VM4W`  | Homepage needs more information about how the platform works                   | Added informative sections explaining features, benefits, and escrow workflow  | [f7609b0](https://github.com/Rimanshu-Singh/EscrowX/commit/f7609b0c42dd64295986bb0e8d83efca82775202) |
+| 7  | Swarnali Rani Lodh | `GAH6LDNK...7K6QMWYN`  | Dashboard navbar feels disconnected from the overall website design            | Improved dashboard navbar consistency with the main application interface      |[07f83ec](https://github.com/Rimanshu-Singh/EscrowX/commit/07f83ecf00548257ab3c29f0c1634cc2b3cdd96f) |
+| 8  | Akash Biswas       | `GADWGNTR...USAB7IM6`  | Faster loading times would help                                                | Optimized rendering and improved overall application loading performance       | [d923a03](https://github.com/rimanshupatel/EscrowX/commit/d923a03526852abba16d4f505243766e4368680c) |
+| 9  | Pooja Menon        | `GAS2EAPS...YMRHAJ7Y7` | Wallet status should be clearly visible after connecting successfully          | Added visible wallet connection status and improved connection feedback        | [07f83ec](https://github.com/Rimanshu-Singh/EscrowX/commit/07f83ecf00548257ab3c29f0c1634cc2b3cdd96f) |
+| 10 | Kabir Arora        | `GAYTSAMT...U5XLFDR3`  | Make the dashboard cleaner                                                     | Improved dashboard layout, spacing, and overall visual consistency             | [5460b96](https://github.com/Rimanshu-Singh/EscrowX/commit/5460b96ca874a7b8731023bc621986713946384a) |
+| 11 | Arghya Paul        | `GDU42AEU...UN3IOHPDF` | Much more addictive UI and many different I would like to see. | Enhanced UI polish and refined interactions for a more engaging experience     | [e116a45](https://github.com/Rimanshu-Singh/EscrowX/commit/e116a459416d95dc120c28902cb6fee4765b4752) |
+| 12 | Desai              | `GCQWAFNA...72PXVE4KU` |  onboarding tutorial should to improve                                       | Improved onboarding flow with clearer guidance for new users                   | [d923a03](https://github.com/rimanshupatel/EscrowX/commit/d923a03526852abba16d4f505243766e4368680c) |
+| 13 | Rohan Sen          | `GB44URR3...TOQNEBU5L` | Improve mobile responsiveness                                                  | Improved responsive layouts and optimized the interface for mobile devices     | [73bcb1e](https://github.com/Rimanshu-Singh/EscrowX/commit/73bcb1e9bce7a2720863acbc30fec15d73fd03af) |
+| 14 | Sourav             | `GAJDI3UZ...3IS2NK46`  | Make the dashboard cleaner                                                     | Refined dashboard components, spacing, and visual organization                 | [5460b96](https://github.com/Rimanshu-Singh/EscrowX/commit/5460b96ca874a7b8731023bc621986713946384a) |
+| 15 | Pillai Pao         | `GCCV466V...TF2SWUUW`  | Add a dark mode toggle                                                         | Added dark mode support for a more flexible viewing experience                 | [73bcb1e](https://github.com/Rimanshu-Singh/EscrowX/commit/73bcb1e9bce7a2720863acbc30fec15d73fd03af) |
+| 16 | Tanvi Mishra       | `GBB5NZHP...XU22TZEE`  | Bigger buttons on mobile view                                                  | Improved mobile button sizing for better usability and accessibility           | [73bcb1e](https://github.com/Rimanshu-Singh/EscrowX/commit/73bcb1e9bce7a2720863acbc30fec15d73fd03af) |
+| 17 | Abantika Kundu     | `GC7WKLWF...Z524TYJO`  | Everything is alright                                                          | No improvements required based on this feedback                                | —                                                                                                   |
+| 18 | Kavya Nair         | `GC4QAXTD...BGOQLSLC`  | Would like multi-currency support                                              | Improved currency-ready interface structure for future multi-currency support  | [d923a03](https://github.com/rimanshupatel/EscrowX/commit/d923a03526852abba16d4f505243766e4368680c) |
+| 19 | Banti Bhat         | `GAHTZIIQ...NMHHIHR`   | Improve mobile responsiveness                                                  | Optimized responsive styling and improved usability across mobile screens      | [73bcb1e](https://github.com/Rimanshu-Singh/EscrowX/commit/73bcb1e9bce7a2720863acbc30fec15d73fd03af) |
+| 20 | Hira Chandan       | `GCGUT3ZN...GMU3GV5`   | Better onboarding tutorial for new users                                       | Added improved onboarding guidance and clearer platform navigation             | [e116a45](https://github.com/Rimanshu-Singh/EscrowX/commit/e116a459416d95dc120c28902cb6fee4765b4752) |
+| 21 | Ishan Ray          | `GD6Y2S3C...YMMWMNTQX` | More animations for a premium feel                                             | Added refined animations and smoother transitions across the interface         | [5460b96](https://github.com/Rimanshu-Singh/EscrowX/commit/5460b96ca874a7b8731023bc621986713946384a) |
+| 22 | Aniket             | `GDRZCMPN...I4LWHYAWT` | Improve overall UI polish                                                      | Enhanced visual consistency, component styling, spacing, and user interactions | [73bcb1e](https://github.com/rimanshupatel/EscrowX/commit/73bcb1e9bce7a2720863acbc30fec15d73fd03af) |
+| 23 | Ayantika Kundu     | `GB2LEZTG...ZDUUNUGF`  | Escrow process steps should be easier to understand                            | Updated escrow workflow steps with clearer and simpler explanations            | [96eff35](https://github.com/Rimanshu-Singh/EscrowX/commit/96eff3585cae692f7e0b860a8df36869dac4c101) |
+
+## 👉🏻 For detailed user feedback, reported issues, suggested improvements, and implemented changes, please go through the [Feedback.md](https://github.com/Rimanshu-Singh/EscrowX/blob/main/FEEDBACK.md) file.
+---
+
+# 📈 Improvement Summary
+---
+| Area                     | Improvements Made                                                        |
+| ------------------------ | ------------------------------------------------------------------------ |
+| 🔗 **Wallet Connection** | Improved wallet connection checks, status visibility, and user feedback  |
+| 🚀 **Landing Page**      | Redesigned with a modern SaaS-style layout and informative sections      |
+| 🧭 **Onboarding**        | Added clearer guidance and improved first-time user experience           |
+| 📱 **Mobile Experience** | Improved responsiveness, button sizing, and mobile performance           |
+| 🎨 **UI/UX**             | Enhanced visual consistency, spacing, animations, and overall polish     |
+| 📊 **Dashboard**         | Improved dashboard layout, navbar consistency, and navigation experience |
+| ⚡ **Performance**        | Optimized rendering and reduced unnecessary performance overhead         |
+| 🔐 **Authentication**    | Improved role selection, wallet checks, and role-based navigation        |
+| 💼 **Escrow Flow**       | Simplified escrow process steps for easier understanding                 |
+| 🌐 **Branding**          | Improved platform branding, favicon, footer, and visual identity         |
+
+
+> **Level 5 Submission Note**
+
+EscrowX was successfully deployed on the **Stellar Testnet** and validated through complete end-to-end transaction flows. The application supports the full decentralized escrow lifecycle including escrow creation, funding, work progress tracking, delivery confirmation, approval, dispute resolution, and secure refunds. All smart contract interactions are executed through Soroban and signed directly from the connected Stellar wallet. The latest release also incorporates user-driven improvements from testing, including guided onboarding, enhanced mobile responsiveness, clearer escrow status indicators, and refined UI interactions, resulting in a more intuitive and production-ready decentralized escrow platform.
+
+---
+## 📊 Analytics & Monitoring
+<img width="1854" height="848" alt="image" src="https://github.com/user-attachments/assets/83c91634-fab8-43d2-a9be-7091a8ab6207" />
+
+---
+
+  
+## 🌟 What is EscrowX?
+
+EscrowX is a **Web3 freelance marketplace system** where:
+
+- Clients **MUST** fund escrow before publishing a job
+- Freelancers work only on **funded projects**
+- Funds are **locked inside smart contracts** (not platform wallets)
+- Payment is released **ONLY** after client approval
+
+> 👉 This removes scams, chargebacks, and trust issues in freelancing.
+
+---
+
+## ⚠️ Current Problem (Real World)
+
+Traditional platforms like Fiverr / Upwork:
+
+- Client can cancel after receiving work
+- Freelancer can be scammed
+- Platform controls funds (centralized risk)
+- No real ownership or transparency
+
+---
+
+## 💡 EscrowX Solution
+
+EscrowX solves one of the biggest problems in freelancing: **trust**.
+
+Clients often fear paying before receiving quality work, while freelancers fear completing work without getting paid. EscrowX eliminates this trust gap by locking funds inside a **Soroban Smart Contract** before work begins. The payment remains securely locked on-chain until the client approves the delivery or requests a refund, ensuring a transparent, secure, and decentralized workflow for both parties.
+
+---
+
+## 🧠 Real World Example
+
+> 👉 John hires a designer
+
+| System | Flow | Result |
+|---|---|---|
+| ❌ Old System | John receives logo → refuses payment | Scam |
+| ✅ EscrowX | John funds escrow → locked until approval | Safe |
 
 ---
 
 
-
-# Smart Contract Details
-
-| Property | Value |
-|---|---|
-| **Contract ID** | `CALCCHS44ZJ6U7CFI2NNRIP6IP63XAMNFTGO4RROBGTBF5L7USASFAL7` |
-| **Network** | Stellar Testnet |
-| **Explorer** | https://stellar.expert/explorer/testnet/contract/CALCCHS44ZJ6U7CFI2NNRIP6IP63XAMNFTGO4RROBGTBF5L7USASFAL7 |
-
+# Level 4 Upgrade (v1.0) - Reports
 ---
-
 ### 💬 Feedback & Improvements
 
 | # | Name | Wallet Address | Feedback | Improvement Made | Git Commit |
@@ -134,40 +234,6 @@ Following the user feedback collection, EscrowX received multiple usability, per
 - **Feedback:** General UI smoothness and polish requested
   - **Fix:** Improved transition animations and visual consistency across pages
 
-  
-> **Level 5 Submission Note**
-
-EscrowX was successfully deployed on the **Stellar Testnet** and validated through complete end-to-end transaction flows. The application supports the full decentralized escrow lifecycle including escrow creation, funding, work progress tracking, delivery confirmation, approval, dispute resolution, and secure refunds. All smart contract interactions are executed through Soroban and signed directly from the connected Stellar wallet. The latest release also incorporates user-driven improvements from testing, including guided onboarding, enhanced mobile responsiveness, clearer escrow status indicators, and refined UI interactions, resulting in a more intuitive and production-ready decentralized escrow platform.
-
-## ⚠️ Current Problem (Real World)
-
-Traditional platforms like Fiverr / Upwork:
-
-- Client can cancel after receiving work
-- Freelancer can be scammed
-- Platform controls funds (centralized risk)
-- No real ownership or transparency
-
----
-
-## 💡 EscrowX Solution
-
-EscrowX solves one of the biggest problems in freelancing: **trust**.
-
-Clients often fear paying before receiving quality work, while freelancers fear completing work without getting paid. EscrowX eliminates this trust gap by locking funds inside a **Soroban Smart Contract** before work begins. The payment remains securely locked on-chain until the client approves the delivery or requests a refund, ensuring a transparent, secure, and decentralized workflow for both parties.
-
----
-
-## 🧠 Real World Example
-
-> 👉 John hires a designer
-
-| System | Flow | Result |
-|---|---|---|
-| ❌ Old System | John receives logo → refuses payment | Scam |
-| ✅ EscrowX | John funds escrow → locked until approval | Safe |
-
----
 
 
 
