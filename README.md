@@ -99,6 +99,8 @@ Following the user feedback collection in [Feedback.md](https://github.com/Riman
 
 ---
 ### 💬 Feedback & Improvements - Level 5 (v1.1) 
+🔗 **Google Form:** [User Onboarding Form](https://forms.gle/kt3paMMW7R5Z8n4V8)
+📊 **Response Sheet:** [Response Sheet](https://docs.google.com/spreadsheets/d/1a7P61RaO0p5gYnp3ycYoum8UCzzIL3zNhjPiuz9HAjs/edit?usp=sharing)
 ---
 | #  | Name               | Wallet Address         | Feedback                                                                       | Improvement Made                                                               | Git Commit                                                                                          |
 | -- | ------------------ | ---------------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------- |
@@ -199,70 +201,6 @@ Clients often fear paying before receiving quality work, while freelancers fear 
 
 ---
 
-
-# Level 4 Upgrade (v1.0) - Reports
----
-### 💬 Feedback & Improvements
-
-| # | Name | Wallet Address | Feedback | Improvement Made | Git Commit |
-|---|------|----------------|----------|-----------------|------------|
-| 1 | Rupam Ghosh | `GBPIWK56...C7VJ` | Make the platform beginner-friendly and easier to understand | Added onboarding tooltips, guided walkthrough, and improved first-time user experience | [96eff35](https://github.com/rimanshupatel/EscrowX/commit/96eff3585cae692f7e0b860a8df36869dac4c101) |
-| 2 | Smriti Adhikari | `GADBNX7O...KH5H` | UI has responsiveness issues on mobile devices | Fixed responsive layout issues and optimized the mobile UI | [73bcb1e](https://github.com/rimanshupatel/EscrowX/commit/73bcb1e9bce7a2720863acbc30fec15d73fd03af) |
-| 3 | Reema Singh | `GDGSHBO7...MMXI` | Improve the UI and make interactions smoother | Enhanced UI, refined animations, and improved transition effects | [96eff35](https://github.com/rimanshupatel/EscrowX/commit/96eff3585cae692f7e0b860a8df36869dac4c101) |
-| 4 | Paris | `GDJT3HI5...NJVZKF` | Improve the overall user interface | Polished UI components, spacing, and visual consistency | [96eff35](https://github.com/rimanshupatel/EscrowX/commit/96eff3585cae692f7e0b860a8df36869dac4c101) |
-| 5 | Somenath Gorai | `0xd29c7A...5894` | Overall experience is good | No improvements required based on this feedback |  [96eff35](https://github.com/rimanshupatel/EscrowX/commit/96eff3585cae692f7e0b860a8df36869dac4c101) |
-| 6 | Sumedh Chandanshive | `GBDTN3VS...C5P` | The platform feels slow on mobile devices | Optimized rendering performance and reduced unnecessary re-renders | [96eff35](https://github.com/rimanshupatel/EscrowX/commit/96eff3585cae692f7e0b860a8df36869dac4c101) |
-| 7 | Pritam Mondal | `GATJMD6B...BS3X` | Improve the overall data pipeline and application performance | Refactored and optimized the frontend data pipeline and state management | [d923a03](https://github.com/rimanshupatel/EscrowX/commit/d923a03526852abba16d4f505243766e4368680c) |
-| 8 | Parth Karan | `GCAQNSZQ...G7F` | No major issues found during testing | No improvements required | — |
-| 9 | Ayush Sarkar | `9EkKnoZh...YA6C` | Nothing to improve at the moment | No improvements required | — |
-| 10 | Rudra Pratap Singh | `GBAOLJDF...CGFC` | The platform is ready for use | No improvements required | — |
-| 11 | Rohan Kumar | `GBVC7GUZ...QSUG` | Suggested making the UI even better | Enhanced UI polish, improved visual consistency, and refined user interactions | [96eff35](https://github.com/rimanshupatel/EscrowX/commit/96eff3585cae692f7e0b860a8df36869dac4c101) |
-
----
-
-## 📈✅ Improvement Summary
-
-- **Feedback:** Users wanted a more beginner-friendly experience
-  - **Fix:** Added guided onboarding tooltips and a step-by-step walkthrough for new users
-
-- **Feedback:** Mobile devices experienced lag and layout issues
-  - **Fix:** Optimized rendering pipeline and fixed responsive CSS breakpoints for mobile
-
-- **Feedback:** Users wanted clearer escrow status labels
-  - **Fix:** Updated status badges with descriptive tooltips
-
-- **Feedback:** General UI smoothness and polish requested
-  - **Fix:** Improved transition animations and visual consistency across pages
-
-
-
-
-
-## 👥 June User Onboarding
-
-🔗 **Google Form:** [User Onboarding Form](https://forms.gle/kt3paMMW7R5Z8n4V8)
-📊 **Response Sheet:** [Response Sheet](https://docs.google.com/spreadsheets/d/1wNVI66xNcUv4GB5jwpczFReUv0-vwmFET2adsLgS9VE/edit?usp=sharing)
----
-
-### ✅ Users Onboarded
-
-| # | Name | Email | Wallet Address | Network | Rating |
-|---|------|-------|----------------|---------|--------|
-| 1 | Rupam Ghosh | rupamgh32@gmail.com | `GBPIWK56OE3Z7Q4ZZCHHWRTGKXWA2IOV3DK2HCEAVW53PITZRVZLC7VJ` | Testnet | ⭐ 5/5 |
-| 2 | Smriti Adhikari | adhikarismriti994@gmail.com | `GADBNX7OGXHRHQKGMPVPTVKYWTKPIXNYXILC5DWARHQIYTNWRFVKLH5H` | Testnet | ⭐ 5/5 |
-| 3 | Reema Singh | reemasingh614@gmail.com | `GDGSHBO7VF2E6ZUB2DLGOBBRQUNNLL3V6M7JQEUUT6SEJOTEPAIGLMMX` | Testnet | ⭐ 5/5 |
-| 4 | Paris | kulkarniparis01@gmail.com | `GDJT3HI5KU6CQUTVBV66MS43E2AENCCMTDEJ2TXYMLOJZQSWD3NJVZKF` | Testnet | ⭐ 5/5 |
-| 5 | Somenath Gorai | somu8608@gmail.com | `0xd29c7A9d9C72ff904237C50B8A7F38ddabc55894` | Mainnet | ⭐ 5/5 |
-| 6 | Sumedh Chandanshive | sum3dh@yahoo.com | `GBDTN3VSGWXQNUDDR4T2GRPFAGEL3EHEFYAAZZZGJHNDZ2E6ICF63C5P` | Testnet | ⭐ 4/5 |
-| 7 | Pritam Mondal | codewithpritam29@gmail.com | `GATJMD6BGNK4FQYNFWB354N7RP4XHA2R74GNSYM472ALNLJFX7NXBS3X` | Testnet | ⭐ 5/5 |
-| 8 | Parth Karan | parthdhimman@gmail.com | `GCAQNSZQVI2PYYHYI4O5NK655O4ZZJWQGIHNEWYWLJXGUOOAW6LQRG7F` | Testnet | ⭐ 5/5 |
-| 9 | Ayush Sarkar | ayushsarkarfkt@gmail.com | `9EkKnoZhcAGejA2gWeNsDAkWM531UcBD9fyiPzMsYA6C` | Testnet | ⭐ 5/5 |
-| 10 | Rudra Pratap Singh | iitianrps24@gmail.com | `GBAOLJDF6UDRASQEAY2NEW2D3US3VWZFBJFVIKRWI3KNW6JE35OXCGFC` | Testnet | ⭐ 5/5 |
-| 11 | Rohan Kumar | 123131rkorohan@gmail.com | `GBVC7GUZZDXSVMJ6VFHRGMDDDZQJTVSF4WKKNHHLGOSM2QJJVAHEQSUG` | Testnet | ⭐ 5/5 |
-
-> **Total Users Onboarded:** 11 &nbsp;|&nbsp; **Average Rating:** ⭐ 4.9/5 &nbsp;|&nbsp; **Recommend Rate:** 100%
-
----
 
 
 | Contract Function | Frontend Call | File |
