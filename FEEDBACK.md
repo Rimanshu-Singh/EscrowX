@@ -3,7 +3,7 @@
 ## Feedback Collection Summary
 
 **Project:** EscrowX - Decentralized Freelance Escrow Marketplace
-**collection period:** may - july 2026 
+**collection period:** july - Aug 2026 
 **Network:** Stellar Testnet
 **Total Responses:** 48 users
 **Method:** Google Forms + Direct Platform Testing
