@@ -98,10 +98,49 @@ Following the user feedback collection in [Feedback.md](https://github.com/Riman
 | **Documentation Update** | Updated [README.md](https://github.com/Rimanshu-Singh/EscrowX/blob/main/README.md), [ARCHITECTURE.md](https://github.com/Rimanshu-Singh/EscrowX/blob/main/architecture.md), and [USER_GUIDE.md](https://github.com/Rimanshu-Singh/EscrowX/blob/main/USER_GUIDE.md) to reflect all Level 5 improvements. |
 
 ---
-### 💬 Feedback & Improvements - Level 5 (v1.1) 
+# 💬 Feedback & Improvements - Level 5 (v1.1) 
+
+
 🔗 **Google Form:** [User Onboarding Form](https://forms.gle/kt3paMMW7R5Z8n4V8)
 📊 **Response Sheet:** [Response Sheet](https://docs.google.com/spreadsheets/d/1wNVI66xNcUv4GB5jwpczFReUv0-vwmFET2adsLgS9VE/edit?usp=sharing)
 ---
+EscrowX was tested by **50 users on the Stellar Testnet**, helping us identify usability, design, wallet, performance, and onboarding improvements. We actively iterated on the platform based on this feedback.
+
+### Selected Feedback & Improvements
+
+| User Feedback                                                                    | Improvement Made                                                                      | Git Commit                                                                                           |
+| :------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------ | :--------------------------------------------------------------------------------------------------- |
+| *"Sometimes the wallet connection fails when proceeding to the next step."*      | Improved wallet connection checks, wallet status visibility, and connection feedback. | [07f83ec](https://github.com/Rimanshu-Singh/EscrowX/commit/07f83ecf00548257ab3c29f0c1634cc2b3cdd96f) |
+| *"A more detailed onboarding tutorial would be helpful."*                        | Improved onboarding guidance and made the first-time user flow easier to understand.  | [e116a45](https://github.com/Rimanshu-Singh/EscrowX/commit/e116a459416d95dc120c28902cb6fee4765b4752) |
+| *"The landing page feels a bit basic; making it more SaaS-like would be great."* | Redesigned the landing experience with more polished SaaS-style sections and visuals. | [e116a45](https://github.com/Rimanshu-Singh/EscrowX/commit/e116a459416d95dc120c28902cb6fee4765b4752) |
+| *"Improving the loading times would make a big difference."*                     | Optimized rendering and improved overall application performance.                     | [d923a03](https://github.com/rimanshupatel/EscrowX/commit/d923a03526852abba16d4f505243766e4368680c)  |
+| *"A cleaner dashboard layout would be nice."*                                    | Refined dashboard layout, spacing, component organization, and interactions.          | [5460b96](https://github.com/Rimanshu-Singh/EscrowX/commit/5460b96ca874a7b8731023bc621986713946384a) |
+| *"The mobile view could be more responsive."*                                    | Improved responsive layouts, mobile controls, spacing, and overall mobile usability.  | [73bcb1e](https://github.com/Rimanshu-Singh/EscrowX/commit/73bcb1e9bce7a2720863acbc30fec15d73fd03af) |
+| *"The steps for the escrow process could be explained more clearly."*            | Simplified escrow workflow explanations and made each step easier to follow.          | [96eff35](https://github.com/Rimanshu-Singh/EscrowX/commit/96eff3585cae692f7e0b860a8df36869dac4c101) |
+
+> 🔗 **Full User Feedback:** View all Testnet feedback responses and wallet addresses in the [EscrowX Feedback Spreadsheet](https://docs.google.com/spreadsheets/d/1wNVI66xNcUv4GB5jwpczFReUv0-vwmFET2adsLgS9VE/edit?gid=555170298).
+
+# 📈 Improvement Summary
+---
+| Area                     | Improvements Made                                                        |
+| ------------------------ | ------------------------------------------------------------------------ |
+| 🔗 **Wallet Connection** | Improved wallet connection checks, status visibility, and user feedback  |
+| 🚀 **Landing Page**      | Redesigned with a modern SaaS-style layout and informative sections      |
+| 🧭 **Onboarding**        | Added clearer guidance and improved first-time user experience           |
+| 📱 **Mobile Experience** | Improved responsiveness, button sizing, and mobile performance           |
+| 🎨 **UI/UX**             | Enhanced visual consistency, spacing, animations, and overall polish     |
+| 📊 **Dashboard**         | Improved dashboard layout, navbar consistency, and navigation experience |
+| ⚡ **Performance**        | Optimized rendering and reduced unnecessary performance overhead         |
+| 🔐 **Authentication**    | Improved role selection, wallet checks, and role-based navigation        |
+| 💼 **Escrow Flow**       | Simplified escrow process steps for easier understanding                 |
+| 🌐 **Branding**          | Improved platform branding, favicon, footer, and visual identity         |
+
+
+> **Level 5 Submission Note**
+
+EscrowX was successfully deployed on the **Stellar Testnet** and validated through complete end-to-end transaction flows. The application supports the full decentralized escrow lifecycle including escrow creation, funding, work progress tracking, delivery confirmation, approval, dispute resolution, and secure refunds. All smart contract interactions are executed through Soroban and signed directly from the connected Stellar wallet. The latest release also incorporates user-driven improvements from testing, including guided onboarding, enhanced mobile responsiveness, clearer escrow status indicators, and refined UI interactions, resulting in a more intuitive and production-ready decentralized escrow platform.
+
+
 | #  | Name               | Wallet Address         | Feedback                                                                       | Improvement Made                                                               | Git Commit                                                                                          |
 | -- | ------------------ | ---------------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------- |
 | 1  | Rupa Das           | `GDDEMSPP...E23REJ`    | Wallet connection sometimes fails when trying to continue                      | Improved wallet connection checks and added clear connection feedback          | [07f83ec](https://github.com/Rimanshu-Singh/EscrowX/commit/07f83ecf00548257ab3c29f0c1634cc2b3cdd96f) |
@@ -131,25 +170,6 @@ Following the user feedback collection in [Feedback.md](https://github.com/Riman
 ## 👉🏻 For detailed user feedback, reported issues, suggested improvements, and implemented changes, please go through the [Feedback.md](https://github.com/Rimanshu-Singh/EscrowX/blob/main/FEEDBACK.md) file.
 ---
 
-# 📈 Improvement Summary
----
-| Area                     | Improvements Made                                                        |
-| ------------------------ | ------------------------------------------------------------------------ |
-| 🔗 **Wallet Connection** | Improved wallet connection checks, status visibility, and user feedback  |
-| 🚀 **Landing Page**      | Redesigned with a modern SaaS-style layout and informative sections      |
-| 🧭 **Onboarding**        | Added clearer guidance and improved first-time user experience           |
-| 📱 **Mobile Experience** | Improved responsiveness, button sizing, and mobile performance           |
-| 🎨 **UI/UX**             | Enhanced visual consistency, spacing, animations, and overall polish     |
-| 📊 **Dashboard**         | Improved dashboard layout, navbar consistency, and navigation experience |
-| ⚡ **Performance**        | Optimized rendering and reduced unnecessary performance overhead         |
-| 🔐 **Authentication**    | Improved role selection, wallet checks, and role-based navigation        |
-| 💼 **Escrow Flow**       | Simplified escrow process steps for easier understanding                 |
-| 🌐 **Branding**          | Improved platform branding, favicon, footer, and visual identity         |
-
-
-> **Level 5 Submission Note**
-
-EscrowX was successfully deployed on the **Stellar Testnet** and validated through complete end-to-end transaction flows. The application supports the full decentralized escrow lifecycle including escrow creation, funding, work progress tracking, delivery confirmation, approval, dispute resolution, and secure refunds. All smart contract interactions are executed through Soroban and signed directly from the connected Stellar wallet. The latest release also incorporates user-driven improvements from testing, including guided onboarding, enhanced mobile responsiveness, clearer escrow status indicators, and refined UI interactions, resulting in a more intuitive and production-ready decentralized escrow platform.
 
 ---
 ## 📊 Analytics & Monitoring
