@@ -39,7 +39,6 @@ https://drive.google.com/file/d/1pHkUh87o4vdMT-Epk5SiSPdH6K7WndQZ/view?usp=shari
 |----------|------|
 | **Live Demo** | [https://escrow-x-one.vercel.app/](https://escrow-x-one.vercel.app/) |
 | **Demo Video** | [Watch Demo](https://drive.google.com/file/d/1pHkUh87o4vdMT-Epk5SiSPdH6K7WndQZ/view?usp=sharing) |
-| **Smart Contract** | [View on Stellar Expert](https://stellar.expert/explorer/testnet/contract/CALCCHS44ZJ6U7CFI2NNRIP6IP63XAMNFTGO4RROBGTBF5L7USASFAL7) |
 | **Monitoring Dashboard** | [/monitoring ](https://escrow-x-one.vercel.app/dashboard) |
 | **Analytics** | [/Analytics ](https://github.com/Rimanshu-Singh/EscrowX/edit/main/README.md#-analytics--monitoring) |
 | **User Testing & Feedback** | [50+ verified users Excel Sheet Data](https://docs.google.com/spreadsheets/d/1wNVI66xNcUv4GB5jwpczFReUv0-vwmFET2adsLgS9VE/edit?usp=sharing) |
