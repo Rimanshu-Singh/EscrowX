@@ -58,15 +58,6 @@ https://drive.google.com/file/d/1pHkUh87o4vdMT-Epk5SiSPdH6K7WndQZ/view?usp=shari
 | [SECURITY_CHECKLIST.md](./SECURITY_CHECKLIST.md) | Security audit checklist |
 
 ---
-# Smart Contract Details
-
-| Property | Value |
-|---|---|
-| **Contract ID** | `CALCCHS44ZJ6U7CFI2NNRIP6IP63XAMNFTGO4RROBGTBF5L7USASFAL7` |
-| **Network** | Stellar Testnet |
-| **Explorer** | https://stellar.expert/explorer/testnet/contract/CALCCHS44ZJ6U7CFI2NNRIP6IP63XAMNFTGO4RROBGTBF5L7USASFAL7 |
-
----
 # Level 5 Submission Checklist 
 
 | Requirement | Status | Evidence |
