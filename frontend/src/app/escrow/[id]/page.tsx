@@ -9,6 +9,8 @@ import { useAuthStore } from '../../../store/authStore';
 import { escrowService, disputeService, reviewService, escrowUpdateService } from '../../../services/api';
 import { FundEscrowModal } from '../../../components/escrow/FundEscrowModal';
 import { useEscrowContract } from '../../../hooks/useEscrowContract';
+import { EscrowGuidance } from '../../../components/shared/EscrowGuidance';
+import { InfoTooltip } from '../../../components/shared/InfoTooltip';
 
 const TIMELINE_STEPS = [
   { key: 'CREATED', label: 'Created' },
@@ -302,6 +304,7 @@ export default function EscrowDetailPage() {
           <div className="space-y-1.5">
             <div className="flex items-center gap-2">
               <span className="font-mono text-[9px] text-gray-400">Contract ID: {escrow.contractId}</span>
+              <InfoTooltip label="Wallet">Your wallet signs escrow transactions, but funds only move when you approve an action.</InfoTooltip>
               <button onClick={handleCopyId} className="p-1 rounded hover:bg-slate-50 transition-colors">
                 <Copy className="w-3 h-3 text-gray-400" />
               </button>
@@ -316,13 +319,19 @@ export default function EscrowDetailPage() {
               }`}>
                 {escrow.status}
               </span>
+              <InfoTooltip label="Transaction Status">Shows where this escrow is in the funding, work, review, release, refund, or dispute flow.</InfoTooltip>
             </div>
           </div>
           <div className="text-right">
             <p className="font-mono text-xl font-black text-[#0F172A]">{escrow.amount} {escrow.tokenType}</p>
-            <p className="text-[10px] text-[#64748B] font-medium uppercase mt-0.5">Stellar locked contract</p>
+            <div className="mt-0.5 flex items-center justify-end gap-1">
+              <p className="text-[10px] text-[#64748B] font-medium uppercase">Stellar locked contract</p>
+              <InfoTooltip label="Escrow">Funds are securely held until the agreed milestone or work is approved.</InfoTooltip>
+            </div>
           </div>
         </div>
+
+        <EscrowGuidance status={escrow.status} />
 
         {/* Workspace Layout Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">

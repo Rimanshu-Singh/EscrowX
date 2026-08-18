@@ -1,6 +1,7 @@
 import { Server, Socket } from 'socket.io';
 import { Message } from '../models/Message';
 import { Conversation } from '../models/Conversation';
+import { env } from '../config/env';
 
 let ioInstance: Server | null = null;
 const userSockets = new Map<string, string>(); // Maps walletAddress -> socket.id
@@ -8,7 +9,7 @@ const userSockets = new Map<string, string>(); // Maps walletAddress -> socket.i
 export function initSocket(server: any) {
   ioInstance = new Server(server, {
     cors: {
-      origin: '*',
+      origin: env.CORS_ORIGIN,
       methods: ['GET', 'POST']
     }
   });

@@ -4,8 +4,9 @@ import jwt from 'jsonwebtoken';
 import { User, Wallet } from '../models/User';
 import { Reputation } from '../models/Reputation';
 import { verifyStellarSignature } from '../utils/stellarAuth';
+import { env } from '../config/env';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'escrowx_jwt_secret_key_12345';
+const JWT_SECRET = env.JWT_SECRET;
 
 // ==================================================
 // New REST APIs for Hybrid Authentication System

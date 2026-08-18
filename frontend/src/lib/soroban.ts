@@ -11,12 +11,10 @@ import {
   Account,
 } from '@stellar/stellar-sdk';
 import { STELLAR_CONFIG } from './stellar.config';
+import { PUBLIC_ENV } from './env';
 import { OnChainEscrowStatus } from './types';
 
-/**
- * The native XLM token contract address on Stellar Testnet.
- */
-export const XLM_TOKEN_ADDRESS = 'CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC';
+export const XLM_TOKEN_ADDRESS = PUBLIC_ENV.XLM_TOKEN_ADDRESS;
 
 /**
  * Number of stroops in 1 XLM (10,000,000).

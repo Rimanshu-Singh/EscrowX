@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../store/authStore';
 import { useThemeStore } from '../../store/themeStore';
-import { LogOut, LayoutDashboard, Calendar, Menu, Sun, Moon } from 'lucide-react';
+import { LogOut, Calendar, Menu, Sun, Moon, BookOpen } from 'lucide-react';
 import { Sidebar } from '../layout/Sidebar';
+import { OnboardingGuide, openOnboardingGuide } from '../shared/OnboardingGuide';
 
 interface DashboardLayoutProps {
   children?: React.ReactNode;
@@ -86,6 +87,15 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
 
             {/* Header right: Wallet address connected beside Testnet badge */}
             <div className="flex items-center gap-3">
+              <button
+                onClick={openOnboardingGuide}
+                title="Open EscrowX guide"
+                className="inline-flex items-center gap-1.5 rounded-xl bg-surface border border-border px-2.5 py-2 text-xs font-bold text-text-secondary transition-all hover:bg-surface-elevated hover:text-text-primary"
+              >
+                <BookOpen size={16} />
+                <span className="hidden lg:inline">Learn</span>
+              </button>
+
               {walletAddress && (
                 <div className="relative">
                   <button
@@ -170,6 +180,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
           </div>
         </div>
       </div>
+      <OnboardingGuide />
     </div>
   );
 };

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Copy, ExternalLink, Check } from 'lucide-react';
 import { truncateHash, copyToClipboard } from '@/lib/utils';
 import { cn } from '@/lib/utils';
+import { stellarExplorerUrl } from '@/lib/env';
 
 interface TransactionHashProps {
   hash: string;
@@ -22,7 +23,7 @@ export function TransactionHash({ hash, label, explorerUrl, chars = 8, className
     setTimeout(() => setCopied(false), 1500);
   };
 
-  const stellarExplorer = explorerUrl || `https://stellar.expert/explorer/testnet/tx/${hash}`;
+  const stellarExplorer = explorerUrl || stellarExplorerUrl(`tx/${hash}`);
 
   return (
     <div className={cn('inline-flex flex-col gap-0.5', className)}>

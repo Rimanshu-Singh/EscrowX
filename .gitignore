@@ -2,3 +2,26 @@ progress-tracker.md
 Task.md
 Task-progress.md
 bug-report.md
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.production.local
+.env.test.local
+
+frontend/.env
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.production.local
+frontend/.env.test.local
+
+backend/.env
+backend/.env.local
+backend/.env.development.local
+backend/.env.production.local
+backend/.env.test.local
+
+!.env.example
+!frontend/.env.example
+!backend/.env.example

@@ -27,6 +27,8 @@ import { deliveryService } from '../services/api';
 import { useAuthStore } from '../store/authStore';
 import { useEscrowContract } from '../hooks/useEscrowContract';
 import { sorobanClient } from '../lib/soroban';
+import { EscrowGuidance } from '../components/shared/EscrowGuidance';
+import { InfoTooltip } from '../components/shared/InfoTooltip';
 
 export default function DeliveryPage() {
   const { id } = useParams<{ id: string }>();
@@ -447,14 +449,19 @@ export default function DeliveryPage() {
 
           <div className="flex flex-col items-end gap-2 text-right">
             <p className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">Milestone Value</p>
-            <p className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400 font-mono">
-              {project?.budget || '0'} XLM
-            </p>
+            <div className="flex items-center justify-end gap-1.5">
+              <p className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400 font-mono">
+                {project?.budget || '0'} XLM
+              </p>
+              <InfoTooltip label="Milestone">A defined stage of work that can be submitted and approved separately.</InfoTooltip>
+            </div>
             {project?.deliveryDays && (
               <span className="text-[10px] text-slate-400 font-semibold">Target: {project.deliveryDays} Days limit</span>
             )}
           </div>
         </div>
+
+        <EscrowGuidance status={onChainStatus && onChainStatus !== 'NOT_FOUND' ? onChainStatus : delivery.status} />
 
         {/* 2-COLUMN VIEW WORKSPACE */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
@@ -886,7 +893,10 @@ export default function DeliveryPage() {
 
             {/* Workflow Control actions panel */}
             <div className="bg-white border border-[#E4E8F0] rounded-2xl p-5 shadow-sm space-y-4">
-              <h3 className="text-xs font-black uppercase tracking-wider text-slate-400">Escrow Controls</h3>
+              <div className="flex items-center gap-1.5">
+                <h3 className="text-xs font-black uppercase tracking-wider text-slate-400">Escrow Controls</h3>
+                <InfoTooltip label="Fund Escrow">Deposits the agreed amount into the smart contract before work begins.</InfoTooltip>
+              </div>
               
               <div className="space-y-2.5">
                 {/* FREELANCER ACTION: Submit delivery */}
@@ -973,7 +983,10 @@ export default function DeliveryPage() {
 
             {/* Smart contract status tracker details */}
             <div className="bg-[#FAF9FF] border border-[#7C3AED]/10 rounded-2xl p-4 text-[10.5px] text-slate-500 space-y-2">
-              <h4 className="font-bold text-[#7C3AED] uppercase tracking-wider">Vault Smart Controls</h4>
+              <div className="flex items-center gap-1.5">
+                <h4 className="font-bold text-[#7C3AED] uppercase tracking-wider">Vault Smart Controls</h4>
+                <InfoTooltip label="Network">EscrowX uses the configured Stellar network to submit and confirm wallet-signed transactions.</InfoTooltip>
+              </div>
               <p className="leading-relaxed">
                 EscrowX delivery vault separates asset preview links from secure deliverable downloads. The final deliverables decrypt on the client side only after contract signature release.
               </p>

@@ -10,6 +10,8 @@ import { AppLayout } from '../../components/layout/AppLayout';
 import { useAuthStore } from '../../store/authStore';
 import { useSocket } from '../../hooks/useSocket';
 import { jobService, escrowService, disputeService, reviewService, proposalService, deliveryService } from '../../services/api';
+import { stellarExplorerUrl } from '../../lib/env';
+import { InfoTooltip } from '../../components/shared/InfoTooltip';
 
 interface DashboardPageProps {
   tab?: 'overview' | 'jobs' | 'escrows' | 'payments' | 'reviews' | 'settings' | 'disputes' | 'applications';
@@ -441,7 +443,17 @@ export default function DashboardPage({ tab: initialTab = 'overview' }: Dashboar
                     <Link to="/jobs" className="text-xs text-[#5B6BF8] font-semibold hover:underline">Browse Jobs →</Link>
                   </div>
                   {escrows.filter(e => ['FUNDED', 'IN_PROGRESS', 'DELIVERED', 'UNDER_REVIEW', 'DISPUTED'].includes(e.status)).length === 0
-                    ? <p className="text-xs text-gray-400 italic">No active delivery jobs. Browse open projects to apply.</p>
+                    ? (
+                      <div className="rounded-[12px] border border-dashed border-[#E5E7EB] bg-[#FAFAFA] p-5 text-center">
+                        <p className="text-sm font-bold text-[#0F172A]">No active work yet</p>
+                        <p className="mx-auto mt-1 max-w-sm text-xs leading-relaxed text-gray-500">
+                          Apply to a project or wait for your selected contract to begin. Funded milestones will appear here.
+                        </p>
+                        <Link to="/marketplace" className="mt-4 inline-flex items-center justify-center gap-1.5 rounded-[8px] bg-[#5B6BF8] px-4 py-2 text-xs font-bold text-white">
+                          Browse Projects
+                        </Link>
+                      </div>
+                    )
                     : escrows.filter(e => ['FUNDED', 'IN_PROGRESS', 'DELIVERED', 'UNDER_REVIEW', 'DISPUTED'].includes(e.status)).map(e => {
                         const progress = (() => {
                           switch (e.status) {
@@ -627,8 +639,8 @@ export default function DashboardPage({ tab: initialTab = 'overview' }: Dashboar
                   ? (
                     <div className="text-center py-16 bg-white border border-dashed border-[#E5E7EB] rounded-[16px]">
                       <Briefcase className="w-10 h-10 text-gray-300 mx-auto mb-3" />
-                      <p className="text-sm font-bold text-gray-400">No jobs yet</p>
-                      <p className="text-xs text-gray-400 mt-1">Create your first job posting to attract freelancers.</p>
+                      <p className="text-sm font-bold text-[#0F172A]">No jobs yet</p>
+                      <p className="text-xs text-gray-500 mt-1">Create your first project brief so freelancers know what to apply for.</p>
                       <button onClick={openNewJobForm} className="mt-4 px-4 py-2 rounded-[8px] bg-[#5B6BF8] text-white text-xs font-bold">Post a Job</button>
                     </div>
                   )
@@ -784,13 +796,22 @@ export default function DashboardPage({ tab: initialTab = 'overview' }: Dashboar
         {/* ============ ESCROWS TAB ============ */}
         {activeTab === 'escrows' && (
           <div className="space-y-4">
-            <h3 className="text-sm font-bold text-[#0F172A]">{user.role === 'FREELANCER' ? 'My Active Contracts' : 'My Escrow Contracts'}</h3>
+            <div className="flex items-center gap-1.5">
+              <h3 className="text-sm font-bold text-[#0F172A]">{user.role === 'FREELANCER' ? 'My Active Contracts' : 'My Escrow Contracts'}</h3>
+              <InfoTooltip label="Escrow">Funds are securely held until the agreed milestone or work is approved.</InfoTooltip>
+            </div>
             {escrows.length === 0
               ? (
                 <div className="text-center py-16 bg-white border border-dashed border-[#E5E7EB] rounded-[16px]">
                   <Shield className="w-10 h-10 text-gray-300 mx-auto mb-3" />
-                  <p className="text-sm font-bold text-gray-400">No escrow contracts yet</p>
-                  {user.role === 'CLIENT' && <Link to="/escrow/new" className="mt-4 inline-block px-4 py-2 rounded-[8px] bg-[#5B6BF8] text-white text-xs font-bold">Create Escrow</Link>}
+                  <p className="text-sm font-bold text-[#0F172A]">{user.role === 'FREELANCER' ? 'No active work yet' : 'No contracts yet'}</p>
+                  <p className="mx-auto mt-1 max-w-sm text-xs leading-relaxed text-gray-500">
+                    {user.role === 'FREELANCER'
+                      ? 'Apply to a project or wait for your selected contract to begin.'
+                      : 'Create your first escrow contract or explore available projects to get started.'}
+                  </p>
+                  {user.role === 'CLIENT' && <Link to="/escrow/new" className="mt-4 inline-block px-4 py-2 rounded-[8px] bg-[#5B6BF8] text-white text-xs font-bold">Create Contract</Link>}
+                  {user.role === 'FREELANCER' && <Link to="/marketplace" className="mt-4 inline-block px-4 py-2 rounded-[8px] bg-[#5B6BF8] text-white text-xs font-bold">Explore Projects</Link>}
                 </div>
               )
               : (
@@ -828,8 +849,8 @@ export default function DashboardPage({ tab: initialTab = 'overview' }: Dashboar
               projectTransactions.length === 0 ? (
                 <div className="text-center py-16 bg-white border border-dashed border-[#E5E7EB] rounded-[16px]">
                   <CreditCard className="w-10 h-10 text-gray-300 mx-auto mb-3" />
-                  <p className="text-sm font-bold text-gray-400">No payment history yet</p>
-                  <p className="text-xs text-gray-400 mt-1">Once you fund an escrow contract, transactions will appear here.</p>
+                  <p className="text-sm font-bold text-[#0F172A]">No payment history yet</p>
+                  <p className="text-xs text-gray-500 mt-1">Fund your first escrow contract to create a transaction record.</p>
                 </div>
               ) : (
                 <div className="space-y-4">
@@ -895,8 +916,8 @@ export default function DashboardPage({ tab: initialTab = 'overview' }: Dashboar
               deliveries.filter(d => d.status === 'approved').length === 0 ? (
                 <div className="text-center py-16 bg-white border border-dashed border-[#E5E7EB] rounded-[16px]">
                   <CreditCard className="w-10 h-10 text-gray-300 mx-auto mb-3" />
-                  <p className="text-sm font-bold text-gray-400">No earnings history yet</p>
-                  <p className="text-xs text-gray-400 mt-1">Once your deliveries are approved, earnings will appear here.</p>
+                  <p className="text-sm font-bold text-[#0F172A]">No earnings history yet</p>
+                  <p className="mx-auto mt-1 max-w-sm text-xs leading-relaxed text-gray-500">Approved milestone payments will appear here after clients review and release funds.</p>
                 </div>
               ) : (
                 <div className="space-y-4">
@@ -1107,7 +1128,7 @@ export default function DashboardPage({ tab: initialTab = 'overview' }: Dashboar
                 <div className="flex justify-between border-b border-slate-50 pb-2">
                   <span className="text-slate-400 font-medium">Stellar Tx Hash:</span>
                   <a 
-                    href={`https://stellar.expert/explorer/testnet/tx/${selectedTx.transactionHash}`}
+                    href={stellarExplorerUrl(`tx/${selectedTx.transactionHash}`)}
                     target="_blank"
                     rel="noreferrer"
                     className="font-mono text-[#7C3AED] hover:underline flex items-center gap-1 shrink-0"

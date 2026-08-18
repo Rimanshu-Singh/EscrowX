@@ -42,9 +42,9 @@ export const EscrowTable: React.FC<EscrowTableProps> = ({
         <div className="p-4 rounded-full bg-[#F8F9FB] text-[#9CA3AF] mb-4">
           <Shield size={48} className="stroke-[1.5]" />
         </div>
-        <h4 className="text-slate-800 font-medium mb-1">No Escrows Found</h4>
+        <h4 className="text-slate-800 font-medium mb-1">No contracts yet</h4>
         <p className="text-xs text-[#9CA3AF] max-w-xs leading-relaxed">
-          Create your first smart contract-backed escrow to start working securely on EscrowX.
+          Create your first escrow contract or explore available projects to get started.
         </p>
       </div>
     );

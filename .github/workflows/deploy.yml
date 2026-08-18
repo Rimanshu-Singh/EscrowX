@@ -93,7 +93,16 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          VITE_CONTRACT_ID: ${{ secrets.VITE_CONTRACT_ID || 'placeholder_for_ci' }}
+          VITE_PUBLIC_API_URL: http://localhost:5000
+          VITE_PUBLIC_SOCKET_URL: http://localhost:5000
+          VITE_PUBLIC_NETWORK_PASSPHRASE: Test SDF Network ; September 2015
+          VITE_PUBLIC_HORIZON_URL: https://horizon-testnet.stellar.org
+          VITE_PUBLIC_RPC_URL: https://soroban-testnet.stellar.org
+          VITE_PUBLIC_CONTRACT_ID: CBTBAIO245KOQTIWBY57FYEJ7B3LC5ALB344FMW4CQMTWIDPC6GHT225
+          VITE_PUBLIC_ESCROWX_CONTRACT_ID: CALCCHS44ZJ6U7CFI2NNRIP6IP63XAMNFTGO4RROBGTBF5L7USASFAL7
+          VITE_PUBLIC_XLM_TOKEN_ADDRESS: CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC
+          VITE_PUBLIC_NETWORK: TESTNET
+          VITE_PUBLIC_STELLAR_EXPERT_BASE_URL: https://stellar.expert/explorer/testnet
 
   # ─────────────────────────────────────────
   # JOB 3: Deploy Frontend to Vercel

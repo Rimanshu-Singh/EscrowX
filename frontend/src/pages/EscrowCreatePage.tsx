@@ -27,6 +27,7 @@ import { DashboardLayout } from '../components/dashboard/DashboardLayout';
 import { escrowService } from '../services/api';
 import { useAuthStore } from '../store/authStore';
 import { STELLAR_CONFIG } from '../lib/stellar.config';
+import { stellarExplorerUrl } from '../lib/env';
 import { sorobanClient } from '../lib/soroban';
 
 export default function EscrowCreatePage() {
@@ -563,7 +564,7 @@ export default function EscrowCreatePage() {
                         </svg>
                       </button>
                       <a
-                        href={`https://stellar.expert/explorer/testnet/tx/${successData.transactionHash}`}
+                        href={stellarExplorerUrl(`tx/${successData.transactionHash}`)}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-[#7C3AED] hover:text-[#6D28D9] transition-colors"
@@ -679,7 +680,7 @@ export default function EscrowCreatePage() {
               <p className="text-center text-[10px] text-slate-400">
                 Verify on-chain →{' '}
                 <a
-                  href={`https://stellar.expert/explorer/testnet/tx/${successData.transactionHash}`}
+                  href={stellarExplorerUrl(`tx/${successData.transactionHash}`)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-[#7C3AED] font-bold hover:underline"

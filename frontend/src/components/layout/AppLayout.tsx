@@ -2,9 +2,10 @@
 
 import { ReactNode, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Bell, Plus, Menu, Sun, Moon } from 'lucide-react';
+import { Bell, Plus, Menu, Sun, Moon, BookOpen } from 'lucide-react';
 import { Sidebar } from './Sidebar';
 import { useThemeStore } from '@/store/themeStore';
+import { OnboardingGuide, openOnboardingGuide } from '@/components/shared/OnboardingGuide';
 
 interface AppLayoutProps {
   children: ReactNode;
@@ -49,6 +50,15 @@ export function AppLayout({ children, title, showNewEscrow = true }: AppLayoutPr
             <div className="flex items-center gap-3">
               {/* Theme Toggle Button */}
               <button
+                onClick={openOnboardingGuide}
+                title="Open EscrowX guide"
+                className="inline-flex items-center gap-1.5 rounded-[8px] px-2.5 py-2 text-xs font-bold text-text-secondary transition-all hover:bg-surface-elevated hover:text-text-primary"
+              >
+                <BookOpen className="w-4 h-4" />
+                <span className="hidden lg:inline">Learn</span>
+              </button>
+
+              <button
                 onClick={toggleTheme}
                 title={`Switch to ${theme === 'light' ? 'Dark' : 'Light'} Mode`}
                 className="p-2 rounded-[8px] hover:bg-surface-elevated text-text-secondary hover:text-text-primary transition-all cursor-pointer"
@@ -79,6 +89,7 @@ export function AppLayout({ children, title, showNewEscrow = true }: AppLayoutPr
           </div>
         </main>
       </div>
+      <OnboardingGuide />
     </div>
   );
 }

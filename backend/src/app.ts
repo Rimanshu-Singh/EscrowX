@@ -3,8 +3,8 @@ import http from 'http';
 import cors from 'cors';
 import helmet from 'helmet';
 import path from 'path';
-import dotenv from 'dotenv';
 
+import { env } from './config/env';
 import { connectDB } from './config/db';
 import { initSocket } from './sockets/chatSocket';
 
@@ -21,9 +21,6 @@ import proposalRoutes from './routes/proposalRoutes';
 import profileRoutes from './routes/profileRoutes';
 import deliveryRoutes from './routes/deliveryRoutes';
 
-// Load environment variables
-dotenv.config();
-
 const app = express();
 const server = http.createServer(app);
 
@@ -34,7 +31,7 @@ connectDB();
 initSocket(server);
 
 // Middleware configurations
-app.use(cors({ origin: '*' }));
+app.use(cors({ origin: env.CORS_ORIGIN }));
 app.use(helmet({
   crossOriginResourcePolicy: false, // allow serving static uploads
 }));
@@ -69,7 +66,7 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
   res.status(500).json({ error: 'Internal Server Error' });
 });
 
-const PORT = process.env.PORT || 5000;
+const PORT = env.PORT;
 server.listen(PORT, () => {
   console.log(`==================================================`);
   console.log(`🚀 EscrowX Web3 Server started on port ${PORT}`);

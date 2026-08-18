@@ -2,6 +2,7 @@ import { useEffect, useRef, useCallback } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { useAuthStore } from '../store/authStore';
 import { useChatStore } from '../store/chatStore';
+import { PUBLIC_ENV } from '../lib/env';
 
 let globalSocket: Socket | null = null;
 
@@ -20,7 +21,7 @@ export function useSocket() {
     }
 
     if (!globalSocket) {
-      globalSocket = io('http://localhost:5000', {
+      globalSocket = io(PUBLIC_ENV.SOCKET_URL, {
         transports: ['websocket'],
       });
       

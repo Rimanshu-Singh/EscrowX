@@ -3,6 +3,7 @@ import { signTransaction } from '@stellar/freighter-api';
 import { Horizon, TransactionBuilder, Networks } from '@stellar/stellar-sdk';
 import axios from 'axios';
 import { STELLAR_CONFIG } from '../lib/stellar.config';
+import { API_BASE_URL } from '../lib/env';
 import { sorobanClient, parseContractError, EscrowOnChain } from '../lib/soroban';
 import { ContractResponse } from '../lib/types';
 
@@ -91,7 +92,7 @@ export function useEscrowContract() {
       // Sync with backend if details are provided
       if (backendData) {
         await axios.post(
-          'http://localhost:5000/api/escrows',
+          `${API_BASE_URL}/escrows`,
           {
             jobId: backendData.jobId,
             listingId: backendData.listingId,
@@ -138,7 +139,7 @@ export function useEscrowContract() {
 
       // Sync with backend
       await axios.put(
-        `http://localhost:5000/api/escrows/${backendEscrowId}/fund`,
+        `${API_BASE_URL}/escrows/${backendEscrowId}/fund`,
         { txHash: hash },
         getHeaders()
       );
@@ -209,7 +210,7 @@ export function useEscrowContract() {
       // Sync with backend
       if (isProjectDelivery) {
         await axios.post(
-          `http://localhost:5000/api/deliveries/${backendEscrowId}/submit`,
+          `${API_BASE_URL}/deliveries/${backendEscrowId}/submit`,
           {
             notes: deliveryData.notes,
             demoLink: deliveryData.githubLink || '',
@@ -221,7 +222,7 @@ export function useEscrowContract() {
         );
       } else {
         await axios.post(
-          `http://localhost:5000/api/escrows/${backendEscrowId}/deliver`,
+          `${API_BASE_URL}/escrows/${backendEscrowId}/deliver`,
           {
             ...deliveryData,
             txHash: hash,
@@ -264,13 +265,13 @@ export function useEscrowContract() {
       // Sync with backend
       if (isProjectDelivery) {
         await axios.put(
-          `http://localhost:5000/api/deliveries/${backendEscrowId}/approve`,
+          `${API_BASE_URL}/deliveries/${backendEscrowId}/approve`,
           { txHash: hash },
           getHeaders()
         );
       } else {
         await axios.put(
-          `http://localhost:5000/api/escrows/${backendEscrowId}/approve`,
+          `${API_BASE_URL}/escrows/${backendEscrowId}/approve`,
           { txHash: hash },
           getHeaders()
         );
@@ -311,13 +312,13 @@ export function useEscrowContract() {
       // Sync with backend
       if (isProjectDelivery) {
         await axios.put(
-          `http://localhost:5000/api/deliveries/${backendEscrowId}/reject`,
+          `${API_BASE_URL}/deliveries/${backendEscrowId}/reject`,
           { reason, txHash: hash },
           getHeaders()
         );
       } else {
         await axios.put(
-          `http://localhost:5000/api/escrows/${backendEscrowId}/refund`,
+          `${API_BASE_URL}/escrows/${backendEscrowId}/refund`,
           { txHash: hash },
           getHeaders()
         );
@@ -357,13 +358,13 @@ export function useEscrowContract() {
       // Sync with backend (sets state to REFUNDED)
       if (isProjectDelivery) {
         await axios.put(
-          `http://localhost:5000/api/deliveries/${backendEscrowId}/refund`,
+          `${API_BASE_URL}/deliveries/${backendEscrowId}/refund`,
           { txHash: hash },
           getHeaders()
         );
       } else {
         await axios.put(
-          `http://localhost:5000/api/escrows/${backendEscrowId}/refund`,
+          `${API_BASE_URL}/escrows/${backendEscrowId}/refund`,
           { txHash: hash },
           getHeaders()
         );
@@ -402,7 +403,7 @@ export function useEscrowContract() {
 
       // Sync with backend
       await axios.post(
-        'http://localhost:5000/api/disputes',
+        `${API_BASE_URL}/disputes`,
         {
           escrowId: backendEscrowId,
           reason,
@@ -449,7 +450,7 @@ export function useEscrowContract() {
 
       // Sync with backend
       await axios.put(
-        `http://localhost:5000/api/disputes/${backendDisputeId}/resolve`,
+        `${API_BASE_URL}/disputes/${backendDisputeId}/resolve`,
         {
           clientPayout: releaseToFreelancer ? 0 : totalEscrowAmount,
           freelancerPayout: releaseToFreelancer ? totalEscrowAmount : 0,

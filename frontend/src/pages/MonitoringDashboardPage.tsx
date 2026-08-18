@@ -28,6 +28,7 @@ import {
 } from 'recharts';
 import { useFreighter } from '@/hooks/useFreighter';
 import { STELLAR_CONFIG } from '@/lib/stellar.config';
+import { stellarExplorerUrl } from '@/lib/env';
 import { Navbar } from '@/components/landing/Navbar';
 import { formatXLM } from '@/lib/utils';
 
@@ -311,8 +312,8 @@ function WalletCard({
   onDisconnect: () => void;
 }) {
   const walletExplorerUrl = walletAddress
-    ? `https://stellar.expert/explorer/testnet/account/${walletAddress}`
-    : 'https://stellar.expert/explorer/testnet';
+    ? stellarExplorerUrl(`account/${walletAddress}`)
+    : stellarExplorerUrl();
   const balanceLabel = !isConnected
     ? 'Connect wallet'
     : balanceLoading
@@ -353,7 +354,7 @@ function WalletCard({
 }
 
 function ContractCard() {
-  const contractExplorerUrl = `https://stellar.expert/explorer/testnet/contract/${STELLAR_CONFIG.ESCROWX_CONTRACT_ID}`;
+  const contractExplorerUrl = stellarExplorerUrl(`contract/${STELLAR_CONFIG.ESCROWX_CONTRACT_ID}`);
 
   return (
     <DetailCard
