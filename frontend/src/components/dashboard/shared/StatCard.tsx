@@ -20,7 +20,7 @@ export const StatCard: React.FC<StatCardProps> = ({
 }) => {
   if (isLoading) {
     return (
-      <div className="rounded-xl border border-[#E4E8F0] bg-white p-6 animate-pulse">
+      <div className="rounded-xl border border-[#E4E8F0] bg-white p-4 animate-pulse sm:p-6">
         <div className="flex justify-between items-start mb-4">
           <div className="h-4 bg-slate-100 rounded w-24"></div>
           <div className="w-10 h-10 rounded-lg bg-slate-100"></div>
@@ -59,17 +59,17 @@ export const StatCard: React.FC<StatCardProps> = ({
 
   return (
     <div
-      className={`rounded-xl border border-[#E4E8F0] p-6 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-md hover:shadow-[#5B6BF8]/5 ${colorStyles[color].gradient}`}
+      className={`min-w-0 rounded-xl border border-[#E4E8F0] p-4 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-md hover:shadow-[#5B6BF8]/5 sm:p-6 ${colorStyles[color].gradient}`}
     >
-      <div className="flex justify-between items-start mb-2">
-        <span className="text-xs text-[#6B7280] uppercase tracking-widest font-medium">
+      <div className="mb-2 flex items-start justify-between gap-2">
+        <span className="min-w-0 break-words text-[10px] font-medium uppercase tracking-wider text-[#6B7280] sm:text-xs sm:tracking-widest">
           {title}
         </span>
         <div className={`p-2 rounded-lg ${colorStyles[color].iconContainer}`}>
           <Icon size={20} />
         </div>
       </div>
-      <div className="text-3xl font-bold tracking-tight text-[#0F1117] mb-2">
+      <div className="mb-2 break-words text-2xl font-bold tracking-tight text-[#0F1117] sm:text-3xl">
         {value}
       </div>
       {trend && (

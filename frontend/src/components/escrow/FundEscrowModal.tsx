@@ -123,7 +123,7 @@ export const FundEscrowModal: React.FC<FundEscrowModalProps> = ({
   const isProcessing = ['building', 'signing', 'submitting', 'confirming'].includes(step);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4">
       {/* Backdrop blur */}
       <div 
         className="fixed inset-0 bg-[#0A0A0F]/80 backdrop-blur-sm transition-opacity"
@@ -133,7 +133,7 @@ export const FundEscrowModal: React.FC<FundEscrowModalProps> = ({
       />
 
       {/* Centered Modal */}
-      <div className="relative w-full max-w-md mx-4 bg-[#16161E] border border-[#232332] rounded-2xl shadow-2xl p-6 overflow-hidden z-10 transform transition-all duration-300 scale-100 opacity-100 flex flex-col text-slate-200">
+      <div className="relative z-10 flex max-h-[calc(100vh-24px)] w-full max-w-md scale-100 transform flex-col overflow-y-auto rounded-2xl border border-[#232332] bg-[#16161E] p-4 text-slate-200 opacity-100 shadow-2xl transition-all duration-300 sm:p-6">
         
         {/* Header (Hide close button during processing) */}
         <div className="flex items-center justify-between pb-4 border-b border-[#232332]">
@@ -141,9 +141,9 @@ export const FundEscrowModal: React.FC<FundEscrowModalProps> = ({
             {step === 'done' ? 'Escrow Funded' : step === 'error' ? 'Transaction Failed' : 'Fund Escrow'}
           </h3>
           {!isProcessing && (
-            <button 
+            <button
               onClick={onClose}
-              className="text-slate-400 hover:text-white hover:bg-[#232332] p-1.5 rounded-lg transition-colors cursor-pointer"
+              className="min-h-10 min-w-10 rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-[#232332] hover:text-white cursor-pointer"
             >
               <X className="w-4 h-4" />
             </button>
@@ -161,24 +161,24 @@ export const FundEscrowModal: React.FC<FundEscrowModalProps> = ({
               </div>
 
               {/* Details Box */}
-              <div className="bg-[#1E1E28] border border-[#2A2A38] rounded-xl p-4 space-y-3 text-xs">
-                <div className="flex justify-between items-center">
+              <div className="space-y-3 rounded-xl border border-[#2A2A38] bg-[#1E1E28] p-3 text-xs sm:p-4">
+                <div className="flex justify-between gap-3">
                   <span className="text-slate-400">Amount</span>
                   <span className="font-mono font-black text-white">{escrow.amount} XLM</span>
                 </div>
-                <div className="flex justify-between items-center">
+                <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
                   <span className="text-slate-400">Recipient (Freelancer)</span>
                   <span className="font-mono font-bold text-slate-300" title={escrow.freelancer?.walletAddress}>
                     {formatAddress(escrow.freelancer?.walletAddress || '')}
                   </span>
                 </div>
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between gap-3">
                   <span className="text-slate-400">Network</span>
                   <span className="text-slate-300 font-bold">Stellar Testnet</span>
                 </div>
-                <div className="flex justify-between items-center">
+                <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
                   <span className="text-slate-400">On-Chain ID</span>
-                  <span className="font-mono bg-[#16161E] px-2 py-0.5 rounded border border-[#2D2D3E] text-[#F3E8FF] font-bold">
+                  <span className="min-w-0 truncate rounded border border-[#2D2D3E] bg-[#16161E] px-2 py-0.5 font-mono font-bold text-[#F3E8FF]" title={escrow.contractId}>
                     {escrow.contractId}
                   </span>
                 </div>
@@ -196,14 +196,14 @@ export const FundEscrowModal: React.FC<FundEscrowModalProps> = ({
               <div className="flex flex-col gap-2.5 pt-2">
                 <button
                   onClick={handleFundClick}
-                  className="w-full flex items-center justify-center gap-2 py-3 bg-gradient-to-r from-[#7C3AED] to-[#8B5CF6] hover:from-[#6D28D9] hover:to-[#7C3AED] text-white text-xs font-black rounded-xl transition-all shadow-md cursor-pointer hover:shadow-lg"
+                  className="flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#7C3AED] to-[#8B5CF6] py-3 text-xs font-black text-white shadow-md transition-all hover:from-[#6D28D9] hover:to-[#7C3AED] hover:shadow-lg cursor-pointer"
                 >
                   <Wallet className="w-4 h-4" />
                   Deploy & Fund
                 </button>
                 <button
                   onClick={onClose}
-                  className="w-full py-3 bg-[#1E1E28] hover:bg-[#252533] border border-[#2D2D3E] text-slate-400 hover:text-slate-200 text-xs font-bold rounded-xl transition-all cursor-pointer"
+                  className="min-h-11 w-full rounded-xl border border-[#2D2D3E] bg-[#1E1E28] py-3 text-xs font-bold text-slate-400 transition-all hover:bg-[#252533] hover:text-slate-200 cursor-pointer"
                 >
                   Cancel
                 </button>
@@ -240,12 +240,12 @@ export const FundEscrowModal: React.FC<FundEscrowModalProps> = ({
                     <span>Transaction Hash</span>
                   </div>
                   <div className="flex items-center justify-between gap-2 bg-[#16161E] border border-[#2D2D3E] p-2 rounded-lg">
-                    <span className="font-mono text-[10px] text-[#A78BFA] truncate max-w-[280px]">
+                    <span className="min-w-0 max-w-full truncate font-mono text-[10px] text-[#A78BFA]">
                       {localTxHash}
                     </span>
                     <button 
                       onClick={handleCopyHash}
-                      className="text-slate-400 hover:text-white p-1 rounded hover:bg-[#232332] transition-colors cursor-pointer shrink-0"
+                      className="min-h-9 min-w-9 shrink-0 rounded p-1 text-slate-400 transition-colors hover:bg-[#232332] hover:text-white cursor-pointer"
                       title="Copy full hash"
                     >
                       {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
@@ -256,7 +256,7 @@ export const FundEscrowModal: React.FC<FundEscrowModalProps> = ({
 
               <button
                 onClick={handleDoneClick}
-                className="w-full py-3 bg-[#10B981] hover:bg-[#059669] text-white text-xs font-black rounded-xl transition-all shadow-md cursor-pointer hover:shadow-lg"
+                className="min-h-11 w-full rounded-xl bg-[#10B981] py-3 text-xs font-black text-white shadow-md transition-all hover:bg-[#059669] hover:shadow-lg cursor-pointer"
               >
                 Done
               </button>
@@ -280,13 +280,13 @@ export const FundEscrowModal: React.FC<FundEscrowModalProps> = ({
               <div className="flex flex-col gap-2.5 pt-2">
                 <button
                   onClick={handleFundClick}
-                  className="w-full py-3 bg-[#8B5CF6] hover:bg-[#7C3AED] text-white text-xs font-black rounded-xl transition-all shadow-md cursor-pointer"
+                  className="min-h-11 w-full rounded-xl bg-[#8B5CF6] py-3 text-xs font-black text-white shadow-md transition-all hover:bg-[#7C3AED] cursor-pointer"
                 >
                   Try Again
                 </button>
                 <button
                   onClick={onClose}
-                  className="w-full py-3 bg-[#1E1E28] hover:bg-[#252533] border border-[#2D2D3E] text-slate-400 hover:text-slate-200 text-xs font-bold rounded-xl transition-all cursor-pointer"
+                  className="min-h-11 w-full rounded-xl border border-[#2D2D3E] bg-[#1E1E28] py-3 text-xs font-bold text-slate-400 transition-all hover:bg-[#252533] hover:text-slate-200 cursor-pointer"
                 >
                   Cancel
                 </button>

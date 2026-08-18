@@ -40,7 +40,7 @@ export function WalletConnectButton({ variant = 'filled', className }: WalletCon
       <button
         onClick={handleConnect}
         className={cn(
-          'inline-flex items-center gap-2 px-4 py-2 rounded-[10px] text-sm font-semibold transition-all duration-200',
+          'inline-flex min-h-11 max-w-full items-center justify-center gap-2 rounded-[10px] px-3 py-2 text-sm font-semibold transition-all duration-200 sm:px-4',
           variant === 'outlined'
             ? 'border border-[#5B6BF8] text-[#5B6BF8] hover:bg-[#EEF0FF]'
             : 'bg-[#5B6BF8] text-white hover:bg-[#4757E8] shadow-sm hover:shadow-md hover:-translate-y-px',
@@ -54,21 +54,21 @@ export function WalletConnectButton({ variant = 'filled', className }: WalletCon
   }
 
   return (
-    <div className="relative">
+    <div className="relative max-w-full">
       <button
         onClick={() => setShowDropdown(!showDropdown)}
         className={cn(
-          'inline-flex items-center gap-2 px-3 py-2 rounded-[10px] text-sm font-medium border border-[#E4E8F0] bg-white hover:bg-[#F8F9FB] transition-all duration-200',
+          'inline-flex min-h-11 max-w-full min-w-0 items-center gap-2 rounded-[10px] border border-[#E4E8F0] bg-white px-3 py-2 text-sm font-medium transition-all duration-200 hover:bg-[#F8F9FB]',
           className
         )}
       >
-        <div className="flex items-center gap-1.5">
+        <div className="flex min-w-0 items-center gap-1.5">
           <div className="w-2 h-2 rounded-full bg-[#16A865]" />
-          <span className="font-mono text-xs text-[#6B7280]">
+          <span className="truncate font-mono text-xs text-[#6B7280]">
             {truncateAddress(MOCK_WALLET, 6)}
           </span>
         </div>
-        <span className="text-[11px] font-semibold text-[#5B6BF8] bg-[#EEF0FF] px-1.5 py-0.5 rounded-[4px]">
+        <span className="hidden rounded-[4px] bg-[#EEF0FF] px-1.5 py-0.5 text-[11px] font-semibold text-[#5B6BF8] sm:inline">
           {balance.toLocaleString()} XLM
         </span>
         <ChevronDown className="w-3.5 h-3.5 text-[#9CA3AF]" />
@@ -81,7 +81,7 @@ export function WalletConnectButton({ variant = 'filled', className }: WalletCon
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 8, scale: 0.95 }}
             transition={{ duration: 0.15, ease: 'easeOut' }}
-            className="absolute right-0 top-full mt-2 w-64 bg-white border border-[#E4E8F0] rounded-[12px] shadow-xl z-50 overflow-hidden"
+            className="absolute right-0 top-full z-50 mt-2 w-[min(16rem,calc(100vw-2rem))] overflow-hidden rounded-[12px] border border-[#E4E8F0] bg-white shadow-xl"
           >
             <div className="p-3 border-b border-[#E4E8F0]">
               <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#9CA3AF] mb-1">Connected Wallet</p>

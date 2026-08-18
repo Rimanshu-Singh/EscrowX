@@ -93,7 +93,7 @@ export function Sidebar({ isOpenOnMobile = false, onCloseMobile }: SidebarProps)
 
   return (
     <aside className={cn(
-      "fixed left-0 top-0 h-full w-[240px] bg-card border-r border-border flex flex-col z-50 transition-all duration-300",
+      "fixed left-0 top-0 z-50 flex h-full w-[min(240px,calc(100vw-48px))] flex-col border-r border-border bg-card transition-all duration-300",
       "md:translate-x-0",
       isOpenOnMobile ? "translate-x-0" : "-translate-x-full"
     )}>

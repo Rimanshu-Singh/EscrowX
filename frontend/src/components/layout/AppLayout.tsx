@@ -19,7 +19,7 @@ export function AppLayout({ children, title, showNewEscrow = true }: AppLayoutPr
 
   return (
     <div className={theme === 'dark' ? 'dark' : ''}>
-      <div className="min-h-screen bg-surface text-text-primary flex transition-colors duration-200">
+      <div className="flex min-h-screen min-w-0 bg-surface text-text-primary transition-colors duration-200">
         <Sidebar isOpenOnMobile={mobileMenuOpen} onCloseMobile={() => setMobileMenuOpen(false)} />
 
         {/* Backdrop for mobile */}
@@ -31,28 +31,28 @@ export function AppLayout({ children, title, showNewEscrow = true }: AppLayoutPr
         )}
 
         {/* Main content */}
-        <main className="flex-1 md:ml-[240px] ml-0 flex flex-col min-h-screen">
+        <main className="ml-0 flex min-h-screen min-w-0 flex-1 flex-col md:ml-[240px]">
           {/* Top header */}
-          <header className="h-16 bg-card border-b border-border flex items-center justify-between md:px-6 px-4 sticky top-0 z-30 transition-colors duration-200">
-            <div className="flex items-center">
+          <header className="sticky top-0 z-30 flex h-16 min-w-0 items-center justify-between gap-2 border-b border-border bg-card px-3 transition-colors duration-200 sm:px-4 md:px-6">
+            <div className="flex min-w-0 items-center">
               {/* Hamburger menu button for mobile */}
               <button 
                 onClick={() => setMobileMenuOpen(true)} 
-                className="p-2 -ml-2 mr-3 rounded-lg hover:bg-surface-elevated md:hidden cursor-pointer text-text-secondary hover:text-text-primary transition-colors"
+                className="-ml-1 mr-2 grid size-10 shrink-0 place-items-center rounded-lg text-text-secondary transition-colors hover:bg-surface-elevated hover:text-text-primary md:hidden cursor-pointer"
                 title="Open Navigation"
               >
                 <Menu className="w-5 h-5" />
               </button>
 
-              <h1 className="text-[15px] sm:text-[17px] font-bold text-text-primary tracking-tight truncate max-w-[140px] sm:max-w-none">{title}</h1>
+              <h1 className="max-w-[96px] truncate text-[14px] font-bold tracking-tight text-text-primary sm:max-w-none sm:text-[17px]">{title}</h1>
             </div>
 
-            <div className="flex items-center gap-3">
+            <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
               {/* Theme Toggle Button */}
               <button
                 onClick={openOnboardingGuide}
                 title="Open EscrowX guide"
-                className="inline-flex items-center gap-1.5 rounded-[8px] px-2.5 py-2 text-xs font-bold text-text-secondary transition-all hover:bg-surface-elevated hover:text-text-primary"
+                className="inline-flex min-h-10 items-center gap-1.5 rounded-[8px] px-2.5 py-2 text-xs font-bold text-text-secondary transition-all hover:bg-surface-elevated hover:text-text-primary"
               >
                 <BookOpen className="w-4 h-4" />
                 <span className="hidden lg:inline">Learn</span>
@@ -61,12 +61,12 @@ export function AppLayout({ children, title, showNewEscrow = true }: AppLayoutPr
               <button
                 onClick={toggleTheme}
                 title={`Switch to ${theme === 'light' ? 'Dark' : 'Light'} Mode`}
-                className="p-2 rounded-[8px] hover:bg-surface-elevated text-text-secondary hover:text-text-primary transition-all cursor-pointer"
+                className="grid size-10 place-items-center rounded-[8px] text-text-secondary transition-all hover:bg-surface-elevated hover:text-text-primary cursor-pointer"
               >
                 {theme === 'light' ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
               </button>
 
-              <button className="relative p-2 rounded-[8px] hover:bg-surface-elevated transition-colors text-text-secondary hover:text-text-primary">
+              <button className="relative hidden size-10 place-items-center rounded-[8px] text-text-secondary transition-colors hover:bg-surface-elevated hover:text-text-primary sm:grid">
                 <Bell className="w-5 h-5" />
                 <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-[#5B6BF8]" />
               </button>
@@ -74,7 +74,7 @@ export function AppLayout({ children, title, showNewEscrow = true }: AppLayoutPr
               {showNewEscrow && (
                 <Link
                   to="/escrow/new"
-                  className="inline-flex items-center justify-center w-9 h-9 sm:w-auto sm:h-auto sm:px-3.5 sm:py-2 rounded-[10px] bg-[#5B6BF8] text-white text-sm font-semibold hover:bg-[#4757E8] transition-all duration-200 shadow-sm hover:shadow-md hover:shadow-[#5B6BF8]/20 hover:-translate-y-px"
+                  className="inline-flex size-10 items-center justify-center rounded-[10px] bg-[#5B6BF8] text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-[#4757E8] hover:shadow-md hover:shadow-[#5B6BF8]/20 hover:-translate-y-px sm:h-auto sm:w-auto sm:px-3.5 sm:py-2"
                 >
                   <Plus className="w-4 h-4" />
                   <span className="hidden sm:inline ml-1.5">New Escrow</span>
@@ -84,7 +84,7 @@ export function AppLayout({ children, title, showNewEscrow = true }: AppLayoutPr
           </header>
 
           {/* Page content */}
-          <div className="flex-1 md:p-6 p-4">
+          <div className="min-w-0 flex-1 p-3 sm:p-4 md:p-6">
             {children}
           </div>
         </main>

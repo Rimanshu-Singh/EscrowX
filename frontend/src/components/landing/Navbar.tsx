@@ -54,14 +54,14 @@ export function Navbar({ links = defaultLinks }: NavbarProps) {
         isScrolled || isOpen ? 'border-b border-black/10' : 'border-b border-transparent'
       }`}
     >
-      <div className="mx-auto max-w-6xl px-4 py-5 sm:px-6">
-        <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-4">
-          <a href="#home" className="col-start-1 flex items-center justify-self-start gap-3 focus-visible:outline-offset-4" aria-label="EscrowX home">
+      <div className="mx-auto max-w-6xl px-3 py-3 sm:px-6 sm:py-5">
+        <div className="flex min-w-0 items-center justify-between gap-2">
+          <a href="#home" className="flex min-w-0 shrink items-center gap-2.5 focus-visible:outline-offset-4 sm:gap-3" aria-label="EscrowX home">
             <Logo className="size-8 text-[#1A1A18]" />
-            <span className="text-base font-bold tracking-tight text-[#1A1A18] sm:text-lg">EscrowX</span>
+            <span className="truncate text-base font-bold tracking-tight text-[#1A1A18] sm:text-lg">EscrowX</span>
           </a>
 
-          <nav className="col-start-2 hidden items-center justify-center gap-9 md:flex" aria-label="Primary navigation">
+          <nav className="hidden items-center justify-center gap-9 md:flex" aria-label="Primary navigation">
             {links.map((link) => (
               <a
                 key={link.label}
@@ -73,7 +73,7 @@ export function Navbar({ links = defaultLinks }: NavbarProps) {
             ))}
           </nav>
 
-          <div className="relative col-start-3 hidden items-center justify-end gap-2 md:flex">
+          <div className="relative hidden items-center justify-end gap-2 md:flex">
             {isConnected && walletAddress ? (
               <div className="inline-flex min-h-11 items-center gap-2 rounded-full bg-[#1A1A18] px-4 py-2.5 text-sm font-medium text-[#FAF8F3] transition duration-200 hover:bg-black">
                 <button
@@ -138,16 +138,57 @@ export function Navbar({ links = defaultLinks }: NavbarProps) {
             )}
           </div>
 
-          <button
-            type="button"
-            className="col-start-3 inline-grid size-10 place-items-center justify-self-end rounded-full bg-[#1A1A18] text-[#FAF8F3] transition md:hidden"
-            onClick={() => setIsOpen((value) => !value)}
-            aria-expanded={isOpen}
-            aria-controls="mobile-nav"
-            aria-label="Toggle navigation"
-          >
-            {isOpen ? <X className="size-5" aria-hidden="true" /> : <Menu className="size-5" aria-hidden="true" />}
-          </button>
+          <div className="flex shrink-0 items-center gap-2 md:hidden">
+            <button
+              type="button"
+              onClick={handleWalletClick}
+              disabled={isLoading}
+              className="inline-flex min-h-10 max-w-[136px] items-center justify-center gap-1.5 rounded-full bg-[#1A1A18] px-3 py-2 text-xs font-bold text-[#FAF8F3] transition disabled:cursor-not-allowed disabled:opacity-70"
+              aria-label={isConnected ? 'Connected wallet options' : 'Connect wallet'}
+              aria-expanded={isConnected ? walletMenuOpen : undefined}
+            >
+              {isLoading ? (
+                <Loader2 className="size-4 shrink-0 animate-spin text-[#D0CBBE]" aria-hidden="true" />
+              ) : isConnected ? (
+                <span className="size-2 shrink-0 rounded-full bg-[#9DD27A]" aria-hidden="true" />
+              ) : (
+                <Wallet className="size-4 shrink-0 text-[#D0CBBE]" aria-hidden="true" />
+              )}
+              <span className="truncate">{isLoading ? 'Connecting' : isConnected && walletAddress ? walletLabel : 'Wallet'}</span>
+            </button>
+
+            <button
+              type="button"
+              className="inline-grid size-10 shrink-0 place-items-center rounded-full bg-[#1A1A18] text-[#FAF8F3] transition"
+              onClick={() => setIsOpen((value) => !value)}
+              aria-expanded={isOpen}
+              aria-controls="mobile-nav"
+              aria-label="Toggle navigation"
+            >
+              {isOpen ? <X className="size-5" aria-hidden="true" /> : <Menu className="size-5" aria-hidden="true" />}
+            </button>
+
+            {walletMenuOpen && isConnected && (
+              <div className="absolute right-3 top-full mt-2 w-[min(13rem,calc(100vw-1.5rem))] rounded-2xl border border-black/10 bg-[#FAF8F3] p-2 shadow-[0_16px_40px_rgba(26,26,24,0.12)]">
+                <button
+                  type="button"
+                  onClick={handleCopyAddress}
+                  className="flex min-h-11 w-full items-center gap-2 rounded-xl px-3 py-2 text-left text-sm font-medium text-[#6B6A63] transition hover:bg-[#F0EDE5] hover:text-[#1A1A18]"
+                >
+                  <Copy className="size-4 text-[#6B6A63]" aria-hidden="true" />
+                  Copy address
+                </button>
+                <button
+                  type="button"
+                  onClick={handleDisconnect}
+                  className="flex min-h-11 w-full items-center gap-2 rounded-xl px-3 py-2 text-left text-sm font-medium text-[#6B6A63] transition hover:bg-[#F0EDE5] hover:text-[#1A1A18]"
+                >
+                  <LogOut className="size-4 text-[#6B6A63]" aria-hidden="true" />
+                  Disconnect
+                </button>
+              </div>
+            )}
+          </div>
         </div>
 
         {isOpen && (
@@ -157,30 +198,13 @@ export function Navbar({ links = defaultLinks }: NavbarProps) {
                 <a
                   key={link.label}
                   href={link.href}
-                  className="rounded-full px-3 py-2 text-sm font-medium text-[#6B6A63] transition hover:bg-[#F0EDE5] hover:text-[#1A1A18]"
+                  className="min-h-11 rounded-full px-3 py-2.5 text-sm font-medium text-[#6B6A63] transition hover:bg-[#F0EDE5] hover:text-[#1A1A18]"
                   onClick={() => setIsOpen(false)}
                 >
                   {link.label}
                 </a>
               ))}
             </nav>
-            <button
-              type="button"
-              onClick={isConnected && walletAddress ? handleDisconnect : handleWalletClick}
-              disabled={isLoading}
-              className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#1A1A18] px-5 py-3 text-sm font-medium text-[#FAF8F3] disabled:cursor-not-allowed disabled:opacity-70"
-              aria-label={isConnected ? 'Disconnect wallet' : 'Connect wallet'}
-            >
-              {isLoading ? (
-                <Loader2 className="size-4 animate-spin text-[#D0CBBE]" aria-hidden="true" />
-              ) : isConnected ? (
-                <span className="size-2 rounded-full bg-[#9DD27A]" aria-hidden="true" />
-              ) : (
-                <Wallet className="size-4 text-[#D0CBBE]" aria-hidden="true" />
-              )}
-              <span>{isLoading ? 'Connecting...' : isConnected && walletAddress ? walletLabel : 'Connect Wallet'}</span>
-              {isConnected && walletAddress && <LogOut className="ml-1 size-4 text-red-400" aria-hidden="true" />}
-            </button>
           </div>
         )}
       </div>

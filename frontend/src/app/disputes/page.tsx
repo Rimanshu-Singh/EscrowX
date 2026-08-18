@@ -155,14 +155,14 @@ export default function DisputesPage() {
 
   return (
     <AppLayout title="Disputes">
-      <div className="relative">
+      <div className="relative min-w-0">
         {/* Tab bar */}
-        <div className="flex items-center gap-1 bg-[#F8F9FB] rounded-[10px] p-1 mb-6 max-w-fit border border-[#E4E8F0]">
+        <div className="mb-6 flex max-w-full items-center gap-1 overflow-x-auto rounded-[10px] border border-[#E4E8F0] bg-[#F8F9FB] p-1 sm:max-w-fit">
           {(['active', 'resolved', 'arbitration'] as DisputeTab[]).map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-4 py-2 rounded-[8px] text-sm font-semibold capitalize transition-all duration-150 ${
+              className={`min-h-10 shrink-0 rounded-[8px] px-3 py-2 text-xs font-semibold capitalize transition-all duration-150 sm:px-4 sm:text-sm ${
                 activeTab === tab
                   ? 'bg-white text-[#5B6BF8] shadow-sm'
                   : 'text-[#9CA3AF] hover:text-[#6B7280]'
@@ -179,7 +179,7 @@ export default function DisputesPage() {
         </div>
 
         {/* Table + drawer layout */}
-        <div className={`transition-all duration-300 ${selectedDispute ? 'xl:pr-[420px]' : ''}`}>
+        <div className={`min-w-0 transition-all duration-300 ${selectedDispute ? 'xl:pr-[420px]' : ''}`}>
           <motion.div
             className="bg-white rounded-[16px] border border-[#E4E8F0] shadow-[0_1px_3px_rgba(0,0,0,0.06),0_8px_32px_rgba(91,107,248,0.08)] overflow-hidden"
           >
@@ -196,7 +196,7 @@ export default function DisputesPage() {
             ) : (
               <div className="overflow-x-auto">
                 {/* Table header */}
-                <div className="grid grid-cols-[1fr_120px_180px_140px_120px_100px] gap-4 px-5 py-3 border-b border-[#E4E8F0]">
+                <div className="grid min-w-[820px] grid-cols-[1fr_120px_180px_140px_120px_100px] gap-4 border-b border-[#E4E8F0] px-5 py-3">
                   {['Escrow', 'Amount', 'Filed By', 'Date', 'Status', 'Action'].map((col) => (
                     <span key={col} className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#9CA3AF]">
                       {col}
@@ -213,15 +213,15 @@ export default function DisputesPage() {
                       animate={{ opacity: 1 }}
                       transition={{ delay: i * 0.05 }}
                       onClick={() => setSelectedDispute(dispute._id === selectedDispute?._id ? null : dispute)}
-                      className={`grid grid-cols-[1fr_120px_180px_140px_120px_100px] gap-4 px-5 py-4 border-b border-[#F2F4F8] hover:bg-[#F8F9FB] cursor-pointer transition-colors ${
+                      className={`grid min-w-[820px] grid-cols-[1fr_120px_180px_140px_120px_100px] gap-4 border-b border-[#F2F4F8] px-5 py-4 transition-colors hover:bg-[#F8F9FB] cursor-pointer ${
                         selectedDispute?._id === dispute._id ? 'bg-[#EEF0FF]/50' : ''
                       }`}
                     >
-                      <div>
-                        <p className="text-sm font-semibold text-[#0F1117] leading-snug">
+                      <div className="min-w-0">
+                        <p className="truncate text-sm font-semibold leading-snug text-[#0F1117]">
                           {dispute.escrow?.job?.title || 'Stellar Escrow Contract'}
                         </p>
-                        <p className="text-[11px] font-mono text-[#9CA3AF]">{dispute.escrow?._id}</p>
+                        <p className="truncate text-[11px] font-mono text-[#9CA3AF]">{dispute.escrow?._id}</p>
                       </div>
                       <div className="flex items-center">
                         <span className="font-mono text-sm font-semibold text-[#0F1117]">
@@ -247,7 +247,7 @@ export default function DisputesPage() {
                         </span>
                       </div>
                       <div className="flex items-center">
-                        <button className="flex items-center gap-1 text-sm font-semibold text-[#5B6BF8] hover:text-[#4757E8] transition-colors">
+                        <button className="flex min-h-10 items-center gap-1 text-sm font-semibold text-[#5B6BF8] transition-colors hover:text-[#4757E8]">
                           Review
                           <ChevronRight className="w-3.5 h-3.5" />
                         </button>
@@ -268,27 +268,27 @@ export default function DisputesPage() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 40 }}
               transition={{ duration: 0.25, ease: 'easeOut' }}
-              className="fixed right-0 top-0 h-full w-[420px] bg-white border-l border-[#E4E8F0] shadow-2xl overflow-y-auto z-50"
+              className="fixed right-0 top-0 z-50 h-full w-full max-w-[420px] overflow-y-auto border-l border-[#E4E8F0] bg-white shadow-2xl"
             >
               {/* Drawer header */}
-              <div className="flex items-center justify-between p-5 border-b border-[#E4E8F0] sticky top-0 bg-white z-10">
-                <div>
+              <div className="sticky top-0 z-10 flex items-center justify-between gap-3 border-b border-[#E4E8F0] bg-white p-4 sm:p-5">
+                <div className="min-w-0">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#9CA3AF]">Dispute Case ID</p>
-                  <h2 className="text-[16px] font-bold text-[#0F1117] leading-tight">
+                  <h2 className="break-words text-[16px] font-bold leading-tight text-[#0F1117]">
                     {selectedDispute.escrow?.job?.title || 'Contract Dispute'}
                   </h2>
                 </div>
                 <button
                   onClick={() => setSelectedDispute(null)}
-                  className="p-2 rounded-[8px] hover:bg-[#F2F4F8] transition-colors text-[#9CA3AF]"
+                  className="min-h-10 min-w-10 rounded-[8px] p-2 text-[#9CA3AF] transition-colors hover:bg-[#F2F4F8]"
                 >
                   <X className="w-4 h-4" />
                 </button>
               </div>
 
-              <div className="p-5 space-y-5">
+              <div className="space-y-5 p-4 sm:p-5">
                 {/* Status + amount */}
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                   <span className={`inline-flex items-center px-2.5 py-1 rounded-[6px] text-[11px] font-semibold border ${
                     (STATUS_CONFIG[selectedDispute.status] || STATUS_CONFIG.under_review).bg
                   } ${(STATUS_CONFIG[selectedDispute.status] || STATUS_CONFIG.under_review).text} ${
@@ -362,7 +362,7 @@ export default function DisputesPage() {
                             type="button"
                             key={t}
                             onClick={() => setEvidenceType(t)}
-                            className={`px-3 py-1 rounded-[6px] text-[10px] font-bold capitalize border ${
+                            className={`min-h-10 rounded-[6px] border px-3 py-1 text-[10px] font-bold capitalize ${
                               evidenceType === t
                                 ? 'bg-[#5B6BF8]/10 text-[#5B6BF8] border-[#5B6BF8]/20'
                                 : 'bg-white border-[#E4E8F0] text-gray-400'
@@ -379,7 +379,7 @@ export default function DisputesPage() {
                           onChange={(e) => setEvidenceContent(e.target.value)}
                           required
                           rows={2}
-                          className="w-full px-3 py-2 border border-[#E4E8F0] rounded-[8px] text-xs bg-white text-[#0F172A] resize-none"
+                          className="min-h-24 w-full resize-none rounded-[8px] border border-[#E4E8F0] bg-white px-3 py-2 text-xs text-[#0F172A]"
                         />
                       </div>
                       {evidenceType === 'link' && (
@@ -390,14 +390,14 @@ export default function DisputesPage() {
                             value={evidenceUrl}
                             onChange={(e) => setEvidenceUrl(e.target.value)}
                             required
-                            className="w-full px-3 py-2 border border-[#E4E8F0] rounded-[8px] text-xs bg-white text-[#0F172A]"
+                            className="min-h-11 w-full rounded-[8px] border border-[#E4E8F0] bg-white px-3 py-2 text-xs text-[#0F172A]"
                           />
                         </div>
                       )}
                       <button
                         type="submit"
                         disabled={submittingEvidence}
-                        className="w-full py-2 bg-[#0F172A] text-white hover:bg-[#1E293B] text-xs font-bold rounded-[8px] transition-colors"
+                        className="min-h-11 w-full rounded-[8px] bg-[#0F172A] py-2 text-xs font-bold text-white transition-colors hover:bg-[#1E293B]"
                       >
                         {submittingEvidence ? 'Uploading...' : 'Submit Evidence File'}
                       </button>
@@ -436,17 +436,17 @@ export default function DisputesPage() {
                     {!showResolveForm ? (
                       <button
                         onClick={() => setShowResolveForm(true)}
-                        className="w-full py-2.5 rounded-[10px] bg-red-500 hover:bg-red-600 text-white text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-sm"
+                        className="flex min-h-11 w-full items-center justify-center gap-1.5 rounded-[10px] bg-red-500 py-2.5 text-xs font-bold text-white shadow-sm transition-all hover:bg-red-600"
                       >
                         <Scale className="w-4 h-4" /> Render Arbitration Decision
                       </button>
                     ) : (
                       <form onSubmit={handleResolveDispute} className="space-y-4 bg-gray-50 border border-gray-200 rounded-[12px] p-4">
-                        <div className="flex justify-between items-center">
+                        <div className="flex items-center justify-between gap-3">
                           <h4 className="text-xs font-bold text-gray-700">Arbitration Payout Split</h4>
-                          <button type="button" onClick={() => setShowResolveForm(false)} className="text-[10px] text-gray-400 underline">Cancel</button>
+                          <button type="button" onClick={() => setShowResolveForm(false)} className="min-h-10 rounded px-2 text-[10px] text-gray-400 underline">Cancel</button>
                         </div>
-                        <div className="grid grid-cols-2 gap-3">
+                        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                           <div>
                             <label className="block text-[10px] font-bold text-gray-400 uppercase mb-1">Client Payout</label>
                             <input
@@ -459,7 +459,7 @@ export default function DisputesPage() {
                                 setClientPayout(val);
                                 setFreelancerPayout((selectedDispute.escrow?.amount || 0) - val);
                               }}
-                              className="w-full px-2 py-1.5 border border-gray-200 rounded-[6px] text-xs bg-white text-[#0F172A]"
+                              className="min-h-11 w-full rounded-[6px] border border-gray-200 bg-white px-2 py-1.5 text-xs text-[#0F172A]"
                             />
                           </div>
                           <div>
@@ -474,7 +474,7 @@ export default function DisputesPage() {
                                 setFreelancerPayout(val);
                                 setClientPayout((selectedDispute.escrow?.amount || 0) - val);
                               }}
-                              className="w-full px-2 py-1.5 border border-gray-200 rounded-[6px] text-xs bg-white text-[#0F172A]"
+                              className="min-h-11 w-full rounded-[6px] border border-gray-200 bg-white px-2 py-1.5 text-xs text-[#0F172A]"
                             />
                           </div>
                         </div>
@@ -489,7 +489,7 @@ export default function DisputesPage() {
                             onChange={(e) => setResolutionText(e.target.value)}
                             required
                             rows={2}
-                            className="w-full px-3 py-2 border border-gray-200 rounded-[6px] text-xs bg-white text-[#0F172A] resize-none"
+                            className="min-h-24 w-full resize-none rounded-[6px] border border-gray-200 bg-white px-3 py-2 text-xs text-[#0F172A]"
                           />
                         </div>
                         <div>
@@ -499,13 +499,13 @@ export default function DisputesPage() {
                             value={arbiterNotes}
                             onChange={(e) => setArbiterNotes(e.target.value)}
                             rows={2}
-                            className="w-full px-3 py-2 border border-gray-200 rounded-[6px] text-xs bg-white text-[#0F172A] resize-none"
+                            className="min-h-24 w-full resize-none rounded-[6px] border border-gray-200 bg-white px-3 py-2 text-xs text-[#0F172A]"
                           />
                         </div>
                         <button
                           type="submit"
                           disabled={resolvingDispute}
-                          className="w-full py-2 bg-[#16A865] hover:bg-emerald-600 text-white text-xs font-bold rounded-[8px] transition-colors"
+                          className="min-h-11 w-full rounded-[8px] bg-[#16A865] py-2 text-xs font-bold text-white transition-colors hover:bg-emerald-600"
                         >
                           {resolvingDispute ? 'Transmitting to Stellar...' : 'Confirm Resolution Split'}
                         </button>

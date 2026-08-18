@@ -54,17 +54,17 @@ export default function AnalyticsPage() {
 
   return (
     <AppLayout title="Analytics">
-      <div className="space-y-6">
+      <div className="min-w-0 space-y-5 sm:space-y-6">
         {/* Date range + header row */}
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-sm text-[#9CA3AF]">Showing data for your escrow activity</p>
-          <div className="flex items-center gap-1 bg-[#F8F9FB] rounded-[10px] border border-[#E4E8F0] p-1">
-            <Calendar className="w-3.5 h-3.5 text-[#9CA3AF] mx-2" />
+          <div className="flex max-w-full items-center gap-1 overflow-x-auto rounded-[10px] border border-[#E4E8F0] bg-[#F8F9FB] p-1">
+            <Calendar className="mx-2 h-3.5 w-3.5 shrink-0 text-[#9CA3AF]" />
             {DATE_RANGES.map((range) => (
               <button
                 key={range}
                 onClick={() => setDateRange(range)}
-                className={`px-3 py-1.5 rounded-[7px] text-xs font-semibold transition-all ${
+                className={`min-h-9 shrink-0 rounded-[7px] px-3 py-1.5 text-xs font-semibold transition-all ${
                   dateRange === range
                     ? 'bg-white text-[#5B6BF8] shadow-sm'
                     : 'text-[#9CA3AF] hover:text-[#6B7280]'
@@ -123,9 +123,9 @@ export default function AnalyticsPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="xl:col-span-2 bg-white rounded-[16px] border border-[#E4E8F0] shadow-[0_1px_3px_rgba(0,0,0,0.06),0_8px_32px_rgba(91,107,248,0.08)] p-6"
+            className="min-w-0 rounded-[16px] border border-[#E4E8F0] bg-white p-4 shadow-[0_1px_3px_rgba(0,0,0,0.06),0_8px_32px_rgba(91,107,248,0.08)] sm:p-6 xl:col-span-2"
           >
-            <div className="flex items-center justify-between mb-6">
+            <div className="mb-5 flex flex-col gap-3 sm:mb-6 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <h3 className="text-[16px] font-bold text-[#0F1117]">Escrow Volume</h3>
                 <p className="text-xs text-[#9CA3AF] mt-0.5">XLM locked in escrow over time</p>
@@ -180,7 +180,7 @@ export default function AnalyticsPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.28 }}
-            className="bg-white rounded-[16px] border border-[#E4E8F0] shadow-[0_1px_3px_rgba(0,0,0,0.06),0_8px_32px_rgba(91,107,248,0.08)] p-6"
+            className="min-w-0 rounded-[16px] border border-[#E4E8F0] bg-white p-4 shadow-[0_1px_3px_rgba(0,0,0,0.06),0_8px_32px_rgba(91,107,248,0.08)] sm:p-6"
           >
             <div className="mb-4">
               <h3 className="text-[16px] font-bold text-[#0F1117]">By Category</h3>
@@ -234,7 +234,7 @@ export default function AnalyticsPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.32 }}
-            className="bg-white rounded-[16px] border border-[#E4E8F0] shadow-[0_1px_3px_rgba(0,0,0,0.06),0_8px_32px_rgba(91,107,248,0.08)] p-6"
+            className="min-w-0 rounded-[16px] border border-[#E4E8F0] bg-white p-4 shadow-[0_1px_3px_rgba(0,0,0,0.06),0_8px_32px_rgba(91,107,248,0.08)] sm:p-6"
           >
             <div className="mb-6">
               <h3 className="text-[16px] font-bold text-[#0F1117]">Escrow Outcomes</h3>
@@ -279,14 +279,14 @@ export default function AnalyticsPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.36 }}
-            className="bg-white rounded-[16px] border border-[#E4E8F0] shadow-[0_1px_3px_rgba(0,0,0,0.06),0_8px_32px_rgba(91,107,248,0.08)] overflow-hidden"
+            className="min-w-0 overflow-hidden rounded-[16px] border border-[#E4E8F0] bg-white shadow-[0_1px_3px_rgba(0,0,0,0.06),0_8px_32px_rgba(91,107,248,0.08)]"
           >
             <div className="p-5 border-b border-[#E4E8F0]">
               <h3 className="text-[16px] font-bold text-[#0F1117]">Top Sellers</h3>
               <p className="text-xs text-[#9CA3AF] mt-0.5">By completed escrows</p>
             </div>
             <div className="overflow-x-auto">
-              <table className="w-full">
+              <table className="min-w-[520px] w-full">
                 <thead>
                   <tr className="border-b border-[#E4E8F0]">
                     {['Seller', 'Completed', 'Volume', 'Success'].map((col) => (

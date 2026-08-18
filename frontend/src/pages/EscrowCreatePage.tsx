@@ -275,11 +275,11 @@ export default function EscrowCreatePage() {
 
   return (
     <DashboardLayout>
-      <div className="max-w-2xl mx-auto space-y-6">
+      <div className="mx-auto max-w-2xl min-w-0 space-y-5 sm:space-y-6">
 
         {/* HEADER BAR */}
         {currentStep < 4 && (
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between gap-3">
             <button
               onClick={() => {
                 if (currentStep === 2) {
@@ -307,14 +307,14 @@ export default function EscrowCreatePage() {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
-              className="bg-white border border-[#E4E8F0] rounded-2xl shadow-xs overflow-hidden"
+              className="overflow-hidden rounded-2xl border border-[#E4E8F0] bg-white shadow-xs"
             >
-              <div className="p-6 border-b border-[#F1F5F9] bg-[#FAF9FF]/40">
-                <h2 className="text-lg font-black text-[#0F172A] tracking-tight">Initialize Escrow Project</h2>
+              <div className="border-b border-[#F1F5F9] bg-[#FAF9FF]/40 p-4 sm:p-6">
+                <h2 className="text-base font-black tracking-tight text-[#0F172A] sm:text-lg">Initialize Escrow Project</h2>
                 <p className="text-xs text-[#64748B] mt-0.5">Fill in the project details. These terms will be locked in the escrow vault before publication.</p>
               </div>
 
-              <form onSubmit={handleContinueToSummary} className="p-6 space-y-5">
+              <form onSubmit={handleContinueToSummary} className="space-y-5 p-4 sm:p-6">
                 <div>
                   <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">Project Title</label>
                   <input
@@ -323,7 +323,7 @@ export default function EscrowCreatePage() {
                     value={title}
                     onChange={e => setTitle(e.target.value)}
                     placeholder="e.g. Develop React Landing Page with HSL Styling"
-                    className="w-full px-3.5 py-2.5 border border-[#E2E8F0] rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-[#7C3AED] bg-slate-50/50"
+                    className="min-h-11 w-full rounded-xl border border-[#E2E8F0] bg-slate-50/50 px-3.5 py-2.5 text-xs focus:outline-none focus:ring-1 focus:ring-[#7C3AED]"
                   />
                 </div>
 
@@ -335,7 +335,7 @@ export default function EscrowCreatePage() {
                     value={description}
                     onChange={e => setDescription(e.target.value)}
                     placeholder="Describe requirements, milestones, acceptance criteria, and specific deliverables..."
-                    className="w-full px-3.5 py-2.5 border border-[#E2E8F0] rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-[#7C3AED] bg-slate-50/50 resize-none"
+                    className="min-h-32 w-full resize-none rounded-xl border border-[#E2E8F0] bg-slate-50/50 px-3.5 py-2.5 text-xs focus:outline-none focus:ring-1 focus:ring-[#7C3AED]"
                   />
                 </div>
 
@@ -348,7 +348,7 @@ export default function EscrowCreatePage() {
                       min={1}
                       value={budget}
                       onChange={e => setBudget(Number(e.target.value))}
-                      className="w-full px-3.5 py-2.5 border border-[#E2E8F0] rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-[#7C3AED] bg-slate-50/50"
+                      className="min-h-11 w-full rounded-xl border border-[#E2E8F0] bg-slate-50/50 px-3.5 py-2.5 text-xs focus:outline-none focus:ring-1 focus:ring-[#7C3AED]"
                     />
                   </div>
                   <div>
@@ -359,7 +359,7 @@ export default function EscrowCreatePage() {
                       min={1}
                       value={deliveryDays}
                       onChange={e => setDeliveryDays(Number(e.target.value))}
-                      className="w-full px-3.5 py-2.5 border border-[#E2E8F0] rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-[#7C3AED] bg-slate-50/50"
+                      className="min-h-11 w-full rounded-xl border border-[#E2E8F0] bg-slate-50/50 px-3.5 py-2.5 text-xs focus:outline-none focus:ring-1 focus:ring-[#7C3AED]"
                     />
                   </div>
                 </div>
@@ -372,7 +372,7 @@ export default function EscrowCreatePage() {
                       value={skillsStr}
                       onChange={e => setSkillsStr(e.target.value)}
                       placeholder="React, CSS, Tailwind, Typescript"
-                      className="w-full px-3.5 py-2.5 border border-[#E2E8F0] rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-[#7C3AED] bg-slate-50/50"
+                      className="min-h-11 w-full rounded-xl border border-[#E2E8F0] bg-slate-50/50 px-3.5 py-2.5 text-xs focus:outline-none focus:ring-1 focus:ring-[#7C3AED]"
                     />
                   </div>
                   <div>
@@ -382,22 +382,22 @@ export default function EscrowCreatePage() {
                       value={tagsStr}
                       onChange={e => setTagsStr(e.target.value)}
                       placeholder="Frontend, WebApp, MVP"
-                      className="w-full px-3.5 py-2.5 border border-[#E2E8F0] rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-[#7C3AED] bg-slate-50/50"
+                      className="min-h-11 w-full rounded-xl border border-[#E2E8F0] bg-slate-50/50 px-3.5 py-2.5 text-xs focus:outline-none focus:ring-1 focus:ring-[#7C3AED]"
                     />
                   </div>
                 </div>
 
-                <div className="pt-4 border-t border-[#F1F5F9] flex gap-3">
+                <div className="flex flex-col gap-3 border-t border-[#F1F5F9] pt-4 sm:flex-row">
                   <button
                     type="button"
                     onClick={() => navigate(-1)}
-                    className="flex-1 py-3 border border-[#E4E8F0] text-[#0F172A] text-xs font-bold rounded-xl hover:bg-slate-50 transition-all cursor-pointer text-center"
+                    className="min-h-11 flex-1 rounded-xl border border-[#E4E8F0] py-3 text-center text-xs font-bold text-[#0F172A] transition-all hover:bg-slate-50 cursor-pointer"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="flex-1 py-3 bg-[#0F172A] hover:bg-[#1E293B] text-white text-xs font-bold rounded-xl transition-all shadow-sm flex items-center justify-center gap-1.5 cursor-pointer"
+                    className="flex min-h-11 flex-1 items-center justify-center gap-1.5 rounded-xl bg-[#0F172A] py-3 text-xs font-bold text-white shadow-sm transition-all hover:bg-[#1E293B] cursor-pointer"
                   >
                     Continue to Fund Vault <ArrowRight className="w-3.5 h-3.5" />
                   </button>
@@ -415,70 +415,70 @@ export default function EscrowCreatePage() {
               exit={{ opacity: 0, y: -15 }}
               className="bg-white border border-[#E4E8F0] rounded-2xl shadow-xs overflow-hidden"
             >
-              <div className="p-6 border-b border-[#F1F5F9] bg-[#FAF9FF]/40">
-                <h2 className="text-lg font-black text-[#0F172A] tracking-tight">Fund Escrow Vault</h2>
+              <div className="border-b border-[#F1F5F9] bg-[#FAF9FF]/40 p-4 sm:p-6">
+                <h2 className="text-base font-black tracking-tight text-[#0F172A] sm:text-lg">Fund Escrow Vault</h2>
                 <p className="text-xs text-[#64748B] mt-0.5">Secure the project by locking funds. The listing will only be published once funded.</p>
               </div>
 
-              <div className="p-6 space-y-6">
+              <div className="space-y-5 p-4 sm:space-y-6 sm:p-6">
 
                 {/* Contract terms card */}
-                <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-5 space-y-4 text-xs text-[#475569]">
-                  <div className="flex justify-between items-start gap-4">
+                <div className="space-y-4 rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] p-4 text-xs text-[#475569] sm:p-5">
+                  <div className="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
                     <span className="font-bold text-slate-400 uppercase tracking-wider text-[10px]">Agreement Title</span>
-                    <span className="font-bold text-[#0F172A] text-right">{title}</span>
+                    <span className="break-words font-bold text-[#0F172A] sm:text-right">{title}</span>
                   </div>
 
-                  <div className="flex justify-between">
+                  <div className="flex flex-col gap-1 sm:flex-row sm:justify-between">
                     <span className="font-bold text-slate-400 uppercase tracking-wider text-[10px]">Counterparty</span>
                     <span className="font-semibold text-[#0F172A] bg-slate-100 px-2 py-0.5 rounded text-[10px]">Pending Freelancer Selection</span>
                   </div>
 
-                  <div className="flex justify-between">
+                  <div className="flex flex-col gap-1 sm:flex-row sm:justify-between">
                     <span className="font-bold text-slate-400 uppercase tracking-wider text-[10px]">Estimated Delivery</span>
                     <span className="font-bold text-[#0F172A]">{deliveryDays} Days limit</span>
                   </div>
 
                   {skillsStr && (
-                    <div className="flex justify-between items-start gap-4">
+                    <div className="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
                       <span className="font-bold text-slate-400 uppercase tracking-wider text-[10px]">Skills</span>
-                      <span className="text-[#0F172A] font-semibold text-right truncate max-w-[250px]">{skillsStr}</span>
+                      <span className="min-w-0 max-w-full truncate font-semibold text-[#0F172A] sm:max-w-[250px] sm:text-right">{skillsStr}</span>
                     </div>
                   )}
 
                   {tagsStr && (
-                    <div className="flex justify-between items-start gap-4">
+                    <div className="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
                       <span className="font-bold text-slate-400 uppercase tracking-wider text-[10px]">Tags</span>
-                      <span className="text-[#0F172A] font-semibold text-right truncate max-w-[250px]">{tagsStr}</span>
+                      <span className="min-w-0 max-w-full truncate font-semibold text-[#0F172A] sm:max-w-[250px] sm:text-right">{tagsStr}</span>
                     </div>
                   )}
 
                   <div className="border-t border-[#E2E8F0] pt-4 space-y-2.5">
-                    <div className="flex justify-between">
+                    <div className="flex justify-between gap-3">
                       <span className="font-medium text-slate-500">Locked Amount (Budget)</span>
                       <span className="font-mono font-bold text-slate-700">{budget} XLM</span>
                     </div>
-                    <div className="flex justify-between">
+                    <div className="flex justify-between gap-3">
                       <span className="font-medium text-slate-500">Platform Fee (0.5%)</span>
                       <span className="font-mono font-bold text-slate-700">{platformFee} XLM</span>
                     </div>
-                    <div className="flex justify-between border-t border-[#E2E8F0] pt-3 text-sm text-[#0F172A]">
+                    <div className="flex flex-col gap-1 border-t border-[#E2E8F0] pt-3 text-sm text-[#0F172A] sm:flex-row sm:justify-between">
                       <span className="font-extrabold uppercase tracking-wide">Total Cost</span>
                       <span className="font-mono font-black text-[#7C3AED] text-base">{totalAmount} XLM</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="flex gap-3">
+                <div className="flex flex-col gap-3 sm:flex-row">
                   <button
                     onClick={() => setCurrentStep(1)}
-                    className="flex-1 py-3.5 border border-[#E4E8F0] text-[#0F172A] text-xs font-bold rounded-xl hover:bg-slate-50 transition-all cursor-pointer text-center"
+                    className="min-h-11 flex-1 rounded-xl border border-[#E4E8F0] py-3.5 text-center text-xs font-bold text-[#0F172A] transition-all hover:bg-slate-50 cursor-pointer"
                   >
                     Edit Terms
                   </button>
                   <button
                     onClick={triggerDeployAndFund}
-                    className="flex-1 py-3.5 bg-gradient-to-r from-slate-900 to-black hover:from-slate-800 hover:to-slate-900 text-white text-xs font-bold rounded-xl transition-all shadow-md flex items-center justify-center gap-1.5 cursor-pointer border-t border-slate-700"
+                    className="flex min-h-11 flex-1 items-center justify-center gap-1.5 rounded-xl border-t border-slate-700 bg-gradient-to-r from-slate-900 to-black py-3.5 text-xs font-bold text-white shadow-md transition-all hover:from-slate-800 hover:to-slate-900 cursor-pointer"
                   >
                     <Wallet className="w-4 h-4" />
                     Deploy & Fund
@@ -499,7 +499,7 @@ export default function EscrowCreatePage() {
               className="space-y-4"
             >
               {/* Success Banner */}
-              <div className="bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-200 rounded-2xl p-6 text-center space-y-3">
+              <div className="space-y-3 rounded-2xl border border-emerald-200 bg-gradient-to-br from-emerald-50 to-teal-50 p-4 text-center sm:p-6">
                 <motion.div
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
@@ -509,7 +509,7 @@ export default function EscrowCreatePage() {
                   <CheckCircle2 className="w-8 h-8 text-white" />
                 </motion.div>
                 <div>
-                  <h2 className="text-xl font-black text-[#0F172A] tracking-tight">Escrow Funded Successfully</h2>
+                  <h2 className="text-lg font-black tracking-tight text-[#0F172A] sm:text-xl">Escrow Funded Successfully</h2>
                   <p className="text-xs text-emerald-700 mt-1 font-medium">
                     ✓ Stellar transaction confirmed · ✓ Funds locked in treasury · ✓ Listing published
                   </p>
@@ -518,21 +518,21 @@ export default function EscrowCreatePage() {
 
               {/* Transaction Details Card */}
               <div className="bg-white border border-[#E2E8F0] rounded-2xl overflow-hidden shadow-xs">
-                <div className="px-5 py-3.5 border-b border-[#F1F5F9] bg-[#FAFBFF] flex items-center justify-between">
+                <div className="flex flex-col gap-2 border-b border-[#F1F5F9] bg-[#FAFBFF] px-4 py-3.5 sm:flex-row sm:items-center sm:justify-between sm:px-5">
                   <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Transaction Details</span>
                   <span className="text-[9px] font-black uppercase bg-emerald-100 text-emerald-700 border border-emerald-200 px-2.5 py-1 rounded-full">
                     ● CONFIRMED
                   </span>
                 </div>
 
-                <div className="p-5 space-y-3 text-xs">
+                <div className="space-y-3 p-4 text-xs sm:p-5">
                   {/* Escrow ID */}
-                  <div className="flex justify-between items-center py-2 border-b border-slate-50">
+                  <div className="flex flex-col gap-2 border-b border-slate-50 py-2 sm:flex-row sm:items-center sm:justify-between">
                     <span className="text-slate-400 font-semibold flex items-center gap-1.5">
                       <Shield className="w-3 h-3" /> Escrow ID
                     </span>
-                    <div className="flex items-center gap-2">
-                      <span className="font-mono font-bold text-[#7C3AED] select-all">{successData.escrowId}</span>
+                    <div className="flex min-w-0 items-center gap-2">
+                      <span className="min-w-0 break-all font-mono font-bold text-[#7C3AED] select-all">{successData.escrowId}</span>
                       <button
                         onClick={() => navigator.clipboard.writeText(successData.escrowId)}
                         className="text-slate-300 hover:text-slate-500 transition-colors"
@@ -546,12 +546,12 @@ export default function EscrowCreatePage() {
                   </div>
 
                   {/* Transaction Hash */}
-                  <div className="flex justify-between items-center py-2 border-b border-slate-50">
+                  <div className="flex flex-col gap-2 border-b border-slate-50 py-2 sm:flex-row sm:items-center sm:justify-between">
                     <span className="text-slate-400 font-semibold flex items-center gap-1.5">
                       <ExternalLink className="w-3 h-3" /> Tx Hash
                     </span>
-                    <div className="flex items-center gap-2">
-                      <span className="font-mono text-[10px] text-slate-500 select-all">
+                    <div className="flex min-w-0 items-center gap-2">
+                      <span className="min-w-0 break-all font-mono text-[10px] text-slate-500 select-all">
                         {successData.transactionHash.slice(0, 12)}...{successData.transactionHash.slice(-10)}
                       </span>
                       <button
@@ -576,7 +576,7 @@ export default function EscrowCreatePage() {
                   </div>
 
                   {/* Wallet */}
-                  <div className="flex justify-between items-center py-2 border-b border-slate-50">
+                  <div className="flex flex-col gap-2 border-b border-slate-50 py-2 sm:flex-row sm:items-center sm:justify-between">
                     <span className="text-slate-400 font-semibold flex items-center gap-1.5">
                       <Wallet className="w-3 h-3" /> From Wallet
                     </span>
@@ -586,17 +586,17 @@ export default function EscrowCreatePage() {
                   </div>
 
                   {/* Escrow Contract */}
-                  <div className="flex justify-between items-center py-2 border-b border-slate-50">
+                  <div className="flex flex-col gap-2 border-b border-slate-50 py-2 sm:flex-row sm:items-center sm:justify-between">
                     <span className="text-slate-400 font-semibold flex items-center gap-1.5">
                       <Shield className="w-3 h-3" /> Escrow Contract
                     </span>
-                    <span className="font-mono text-[10px] text-[#A78BFA] truncate max-w-[180px]" title={STELLAR_CONFIG.CONTRACT_ID}>
+                    <span className="max-w-full truncate font-mono text-[10px] text-[#A78BFA] sm:max-w-[180px]" title={STELLAR_CONFIG.CONTRACT_ID}>
                       {STELLAR_CONFIG.CONTRACT_ID.slice(0, 8)}...{STELLAR_CONFIG.CONTRACT_ID.slice(-6)}
                     </span>
                   </div>
 
                   {/* Network */}
-                  <div className="flex justify-between items-center py-2 border-b border-slate-50">
+                  <div className="flex flex-col gap-2 border-b border-slate-50 py-2 sm:flex-row sm:items-center sm:justify-between">
                     <span className="text-slate-400 font-semibold flex items-center gap-1.5">
                       <Code className="w-3 h-3" /> Network
                     </span>
@@ -606,7 +606,7 @@ export default function EscrowCreatePage() {
                   </div>
 
                   {/* Date */}
-                  <div className="flex justify-between items-center py-2">
+                  <div className="flex flex-col gap-2 py-2 sm:flex-row sm:items-center sm:justify-between">
                     <span className="text-slate-400 font-semibold flex items-center gap-1.5">
                       <Clock className="w-3 h-3" /> Confirmed At
                     </span>
@@ -620,20 +620,20 @@ export default function EscrowCreatePage() {
                 <div className="px-5 py-3.5 border-b border-[#F1F5F9] bg-[#FAFBFF]">
                   <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Payment Breakdown</span>
                 </div>
-                <div className="p-5 space-y-3 text-xs">
-                  <div className="flex justify-between items-center">
+                <div className="space-y-3 p-4 text-xs sm:p-5">
+                  <div className="flex justify-between gap-3">
                     <span className="text-slate-500 font-medium">Project Budget (Locked)</span>
                     <span className="font-mono font-bold text-slate-700">{successData.budget} XLM</span>
                   </div>
-                  <div className="flex justify-between items-center">
+                  <div className="flex justify-between gap-3">
                     <span className="text-slate-500 font-medium">Platform Fee (0.5%)</span>
                     <span className="font-mono font-bold text-slate-700">{successData.platformFee} XLM</span>
                   </div>
-                  <div className="flex justify-between items-center">
+                  <div className="flex justify-between gap-3">
                     <span className="text-slate-500 font-medium">Network Fee (est.)</span>
                     <span className="font-mono font-bold text-slate-700">~0.00001 XLM</span>
                   </div>
-                  <div className="flex justify-between items-center border-t border-slate-100 pt-3">
+                  <div className="flex flex-col gap-1 border-t border-slate-100 pt-3 sm:flex-row sm:items-center sm:justify-between">
                     <span className="font-black text-[#0F172A] uppercase tracking-wide">Total Paid</span>
                     <span className="font-mono text-base font-black text-[#7C3AED]">{successData.totalAmount} XLM</span>
                   </div>
@@ -662,14 +662,14 @@ export default function EscrowCreatePage() {
               <div className="flex flex-col sm:flex-row gap-3 pt-1">
                 <button
                   onClick={() => navigate('/marketplace')}
-                  className="flex-1 py-3.5 bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-bold rounded-xl transition-all shadow-md shadow-purple-100 cursor-pointer flex items-center justify-center gap-2"
+                    className="flex min-h-11 flex-1 items-center justify-center gap-2 rounded-xl bg-[#7C3AED] py-3.5 text-xs font-bold text-white shadow-md shadow-purple-100 transition-all hover:bg-[#6D28D9] cursor-pointer"
                 >
                   <ExternalLink className="w-3.5 h-3.5" />
                   View on Marketplace
                 </button>
                 <button
                   onClick={() => navigate('/client/payments')}
-                  className="flex-1 py-3.5 border border-[#E4E8F0] hover:bg-slate-50 text-[#0F172A] text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center justify-center gap-2"
+                    className="flex min-h-11 flex-1 items-center justify-center gap-2 rounded-xl border border-[#E4E8F0] py-3.5 text-xs font-bold text-[#0F172A] transition-all hover:bg-slate-50 cursor-pointer"
                 >
                   <Coins className="w-3.5 h-3.5" />
                   Payment History
@@ -697,12 +697,12 @@ export default function EscrowCreatePage() {
       {/* WALLET SIGNING CONFIRMATION MODAL */}
       <AnimatePresence>
         {walletModalOpen && (
-          <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center z-50 p-4">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 p-3 backdrop-blur-xs sm:p-4">
             <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white rounded-2xl w-full max-w-sm overflow-hidden shadow-2xl border border-slate-100 flex flex-col p-6 space-y-6 text-center"
+              className="flex max-h-[calc(100vh-24px)] w-full max-w-sm flex-col space-y-5 overflow-y-auto rounded-2xl border border-slate-100 bg-white p-4 text-center shadow-2xl sm:space-y-6 sm:p-6"
             >
               {loading ? (
                 <div className="space-y-6 py-6 flex flex-col items-center justify-center">
@@ -730,25 +730,25 @@ export default function EscrowCreatePage() {
                   </div>
 
                   <div className="bg-[#FAF9FF] border border-purple-100/50 rounded-xl p-3.5 text-left space-y-2.5 text-xs text-slate-600">
-                    <div className="flex justify-between">
+                    <div className="flex flex-col gap-1 sm:flex-row sm:justify-between">
                       <span>Operation:</span>
                       <span className="font-semibold text-slate-800">Deploy & Fund Soroban Vault</span>
                     </div>
-                    <div className="flex justify-between">
+                    <div className="flex flex-col gap-1 sm:flex-row sm:justify-between">
                       <span>Network:</span>
                       <span className="font-bold text-amber-600">TESTNET</span>
                     </div>
-                    <div className="flex justify-between">
+                    <div className="flex flex-col gap-1 sm:flex-row sm:justify-between">
                       <span>Gas Limit:</span>
                       <span className="font-mono text-slate-500">0.05 XLM</span>
                     </div>
                   </div>
 
-                  <div className="flex gap-2">
+                  <div className="flex flex-col gap-2 sm:flex-row">
                     <button
                       type="button"
                       onClick={handleWalletConfirm}
-                      className="flex-1 py-3 bg-[#0F172A] hover:bg-[#1E293B] text-white text-xs font-bold rounded-xl shadow-sm cursor-pointer flex items-center justify-center gap-2"
+                      className="flex min-h-11 flex-1 items-center justify-center gap-2 rounded-xl bg-[#0F172A] py-3 text-xs font-bold text-white shadow-sm hover:bg-[#1E293B] cursor-pointer"
                     >
                       <CheckCircle2 className="w-4 h-4 text-emerald-400" />
                       Approve Transaction
@@ -756,7 +756,7 @@ export default function EscrowCreatePage() {
                     <button
                       type="button"
                       onClick={() => setWalletModalOpen(false)}
-                      className="px-4 py-3 border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-bold rounded-xl"
+                      className="min-h-11 rounded-xl border border-slate-200 px-4 py-3 text-xs font-bold text-slate-700 hover:bg-slate-50"
                     >
                       Cancel
                     </button>

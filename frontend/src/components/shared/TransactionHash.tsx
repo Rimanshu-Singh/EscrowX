@@ -26,20 +26,20 @@ export function TransactionHash({ hash, label, explorerUrl, chars = 8, className
   const stellarExplorer = explorerUrl || stellarExplorerUrl(`tx/${hash}`);
 
   return (
-    <div className={cn('inline-flex flex-col gap-0.5', className)}>
+    <div className={cn('inline-flex max-w-full min-w-0 flex-col gap-0.5', className)}>
       {label && (
         <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#9CA3AF]">
           {label}
         </span>
       )}
-      <div className="flex items-center gap-1.5">
-        <span className="font-mono text-sm text-[#6B7280] bg-[#F2F4F8] px-2 py-1 rounded-[6px]">
+      <div className="flex min-w-0 items-center gap-1.5">
+        <span className="truncate rounded-[6px] bg-[#F2F4F8] px-2 py-1 font-mono text-sm text-[#6B7280]">
           {truncateHash(hash, chars)}
         </span>
         <button
           onClick={handleCopy}
           title="Copy hash"
-          className="p-1 rounded-[6px] text-[#9CA3AF] hover:text-[#5B6BF8] hover:bg-[#EEF0FF] transition-all duration-150"
+          className="grid size-9 shrink-0 place-items-center rounded-[6px] text-[#9CA3AF] transition-all duration-150 hover:bg-[#EEF0FF] hover:text-[#5B6BF8]"
         >
           {copied ? <Check className="w-3.5 h-3.5 text-[#16A865]" /> : <Copy className="w-3.5 h-3.5" />}
         </button>
@@ -48,7 +48,7 @@ export function TransactionHash({ hash, label, explorerUrl, chars = 8, className
           target="_blank"
           rel="noopener noreferrer"
           title="View on Stellar Explorer"
-          className="p-1 rounded-[6px] text-[#9CA3AF] hover:text-[#5B6BF8] hover:bg-[#EEF0FF] transition-all duration-150"
+          className="grid size-9 shrink-0 place-items-center rounded-[6px] text-[#9CA3AF] transition-all duration-150 hover:bg-[#EEF0FF] hover:text-[#5B6BF8]"
         >
           <ExternalLink className="w-3.5 h-3.5" />
         </a>

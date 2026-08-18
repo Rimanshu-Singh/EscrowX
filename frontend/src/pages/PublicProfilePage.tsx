@@ -57,9 +57,9 @@ export default function PublicProfilePage() {
 
   return (
     <DashboardLayout>
-      <div className="space-y-6 max-w-5xl mx-auto">
+      <div className="mx-auto max-w-5xl min-w-0 space-y-5 sm:space-y-6">
         {/* HERO SECTION */}
-        <div className="bg-white border border-[#E4E8F0] rounded-2xl p-6 shadow-sm flex flex-col md:flex-row items-center md:items-start gap-6 relative overflow-hidden">
+        <div className="relative flex min-w-0 flex-col items-center gap-5 overflow-hidden rounded-2xl border border-[#E4E8F0] bg-white p-4 shadow-sm sm:p-6 md:flex-row md:items-start md:gap-6">
           <div className="absolute top-0 right-0 w-24 h-24 bg-purple-500/5 rounded-bl-full pointer-events-none" />
           <div className="relative">
             <img
@@ -70,9 +70,9 @@ export default function PublicProfilePage() {
             <span className="absolute bottom-1.5 right-1.5 w-3.5 h-3.5 bg-[#10B981] border-2 border-white rounded-full"></span>
           </div>
 
-          <div className="flex-1 text-center md:text-left space-y-2.5">
+          <div className="min-w-0 flex-1 space-y-2.5 text-center md:text-left">
             <div className="flex flex-col md:flex-row md:items-center gap-2">
-              <h1 className="text-lg font-black text-[#0F172A] tracking-tight">{profile.name}</h1>
+              <h1 className="break-words text-lg font-black tracking-tight text-[#0F172A]">{profile.name}</h1>
               <div className="flex items-center justify-center gap-1.5">
                 <span className="text-[10px] font-mono text-slate-400">@{profile.username}</span>
                 <span className={`px-2 py-0.5 text-[8px] font-extrabold uppercase tracking-wider text-white rounded-md bg-gradient-to-r ${
@@ -99,14 +99,14 @@ export default function PublicProfilePage() {
               )}
             </div>
 
-            <div className="border-t border-[#F1F5F9] pt-3 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6 text-[10px] text-gray-500 font-mono">
-              <div className="flex items-center gap-1">
+            <div className="flex flex-col gap-2 border-t border-[#F1F5F9] pt-3 text-[10px] font-mono text-gray-500 sm:flex-row sm:items-center sm:gap-6">
+              <div className="flex min-w-0 items-center gap-1">
                 <Shield className="w-3.5 h-3.5 text-slate-400" />
-                <span className="truncate max-w-[200px]" title={profile.walletAddress}>
+                <span className="min-w-0 max-w-full truncate sm:max-w-[200px]" title={profile.walletAddress}>
                   Wallet: {profile.walletAddress}
                 </span>
               </div>
-              <div className="flex items-center gap-1 text-emerald-600 font-bold">
+              <div className="flex items-center justify-center gap-1 font-bold text-emerald-600 md:justify-start">
                 <UserCheck className="w-3.5 h-3.5" />
                 <span>Freighter Verified Client/Talent</span>
               </div>
@@ -119,7 +119,7 @@ export default function PublicProfilePage() {
           {/* LEFT PANEL: ABOUT & STATS (span 4) */}
           <div className="lg:col-span-4 space-y-6">
             {/* About Card */}
-            <div className="bg-white border border-[#E4E8F0] rounded-xl p-5 shadow-sm space-y-4">
+            <div className="space-y-4 rounded-xl border border-[#E4E8F0] bg-white p-4 shadow-sm sm:p-5">
               <h3 className="text-xs font-black uppercase tracking-wider text-[#64748B]">About</h3>
               <p className="text-xs text-[#334155] leading-relaxed whitespace-pre-line">
                 {profile.bio || "No bio posted yet."}
@@ -142,13 +142,13 @@ export default function PublicProfilePage() {
               {/* Links */}
               <div className="space-y-2.5 pt-3 border-t border-slate-100 text-xs">
                 {profile.website && (
-                  <div className="flex justify-between items-center">
+                  <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
                     <span className="text-[#64748B] flex items-center gap-1.5"><Globe className="w-3.5 h-3.5 text-gray-400" /> Website</span>
-                    <a href={profile.website} target="_blank" rel="noreferrer" className="font-semibold text-[#7C3AED] hover:underline">{profile.website.replace(/^https?:\/\//i, '')}</a>
+                    <a href={profile.website} target="_blank" rel="noreferrer" className="break-all font-semibold text-[#7C3AED] hover:underline">{profile.website.replace(/^https?:\/\//i, '')}</a>
                   </div>
                 )}
                 {profile.portfolio && (
-                  <div className="flex justify-between items-center">
+                  <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
                     <span className="text-[#64748B] flex items-center gap-1.5"><Briefcase className="w-3.5 h-3.5 text-gray-400" /> Portfolio</span>
                     <a href={profile.portfolio} target="_blank" rel="noreferrer" className="font-semibold text-[#7C3AED] hover:underline">View Portfolio</a>
                   </div>
@@ -157,9 +157,9 @@ export default function PublicProfilePage() {
             </div>
 
             {/* Platform Activity Stats */}
-            <div className="bg-white border border-[#E4E8F0] rounded-xl p-5 shadow-sm space-y-4">
+            <div className="space-y-4 rounded-xl border border-[#E4E8F0] bg-white p-4 shadow-sm sm:p-5">
               <h3 className="text-xs font-black uppercase tracking-wider text-[#64748B]">Platform Activity</h3>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
                 <div className="bg-[#FAFAFA] border border-[#F1F5F9] rounded-xl p-3.5 text-center">
                   <p className="text-lg font-black text-[#0F172A]">{stats.escrowsCompleted}</p>
                   <p className="text-[9px] uppercase font-bold text-slate-400 tracking-wider mt-0.5">Escrows Closed</p>
@@ -169,7 +169,7 @@ export default function PublicProfilePage() {
                   <p className="text-[9px] uppercase font-bold text-slate-400 tracking-wider mt-0.5">Active Listings</p>
                 </div>
               </div>
-              <div className="flex justify-between items-center text-xs pt-1 border-t border-slate-100 text-[#64748B]">
+              <div className="flex flex-col gap-1 border-t border-slate-100 pt-1 text-xs text-[#64748B] sm:flex-row sm:items-center sm:justify-between">
                 <span className="flex items-center gap-1.5"><Calendar className="w-3.5 h-3.5 text-gray-400" /> Member since</span>
                 <span className="font-semibold text-[#0F172A]">{joinedYear}</span>
               </div>
@@ -180,7 +180,7 @@ export default function PublicProfilePage() {
           <div className="lg:col-span-8 space-y-6">
             
             {/* Active Listings Grid */}
-            <div className="bg-white border border-[#E4E8F0] rounded-xl p-6 shadow-sm space-y-4">
+            <div className="space-y-4 rounded-xl border border-[#E4E8F0] bg-white p-4 shadow-sm sm:p-6">
               <h3 className="text-xs font-black uppercase tracking-wider text-[#64748B]">Active Listings & Offers</h3>
               {listings.length === 0 ? (
                 <p className="text-xs text-slate-400 italic py-4">No active marketplace listings published.</p>
@@ -205,8 +205,8 @@ export default function PublicProfilePage() {
                         </span>
                       </div>
                       <div className="p-3.5 flex-1 flex flex-col justify-between space-y-2">
-                        <h4 className="text-xs font-bold text-[#0F172A] line-clamp-1 hover:text-[#7C3AED] transition-colors">{item.title}</h4>
-                        <div className="flex justify-between items-center pt-2 border-t border-[#F1F5F9] text-[10px]">
+                        <h4 className="break-words text-xs font-bold text-[#0F172A] line-clamp-2 transition-colors hover:text-[#7C3AED]">{item.title}</h4>
+                        <div className="flex flex-col gap-1 border-t border-[#F1F5F9] pt-2 text-[10px] sm:flex-row sm:items-center sm:justify-between">
                           <span className="text-[#64748B] flex items-center gap-1"><Clock className="w-3 h-3" /> {item.deliveryDays} Days</span>
                           <span className="font-mono font-bold text-[#0F172A]">
                             {item.type === 'SERVICE' ? item.price : item.budget} XLM
@@ -220,7 +220,7 @@ export default function PublicProfilePage() {
             </div>
 
             {/* Reviews Section */}
-            <div className="bg-white border border-[#E4E8F0] rounded-xl p-6 shadow-sm space-y-4">
+            <div className="space-y-4 rounded-xl border border-[#E4E8F0] bg-white p-4 shadow-sm sm:p-6">
               <h3 className="text-xs font-black uppercase tracking-wider text-[#64748B]">Counterparty Reviews</h3>
               {reviews.length === 0 ? (
                 <p className="text-xs text-slate-400 italic py-4">No reviews recorded on the Stellar ledger for this user.</p>
@@ -228,8 +228,8 @@ export default function PublicProfilePage() {
                 <div className="space-y-4 divide-y divide-[#F1F5F9]">
                   {reviews.map((r: any, idx: number) => (
                     <div key={r._id} className={`pt-4 first:pt-0 space-y-2`}>
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
+                      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                        <div className="flex min-w-0 flex-wrap items-center gap-2">
                           <img
                             src={r.reviewer?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${r.reviewer?.username}`}
                             alt=""

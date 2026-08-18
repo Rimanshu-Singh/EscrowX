@@ -281,9 +281,9 @@ export default function EscrowDetailPage() {
 
   return (
     <DashboardLayout>
-      <div className="space-y-6">
+      <div className="min-w-0 space-y-6">
         {/* Back Link */}
-        <div className="flex items-center justify-between">
+        <div className="flex flex-wrap items-center justify-between gap-2">
           <Link
             to="/dashboard"
             className="inline-flex items-center gap-1.5 text-xs text-[#64748B] hover:text-[#0F172A] transition-colors font-medium"
@@ -300,17 +300,17 @@ export default function EscrowDetailPage() {
         </div>
 
         {/* Workspace Title Card */}
-        <div className="bg-white border border-[#E4E8F0] rounded-xl p-6 shadow-xs flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-          <div className="space-y-1.5">
-            <div className="flex items-center gap-2">
-              <span className="font-mono text-[9px] text-gray-400">Contract ID: {escrow.contractId}</span>
+        <div className="flex min-w-0 flex-col items-start justify-between gap-4 rounded-xl border border-[#E4E8F0] bg-white p-4 shadow-xs sm:p-6 md:flex-row md:items-center">
+          <div className="min-w-0 space-y-1.5">
+            <div className="flex min-w-0 items-center gap-2">
+              <span className="min-w-0 truncate font-mono text-[9px] text-gray-400">Contract ID: {escrow.contractId}</span>
               <InfoTooltip label="Wallet">Your wallet signs escrow transactions, but funds only move when you approve an action.</InfoTooltip>
-              <button onClick={handleCopyId} className="p-1 rounded hover:bg-slate-50 transition-colors">
+              <button onClick={handleCopyId} className="inline-flex min-h-8 min-w-8 items-center justify-center rounded p-1 transition-colors hover:bg-slate-50">
                 <Copy className="w-3 h-3 text-gray-400" />
               </button>
               {copiedId && <span className="text-[9px] text-emerald-500 font-bold">Copied!</span>}
             </div>
-            <h2 className="text-md font-black text-[#0F172A] tracking-tight">Escrow Workspace #{escrow._id.slice(-6).toUpperCase()}</h2>
+            <h2 className="text-md break-words font-black tracking-tight text-[#0F172A]">Escrow Workspace #{escrow._id.slice(-6).toUpperCase()}</h2>
             <div className="inline-flex items-center gap-1.5">
               <span className={`px-2.5 py-0.5 rounded-md text-[9px] font-extrabold uppercase ${
                 escrow.status === 'COMPLETED' ? 'bg-emerald-500 text-white' :
@@ -322,9 +322,9 @@ export default function EscrowDetailPage() {
               <InfoTooltip label="Transaction Status">Shows where this escrow is in the funding, work, review, release, refund, or dispute flow.</InfoTooltip>
             </div>
           </div>
-          <div className="text-right">
+          <div className="w-full text-left md:w-auto md:text-right">
             <p className="font-mono text-xl font-black text-[#0F172A]">{escrow.amount} {escrow.tokenType}</p>
-            <div className="mt-0.5 flex items-center justify-end gap-1">
+            <div className="mt-0.5 flex items-center gap-1 md:justify-end">
               <p className="text-[10px] text-[#64748B] font-medium uppercase">Stellar locked contract</p>
               <InfoTooltip label="Escrow">Funds are securely held until the agreed milestone or work is approved.</InfoTooltip>
             </div>
@@ -340,24 +340,24 @@ export default function EscrowDetailPage() {
           <div className="lg:col-span-9 space-y-6">
             
             {/* Stepper Steps */}
-            <div className="bg-white border border-[#E4E8F0] rounded-xl p-6 shadow-xs">
-              <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6">Contract Status Stepper</h4>
-              <div className="flex items-center justify-between">
+            <div className="rounded-xl border border-[#E4E8F0] bg-white p-4 shadow-xs sm:p-6">
+              <h4 className="mb-5 text-[10px] font-black uppercase tracking-widest text-slate-400 sm:mb-6">Contract Status Stepper</h4>
+              <div className="flex min-w-0 items-start justify-between overflow-hidden">
                 {TIMELINE_STEPS.map((step, idx) => {
                   const isDone = idx <= currentStatusIndex;
                   const isLast = idx === TIMELINE_STEPS.length - 1;
                   return (
-                    <div key={step.key} className="flex-1 flex items-center last:flex-none">
-                      <div className="flex flex-col items-center">
-                        <div className={`w-8 h-8 rounded-full flex items-center justify-center border-2 text-xs font-bold ${
+                    <div key={step.key} className="flex min-w-0 flex-1 items-start last:flex-none">
+                      <div className="flex min-w-0 flex-col items-center">
+                        <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-2 text-xs font-bold ${
                           isDone ? 'bg-[#7C3AED] border-[#7C3AED] text-white' : 'bg-white border-[#E4E8F0] text-gray-400'
                         }`}>
                           {idx + 1}
                         </div>
-                        <span className="text-[9px] font-extrabold uppercase tracking-wider text-slate-400 mt-2">{step.label}</span>
+                        <span className="mt-2 max-w-[58px] break-words text-center text-[9px] font-extrabold uppercase leading-tight tracking-normal text-slate-400 sm:max-w-none sm:tracking-wider">{step.label}</span>
                       </div>
                       {!isLast && (
-                        <div className={`flex-1 h-0.5 mx-2 mb-4 ${idx < currentStatusIndex ? 'bg-[#7C3AED]' : 'bg-[#E4E8F0]'}`} />
+                        <div className={`mx-1 mt-4 h-0.5 flex-1 sm:mx-2 ${idx < currentStatusIndex ? 'bg-[#7C3AED]' : 'bg-[#E4E8F0]'}`} />
                       )}
                     </div>
                   );
@@ -430,16 +430,16 @@ export default function EscrowDetailPage() {
 
                         {/* Client Actions on Pending Updates */}
                         {isClient && up.status === 'pending' && (
-                          <div className="flex gap-2 pt-2 border-t border-[#E2E8F0] mt-3">
+                          <div className="mt-3 flex flex-col gap-2 border-t border-[#E2E8F0] pt-2 sm:flex-row">
                             <button
                               onClick={() => handleReviewUpdate(up._id, 'approve')}
-                              className="flex-1 py-1.5 rounded-lg bg-emerald-500 text-white text-[10px] font-bold hover:bg-emerald-600 cursor-pointer"
+                              className="min-h-10 flex-1 rounded-lg bg-emerald-500 px-3 py-2 text-[10px] font-bold text-white hover:bg-emerald-600 cursor-pointer"
                             >
                               Approve Update
                             </button>
                             <button
                               onClick={() => setShowRevisionInput(up._id)}
-                              className="px-3.5 py-1.5 rounded-lg border border-amber-200 text-amber-600 text-[10px] font-bold hover:bg-amber-50 cursor-pointer"
+                              className="min-h-10 rounded-lg border border-amber-200 px-3.5 py-2 text-[10px] font-bold text-amber-600 hover:bg-amber-50 cursor-pointer"
                             >
                               Request Changes
                             </button>
@@ -456,16 +456,16 @@ export default function EscrowDetailPage() {
                               className="w-full px-3 py-2 border border-slate-200 rounded-lg text-xs bg-white text-[#0F172A] resize-none"
                               rows={2}
                             />
-                            <div className="flex gap-2 justify-end">
+                            <div className="flex flex-col justify-end gap-2 sm:flex-row">
                               <button
                                 onClick={() => setShowRevisionInput(null)}
-                                className="px-3 py-1 rounded-lg text-xs font-medium text-slate-500 hover:bg-slate-100"
+                                className="min-h-10 rounded-lg px-3 py-2 text-xs font-medium text-slate-500 hover:bg-slate-100"
                               >
                                 Cancel
                               </button>
                               <button
                                 onClick={() => handleReviewUpdate(up._id, 'revise')}
-                                className="px-3.5 py-1 rounded-lg bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold"
+                                className="min-h-10 rounded-lg bg-amber-500 px-3.5 py-2 text-xs font-bold text-white hover:bg-amber-600"
                               >
                                 Submit Request
                               </button>
@@ -480,14 +480,14 @@ export default function EscrowDetailPage() {
 
               {/* Client Final Release actions */}
               {isClient && escrow.status === 'IN_PROGRESS' && (
-                <div className="border-t border-[#F1F5F9] pt-4.5 flex items-center justify-between">
+                <div className="flex flex-col gap-3 border-t border-[#F1F5F9] pt-4.5 sm:flex-row sm:items-center sm:justify-between">
                   <div>
                     <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wide">Milestone Approved?</span>
                     <p className="text-xs text-slate-500 mt-0.5">Click release to release contract funds to the freelancer wallet.</p>
                   </div>
                   <button
                     onClick={handleApproveEscrow}
-                    className="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold rounded-xl cursor-pointer shadow-xs"
+                    className="min-h-11 rounded-xl bg-emerald-500 px-4 py-2 text-xs font-bold text-white shadow-xs hover:bg-emerald-600 cursor-pointer sm:w-auto"
                   >
                     Release Contract Funds
                   </button>
@@ -584,19 +584,19 @@ export default function EscrowDetailPage() {
                 <p className="text-xs text-[#64748B] leading-relaxed">
                   If counterparty deliverables violate contract specifications, you can freeze contract funds and notify the community arbitrator.
                 </p>
-                <form onSubmit={handleRaiseDispute} className="flex gap-2">
+                <form onSubmit={handleRaiseDispute} className="flex flex-col gap-2 sm:flex-row">
                   <input
                     type="text"
                     placeholder="Dispute reason details..."
                     value={disputeReason}
                     onChange={(e) => setDisputeReason(e.target.value)}
                     required
-                    className="flex-1 px-3.5 py-2 border border-[#E2E8F0] rounded-xl text-xs bg-[#FAFAFA] text-[#0F172A]"
+                    className="min-h-11 flex-1 rounded-xl border border-[#E2E8F0] bg-[#FAFAFA] px-3.5 py-2 text-xs text-[#0F172A]"
                   />
                   <button
                     type="submit"
                     disabled={raisingDispute}
-                    className="px-4 py-2 rounded-xl bg-red-500 hover:bg-red-600 text-white text-xs font-bold transition-colors cursor-pointer"
+                    className="min-h-11 rounded-xl bg-red-500 px-4 py-2 text-xs font-bold text-white transition-colors hover:bg-red-600 cursor-pointer"
                   >
                     {raisingDispute ? 'Disputing...' : 'Raise Dispute'}
                   </button>
@@ -666,7 +666,7 @@ export default function EscrowDetailPage() {
                     <button
                       type="submit"
                       disabled={submittingReview}
-                      className="px-4 py-2 rounded-lg bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-bold transition-colors"
+                    className="min-h-11 rounded-lg bg-[#7C3AED] px-4 py-2 text-xs font-bold text-white transition-colors hover:bg-[#6D28D9]"
                     >
                       {submittingReview ? 'Submitting Review...' : 'Submit Review'}
                     </button>
@@ -683,10 +683,10 @@ export default function EscrowDetailPage() {
               ) : (
                 <div className="space-y-3">
                   {transactions.map(tx => (
-                    <div key={tx._id} className="flex items-center justify-between border-b border-[#E5E7EB] pb-3 last:border-0 last:pb-0">
-                      <div>
+                    <div key={tx._id} className="flex min-w-0 flex-col gap-1 border-b border-[#E5E7EB] pb-3 last:border-0 last:pb-0 sm:flex-row sm:items-center sm:justify-between">
+                      <div className="min-w-0">
                         <p className="text-xs font-bold uppercase text-[#7C3AED]">{tx.type}</p>
-                        <p className="font-mono text-[9px] text-gray-400 mt-0.5">{tx.txHash}</p>
+                        <p className="mt-0.5 truncate font-mono text-[9px] text-gray-400" title={tx.txHash}>{tx.txHash}</p>
                       </div>
                       <span className="text-xs font-bold text-gray-500">{new Date(tx.timestamp).toLocaleDateString()}</span>
                     </div>

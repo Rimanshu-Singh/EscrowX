@@ -428,13 +428,13 @@ export default function DeliveryPage() {
 
   return (
     <DashboardLayout>
-      <div className="max-w-5xl mx-auto space-y-6">
+      <div className="mx-auto max-w-5xl min-w-0 space-y-5 sm:space-y-6">
         
         {/* HEADER HERO PANEL */}
-        <div className="bg-gradient-to-br from-[#0F172A] to-[#1E293B] rounded-2xl p-6 text-white shadow-lg relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6 border border-slate-800">
+        <div className="relative flex min-w-0 flex-col justify-between gap-5 overflow-hidden rounded-2xl border border-slate-800 bg-gradient-to-br from-[#0F172A] to-[#1E293B] p-4 text-white shadow-lg sm:p-6 md:flex-row md:items-center">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-purple-500/10 via-transparent to-transparent pointer-events-none" />
           
-          <div className="space-y-3 max-w-2xl">
+          <div className="min-w-0 max-w-2xl space-y-3">
             <div className="flex flex-wrap items-center gap-2">
               <span className={`px-2.5 py-0.5 rounded-full text-[9px] font-black uppercase border ${activeStatus.style}`}>
                 {activeStatus.label}
@@ -443,11 +443,11 @@ export default function DeliveryPage() {
                 <Clock className="w-3.5 h-3.5" /> Workspace ID: {delivery._id.slice(-8).toUpperCase()}
               </span>
             </div>
-            <h1 className="text-lg font-black tracking-tight">{project?.title || 'Project Deliverables'}</h1>
+            <h1 className="break-words text-base font-black tracking-tight sm:text-lg">{project?.title || 'Project Deliverables'}</h1>
             <p className="text-xs text-slate-300 leading-relaxed line-clamp-2">{project?.description}</p>
           </div>
 
-          <div className="flex flex-col items-end gap-2 text-right">
+          <div className="flex flex-col items-start gap-2 text-left md:items-end md:text-right">
             <p className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">Milestone Value</p>
             <div className="flex items-center justify-end gap-1.5">
               <p className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400 font-mono">
@@ -464,16 +464,16 @@ export default function DeliveryPage() {
         <EscrowGuidance status={onChainStatus && onChainStatus !== 'NOT_FOUND' ? onChainStatus : delivery.status} />
 
         {/* 2-COLUMN VIEW WORKSPACE */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <div className="grid min-w-0 grid-cols-1 items-start gap-5 lg:grid-cols-12 lg:gap-6">
           
           {/* LEFT COLUMN: Main Delivery Workspace (span 8) */}
-          <div className="lg:col-span-8 space-y-6">
+          <div className="min-w-0 space-y-5 lg:col-span-8 lg:space-y-6">
             
             {/* Tabs selector */}
-            <div className="flex border-b border-[#E4E8F0]">
+            <div className="-mx-3 flex overflow-x-auto border-b border-[#E4E8F0] px-3 sm:mx-0 sm:px-0">
               <button
                 onClick={() => setActiveTab('deliverables')}
-                className={`px-4 py-2.5 text-xs font-bold border-b-2 transition-all flex items-center gap-1.5 cursor-pointer ${
+                className={`flex min-h-11 shrink-0 items-center gap-1.5 border-b-2 px-3 py-2.5 text-xs font-bold transition-all sm:px-4 cursor-pointer ${
                   activeTab === 'deliverables' ? 'border-[#7C3AED] text-[#7C3AED]' : 'border-transparent text-slate-400 hover:text-slate-600'
                 }`}
               >
@@ -485,7 +485,7 @@ export default function DeliveryPage() {
                   setActiveTab('comments');
                 }}
                 disabled={isClient && !hasUploadedDeliveries}
-                className={`px-4 py-2.5 text-xs font-bold border-b-2 transition-all flex items-center gap-1.5 relative ${
+                className={`relative flex min-h-11 shrink-0 items-center gap-1.5 border-b-2 px-3 py-2.5 text-xs font-bold transition-all sm:px-4 ${
                   isClient && !hasUploadedDeliveries
                     ? 'opacity-40 cursor-not-allowed text-slate-300'
                     : 'cursor-pointer text-slate-400 hover:text-slate-600'
@@ -502,7 +502,7 @@ export default function DeliveryPage() {
               </button>
               <button
                 onClick={() => setActiveTab('history')}
-                className={`px-4 py-2.5 text-xs font-bold border-b-2 transition-all flex items-center gap-1.5 cursor-pointer ${
+                className={`flex min-h-11 shrink-0 items-center gap-1.5 border-b-2 px-3 py-2.5 text-xs font-bold transition-all sm:px-4 cursor-pointer ${
                   activeTab === 'history' ? 'border-[#7C3AED] text-[#7C3AED]' : 'border-transparent text-slate-400 hover:text-slate-600'
                 }`}
               >
@@ -558,7 +558,7 @@ export default function DeliveryPage() {
 
                 {/* Main Deliverables Box */}
                 {(delivery.status === 'delivered' || delivery.status === 'approved' || delivery.versions?.length > 0) ? (
-                  <div className="bg-white border border-[#E4E8F0] rounded-2xl p-6 shadow-sm space-y-6">
+                  <div className="space-y-5 rounded-2xl border border-[#E4E8F0] bg-white p-4 shadow-sm sm:space-y-6 sm:p-6">
                     <div>
                       <h3 className="text-xs font-black uppercase tracking-wider text-slate-400">Current Work Submission</h3>
                       <p className="text-xs text-slate-600 mt-2 leading-relaxed whitespace-pre-wrap">
@@ -572,12 +572,12 @@ export default function DeliveryPage() {
                           <Link2 className="w-4 h-4 text-[#7C3AED]" />
                           <div>
                             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Live Demo Link</span>
-                            <a href={delivery.demoLink} target="_blank" rel="noreferrer" className="text-xs text-[#7C3AED] font-semibold hover:underline truncate max-w-[300px] block">
+                            <a href={delivery.demoLink} target="_blank" rel="noreferrer" className="block max-w-full truncate text-xs font-semibold text-[#7C3AED] hover:underline sm:max-w-[300px]">
                               {delivery.demoLink}
                             </a>
                           </div>
                         </div>
-                        <a href={delivery.demoLink} target="_blank" rel="noreferrer" className="p-1.5 rounded-lg border border-slate-200 hover:bg-slate-50 text-slate-500">
+                        <a href={delivery.demoLink} target="_blank" rel="noreferrer" className="inline-flex min-h-10 min-w-10 items-center justify-center rounded-lg border border-slate-200 p-1.5 text-slate-500 hover:bg-slate-50">
                           <ExternalLink className="w-4 h-4" />
                         </a>
                       </div>
@@ -636,7 +636,7 @@ export default function DeliveryPage() {
                             ))
                           ) : isClient ? (
                             // Client sees locked vault preview
-                            <div className="md:col-span-2 p-6 border border-dashed border-amber-200 bg-amber-50/30 rounded-xl text-center space-y-2">
+                            <div className="space-y-2 rounded-xl border border-dashed border-amber-200 bg-amber-50/30 p-4 text-center sm:p-6 md:col-span-2">
                               <Lock className="w-6 h-6 text-amber-500 mx-auto" />
                               <h5 className="text-xs font-bold text-amber-800">Final Deliverables Hidden</h5>
                               <p className="text-[10px] text-amber-600 max-w-sm mx-auto leading-relaxed">
@@ -683,7 +683,7 @@ export default function DeliveryPage() {
                             );
                           })
                         ) : (
-                          <div className="md:col-span-2 p-6 border border-dashed border-slate-200 bg-slate-50/50 rounded-xl text-center text-xs text-slate-400 italic">
+                          <div className="rounded-xl border border-dashed border-slate-200 bg-slate-50/50 p-4 text-center text-xs italic text-slate-400 sm:p-6 md:col-span-2">
                             No preview mockups or screenshots uploaded.
                           </div>
                         )}
@@ -692,7 +692,7 @@ export default function DeliveryPage() {
 
                   </div>
                 ) : (
-                  <div className="bg-white border border-dashed border-slate-200 rounded-2xl p-12 text-center max-w-xl mx-auto space-y-3">
+                  <div className="mx-auto max-w-xl space-y-3 rounded-2xl border border-dashed border-slate-200 bg-white p-6 text-center sm:p-12">
                     <FileText className="w-10 h-10 text-slate-300 mx-auto" />
                     <h4 className="text-xs font-bold text-[#0F172A]">Oops! No delivery submitted yet.</h4>
                     <p className="text-xs text-[#64748B] max-w-sm mx-auto leading-relaxed">
@@ -706,7 +706,7 @@ export default function DeliveryPage() {
 
             {/* TAB CONTENT: DISCUSSION */}
             {activeTab === 'comments' && (
-              <div className="bg-white border border-[#E4E8F0] rounded-2xl p-6 shadow-sm space-y-6">
+              <div className="space-y-5 rounded-2xl border border-[#E4E8F0] bg-white p-4 shadow-sm sm:space-y-6 sm:p-6">
                 <div>
                   <h3 className="text-xs font-black uppercase tracking-wider text-slate-400">Discussion Feed</h3>
                   <p className="text-[10px] text-slate-400 mt-0.5">Exchange feedback, request updates, and resolve revision details here.</p>
@@ -719,7 +719,7 @@ export default function DeliveryPage() {
                       const commIsFreelancer = comm.userId === freelancer?._id || comm.userId === freelancer?.id;
                       return (
                         <div key={idx} className={`flex gap-3 items-start ${comm.userId === currentUser?.id ? 'justify-end' : ''}`}>
-                          <div className={`flex gap-3 max-w-[80%] ${comm.userId === currentUser?.id ? 'flex-row-reverse' : ''}`}>
+                          <div className={`flex max-w-[92%] gap-2 sm:max-w-[80%] sm:gap-3 ${comm.userId === currentUser?.id ? 'flex-row-reverse' : ''}`}>
                             <div className="w-7 h-7 rounded-full bg-[#7C3AED] flex items-center justify-center text-white text-[10px] font-bold uppercase shrink-0">
                               {comm.username.slice(0, 2)}
                             </div>
@@ -755,19 +755,19 @@ export default function DeliveryPage() {
                     Posting comments is disabled until freelancer submits work.
                   </div>
                 ) : (
-                  <form onSubmit={handleCommentSubmit} className="flex gap-2 pt-4 border-t border-slate-100">
+                  <form onSubmit={handleCommentSubmit} className="flex flex-col gap-2 border-t border-slate-100 pt-4 sm:flex-row">
                     <input
                       type="text"
                       disabled={isClient && !hasUploadedDeliveries}
                       placeholder={isClient && !hasUploadedDeliveries ? "Comments are disabled..." : "Ask a question or provide delivery feedback..."}
                       value={newComment}
                       onChange={(e) => setNewComment(e.target.value)}
-                      className="flex-1 px-3.5 py-2.5 border border-[#E2E8F0] rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-[#7C3AED] disabled:bg-slate-50 disabled:text-slate-400"
+                      className="min-h-11 flex-1 rounded-xl border border-[#E2E8F0] px-3.5 py-2.5 text-xs focus:outline-none focus:ring-1 focus:ring-[#7C3AED] disabled:bg-slate-50 disabled:text-slate-400"
                     />
                     <button
                       type="submit"
                       disabled={commentLoading || (isClient && !hasUploadedDeliveries)}
-                      className="px-4 py-2.5 rounded-xl bg-[#0F172A] hover:bg-[#1E293B] text-white text-xs font-bold flex items-center gap-1 cursor-pointer disabled:opacity-50"
+                      className="flex min-h-11 items-center justify-center gap-1 rounded-xl bg-[#0F172A] px-4 py-2.5 text-xs font-bold text-white hover:bg-[#1E293B] disabled:opacity-50 cursor-pointer"
                     >
                       <Send className="w-3.5 h-3.5" /> Post
                     </button>
@@ -779,7 +779,7 @@ export default function DeliveryPage() {
 
             {/* TAB CONTENT: VERSION HISTORY */}
             {activeTab === 'history' && (
-              <div className="bg-white border border-[#E4E8F0] rounded-2xl p-6 shadow-sm space-y-6">
+              <div className="space-y-5 rounded-2xl border border-[#E4E8F0] bg-white p-4 shadow-sm sm:space-y-6 sm:p-6">
                 <div>
                   <h3 className="text-xs font-black uppercase tracking-wider text-slate-400">Submission History</h3>
                   <p className="text-[10px] text-slate-400 mt-0.5">Explore older delivery iterations and client revision markers.</p>
@@ -811,15 +811,15 @@ export default function DeliveryPage() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 pt-2">
                           {/* Historical preview files */}
                           {ver.previewFiles?.map((file: string, fIdx: number) => (
-                            <div key={fIdx} className="p-2 border border-slate-100 rounded-lg bg-white flex items-center justify-between text-[10px] truncate">
-                              <span className="text-slate-500 truncate max-w-[150px]">{file}</span>
+                            <div key={fIdx} className="flex min-w-0 items-center justify-between gap-2 truncate rounded-lg border border-slate-100 bg-white p-2 text-[10px]">
+                              <span className="min-w-0 max-w-[150px] truncate text-slate-500">{file}</span>
                               <a href={file} target="_blank" rel="noreferrer" className="font-bold text-[#7C3AED]">Preview</a>
                             </div>
                           ))}
                           {/* Locked source files in history */}
                           {isFreelancer && ver.files?.map((file: string, fIdx: number) => (
-                            <div key={fIdx} className="p-2 border border-purple-50 rounded-lg bg-purple-50/10 flex items-center justify-between text-[10px] truncate">
-                              <span className="text-slate-500 truncate max-w-[150px]">{file}</span>
+                            <div key={fIdx} className="flex min-w-0 items-center justify-between gap-2 truncate rounded-lg border border-purple-50 bg-purple-50/10 p-2 text-[10px]">
+                              <span className="min-w-0 max-w-[150px] truncate text-slate-500">{file}</span>
                               <span className="text-[#7C3AED] font-bold">Source Locked</span>
                             </div>
                           ))}
@@ -842,7 +842,7 @@ export default function DeliveryPage() {
           </div>
 
           {/* RIGHT COLUMN: Action Cards & Info (span 4) */}
-          <div className="lg:col-span-4 space-y-6">
+          <div className="min-w-0 space-y-5 lg:col-span-4 lg:space-y-6">
             
             {/* Participant info card */}
             <div className="bg-white border border-[#E4E8F0] rounded-2xl p-5 shadow-sm space-y-4">
@@ -904,7 +904,7 @@ export default function DeliveryPage() {
                   <button
                     onClick={() => setUploadModalOpen(true)}
                     disabled={onChainStatus !== 'IN_PROGRESS'}
-                    className="w-full flex items-center justify-center gap-1.5 py-3 rounded-xl bg-[#0F172A] hover:bg-[#1E293B] text-white text-xs font-bold transition-all cursor-pointer shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="flex min-h-11 w-full items-center justify-center gap-1.5 rounded-xl bg-[#0F172A] py-3 text-xs font-bold text-white shadow-sm transition-all hover:bg-[#1E293B] disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
                   >
                     <PlusCircle className="w-4 h-4" /> Deliver Work
                   </button>
@@ -916,20 +916,20 @@ export default function DeliveryPage() {
                     <button
                       onClick={handleApprove}
                       disabled={actionLoading || onChainStatus !== 'DELIVERED'}
-                      className="w-full flex items-center justify-center gap-1.5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-all cursor-pointer shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="flex min-h-11 w-full items-center justify-center gap-1.5 rounded-xl bg-emerald-600 py-3 text-xs font-bold text-white shadow-sm transition-all hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
                     >
                       <Check className="w-4 h-4" /> Accept Project
                     </button>
                     <button
                       onClick={() => setRevisionModalOpen(true)}
-                      className="w-full flex items-center justify-center gap-1.5 py-3 rounded-xl border border-[#E2E8F0] bg-white hover:bg-slate-50 text-slate-600 text-xs font-bold transition-all cursor-pointer shadow-2xs mb-2"
+                      className="mb-2 flex min-h-11 w-full items-center justify-center gap-1.5 rounded-xl border border-[#E2E8F0] bg-white py-3 text-xs font-bold text-slate-600 shadow-2xs transition-all hover:bg-slate-50 cursor-pointer"
                     >
                       <X className="w-4 h-4" /> Request Changes / Reject
                     </button>
                     <button
                       onClick={handleRefund}
                       disabled={actionLoading || onChainStatus !== 'DELIVERED'}
-                      className="w-full flex items-center justify-center gap-1.5 py-3 rounded-xl border border-rose-200 bg-white hover:bg-rose-50 text-rose-600 text-xs font-bold transition-all cursor-pointer shadow-2xs disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="flex min-h-11 w-full items-center justify-center gap-1.5 rounded-xl border border-rose-200 bg-white py-3 text-xs font-bold text-rose-600 shadow-2xs transition-all hover:bg-rose-50 disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
                     >
                       <AlertTriangle className="w-4 h-4" /> Cancel & Request Refund
                     </button>
@@ -945,7 +945,7 @@ export default function DeliveryPage() {
                     <button
                       onClick={handleRefund}
                       disabled={actionLoading || (onChainStatus !== 'FUNDED' && onChainStatus !== 'IN_PROGRESS')}
-                      className="w-full flex items-center justify-center gap-1.5 py-3 rounded-xl border border-rose-200 bg-white hover:bg-rose-50 text-rose-600 text-xs font-bold transition-all cursor-pointer shadow-2xs disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="flex min-h-11 w-full items-center justify-center gap-1.5 rounded-xl border border-rose-200 bg-white py-3 text-xs font-bold text-rose-600 shadow-2xs transition-all hover:bg-rose-50 disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
                     >
                       <AlertTriangle className="w-4 h-4" /> Cancel & Request Refund
                     </button>
@@ -960,7 +960,7 @@ export default function DeliveryPage() {
                     <button
                       onClick={handleRefund}
                       disabled={actionLoading || (onChainStatus !== 'FUNDED' && onChainStatus !== 'IN_PROGRESS' && onChainStatus !== 'REVISION_REQUESTED')}
-                      className="w-full flex items-center justify-center gap-1.5 py-3 rounded-xl border border-rose-200 bg-white hover:bg-rose-50 text-rose-600 text-xs font-bold transition-all cursor-pointer shadow-2xs disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="flex min-h-11 w-full items-center justify-center gap-1.5 rounded-xl border border-rose-200 bg-white py-3 text-xs font-bold text-rose-600 shadow-2xs transition-all hover:bg-rose-50 disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
                     >
                       <AlertTriangle className="w-4 h-4" /> Cancel & Request Refund
                     </button>
@@ -1001,15 +1001,15 @@ export default function DeliveryPage() {
       {/* FREELANCER SUBMIT DELIVERABLES MODAL */}
       <AnimatePresence>
         {uploadModalOpen && (
-          <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center z-50 p-4">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 p-3 backdrop-blur-xs sm:p-4">
             <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white rounded-2xl w-full max-w-xl overflow-hidden shadow-2xl border border-slate-100 flex flex-col max-h-[90vh]"
+              className="flex max-h-[calc(100vh-24px)] w-full max-w-xl flex-col overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-2xl sm:max-h-[90vh]"
             >
               {/* Header */}
-              <div className="px-6 py-4.5 border-b border-[#F1F5F9] flex items-center justify-between">
+              <div className="flex items-center justify-between gap-3 border-b border-[#F1F5F9] px-4 py-4 sm:px-6">
                 <h2 className="text-sm font-black text-[#0F172A] uppercase tracking-wider">Deliver Work Artifacts</h2>
                 <button
                   type="button"
@@ -1021,7 +1021,7 @@ export default function DeliveryPage() {
               </div>
 
               {/* Form */}
-              <form onSubmit={handleDeliverySubmit} className="flex-1 overflow-y-auto p-6 space-y-4">
+              <form onSubmit={handleDeliverySubmit} className="flex-1 space-y-4 overflow-y-auto p-4 sm:p-6">
                 {submitError && (
                   <div className="p-3.5 bg-red-50 border border-red-100 rounded-xl text-red-600 text-xs flex items-start gap-2 leading-relaxed">
                     <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
@@ -1041,7 +1041,7 @@ export default function DeliveryPage() {
                     placeholder="e.g. https://domain.com/preview.png, https://domain.com/mock.jpg"
                     value={previewFilesInput}
                     onChange={(e) => setPreviewFilesInput(e.target.value)}
-                    className="w-full px-3 py-2.5 border border-[#E2E8F0] rounded-xl text-xs bg-[#FAFAFA]"
+                    className="min-h-11 w-full rounded-xl border border-[#E2E8F0] bg-[#FAFAFA] px-3 py-2.5 text-xs"
                   />
                 </div>
 
@@ -1052,7 +1052,7 @@ export default function DeliveryPage() {
                     placeholder="e.g. QmOriginalFileHash, QmSourceCodeBuildRef"
                     value={vaultFilesInput}
                     onChange={(e) => setVaultFilesInput(e.target.value)}
-                    className="w-full px-3 py-2.5 border border-[#E2E8F0] rounded-xl text-xs bg-[#FAFAFA] font-mono"
+                    className="min-h-11 w-full rounded-xl border border-[#E2E8F0] bg-[#FAFAFA] px-3 py-2.5 font-mono text-xs"
                   />
                 </div>
 
@@ -1063,7 +1063,7 @@ export default function DeliveryPage() {
                     placeholder="https://figma.com/file/... or https://github.com/..."
                     value={demoLink}
                     onChange={(e) => setDemoLink(e.target.value)}
-                    className="w-full px-3 py-2.5 border border-[#E2E8F0] rounded-xl text-xs bg-[#FAFAFA]"
+                    className="min-h-11 w-full rounded-xl border border-[#E2E8F0] bg-[#FAFAFA] px-3 py-2.5 text-xs"
                   />
                 </div>
 
@@ -1075,7 +1075,7 @@ export default function DeliveryPage() {
                     placeholder="Provide details about the completed work, installation guides, or details..."
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
-                    className="w-full px-3 py-2.5 border border-[#E2E8F0] rounded-xl text-xs bg-[#FAFAFA] resize-none"
+                    className="w-full resize-none rounded-xl border border-[#E2E8F0] bg-[#FAFAFA] px-3 py-2.5 text-xs"
                   />
                 </div>
 
@@ -1083,7 +1083,7 @@ export default function DeliveryPage() {
                   <button
                     type="submit"
                     disabled={actionLoading}
-                    className="w-full py-3 bg-[#0F172A] hover:bg-[#1E293B] text-white text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow-sm disabled:opacity-50"
+                    className="flex min-h-11 w-full items-center justify-center gap-1.5 rounded-xl bg-[#0F172A] py-3 text-xs font-bold text-white shadow-sm transition-all hover:bg-[#1E293B] disabled:opacity-50 cursor-pointer"
                   >
                     {actionLoading ? 'Uploading deliverables...' : 'Submit Deliverables'}
                   </button>
@@ -1097,15 +1097,15 @@ export default function DeliveryPage() {
       {/* CLIENT REQUEST REVISIONS MODAL */}
       <AnimatePresence>
         {revisionModalOpen && (
-          <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center z-50 p-4">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 p-3 backdrop-blur-xs sm:p-4">
             <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white rounded-2xl w-full max-w-md overflow-hidden shadow-2xl border border-slate-100 flex flex-col"
+              className="flex max-h-[calc(100vh-24px)] w-full max-w-md flex-col overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-2xl"
             >
               {/* Header */}
-              <div className="px-6 py-4.5 border-b border-[#F1F5F9] flex items-center justify-between">
+              <div className="flex items-center justify-between gap-3 border-b border-[#F1F5F9] px-4 py-4 sm:px-6">
                 <h2 className="text-sm font-black text-[#0F172A] uppercase tracking-wider">Request Revisions</h2>
                 <button
                   type="button"
@@ -1117,7 +1117,7 @@ export default function DeliveryPage() {
               </div>
 
               {/* Form */}
-              <form onSubmit={handleRejectSubmit} className="p-6 space-y-4">
+              <form onSubmit={handleRejectSubmit} className="space-y-4 overflow-y-auto p-4 sm:p-6">
                 {revisionError && (
                   <div className="p-3.5 bg-red-50 border border-red-100 rounded-xl text-red-600 text-xs flex items-start gap-2 leading-relaxed">
                     <AlertCircle className="w-4 h-4 shrink-0" />
@@ -1133,22 +1133,22 @@ export default function DeliveryPage() {
                     placeholder="List the changes, fixes, or additions that the freelancer must complete..."
                     value={revisionReason}
                     onChange={(e) => setRevisionReason(e.target.value)}
-                    className="w-full px-3 py-2.5 border border-[#E2E8F0] rounded-xl text-xs bg-[#FAFAFA] resize-none"
+                    className="w-full resize-none rounded-xl border border-[#E2E8F0] bg-[#FAFAFA] px-3 py-2.5 text-xs"
                   />
                 </div>
 
-                <div className="pt-2 flex gap-2">
+                <div className="flex flex-col gap-2 pt-2 sm:flex-row">
                   <button
                     type="submit"
                     disabled={actionLoading}
-                    className="flex-1 py-3 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow-sm disabled:opacity-50"
+                    className="flex min-h-11 flex-1 items-center justify-center gap-1.5 rounded-xl bg-red-600 py-3 text-xs font-bold text-white shadow-sm transition-all hover:bg-red-700 disabled:opacity-50 cursor-pointer"
                   >
                     {actionLoading ? 'Submitting request...' : 'Submit Revision Request'}
                   </button>
                   <button
                     type="button"
                     onClick={() => setRevisionModalOpen(false)}
-                    className="px-4 py-3 border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-bold rounded-xl"
+                    className="min-h-11 rounded-xl border border-slate-200 px-4 py-3 text-xs font-bold text-slate-700 hover:bg-slate-50"
                   >
                     Cancel
                   </button>

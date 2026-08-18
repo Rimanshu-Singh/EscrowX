@@ -92,9 +92,9 @@ export const ClientDashboard: React.FC = () => {
   }).slice(0, 3);
 
   return (
-    <div className="space-y-6 animate-fadeIn">
+    <div className="min-w-0 space-y-5 animate-fadeIn sm:space-y-6">
       {/* SECTION 1 - TOP STATS ROW */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
           title="Total Escrows Created"
           value={stats.totalEscrows}
@@ -131,7 +131,7 @@ export const ClientDashboard: React.FC = () => {
 
       {/* SECTION 2 - MY ACTIVE ESCROWS */}
       <div className="space-y-3">
-        <div className="flex justify-between items-center">
+        <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
           <h3 className="text-lg font-semibold text-[#0F1117] dark:text-white">My Active Escrows</h3>
           <span className="text-xs text-slate-400 font-mono">
             {clientEscrows.length} total escrows

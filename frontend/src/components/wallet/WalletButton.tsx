@@ -38,7 +38,7 @@ export function WalletButton({ className }: WalletButtonProps) {
     return (
       <button
         disabled
-        className={`inline-flex items-center gap-2 px-4 py-2 rounded-[10px] text-sm font-semibold border border-[#E5E7EB] bg-gray-50 text-gray-400 dark:border-gray-700 dark:bg-gray-800/50 dark:text-gray-500 cursor-not-allowed transition-all ${className || ''}`}
+        className={`inline-flex min-h-11 max-w-full items-center justify-center gap-2 rounded-[10px] border border-[#E5E7EB] bg-gray-50 px-3 py-2 text-sm font-semibold text-gray-400 transition-all dark:border-gray-700 dark:bg-gray-800/50 dark:text-gray-500 cursor-not-allowed sm:px-4 ${className || ''}`}
       >
         <Loader2 className="w-4 h-4 animate-spin text-[#5B6BF8]" />
         Connecting...
@@ -49,10 +49,10 @@ export function WalletButton({ className }: WalletButtonProps) {
   // 2. Connected State
   if (isConnected && walletAddress) {
     return (
-      <div className={`group/chip inline-flex items-center gap-3 px-3 py-2 rounded-[10px] bg-slate-900 border border-[#16A865]/40 shadow-[0_0_12px_rgba(22,168,101,0.2)] text-white transition-all duration-300 hover:border-[#16A865]/80 hover:shadow-[0_0_16px_rgba(22,168,101,0.35)] ${className || ''}`}>
-        <div className="flex items-center gap-2">
+      <div className={`group/chip inline-flex min-h-11 max-w-full min-w-0 items-center justify-center gap-2 rounded-[10px] border border-[#16A865]/40 bg-slate-900 px-2.5 py-2 text-white shadow-[0_0_12px_rgba(22,168,101,0.2)] transition-all duration-300 hover:border-[#16A865]/80 hover:shadow-[0_0_16px_rgba(22,168,101,0.35)] sm:gap-3 sm:px-3 ${className || ''}`}>
+        <div className="flex min-w-0 items-center gap-2">
           <WalletStatus />
-          <span className="font-mono text-xs font-medium text-slate-200 tracking-wide select-all">
+          <span className="min-w-0 truncate font-mono text-[11px] font-medium tracking-wide text-slate-200 select-all sm:text-xs">
             {shortenAddress(walletAddress)}
           </span>
         </div>
@@ -62,7 +62,7 @@ export function WalletButton({ className }: WalletButtonProps) {
           <button
             onClick={handleDisconnect}
             aria-label="Disconnect wallet"
-            className="p-1 rounded-[6px] hover:bg-white/10 text-slate-400 hover:text-red-400 opacity-80 md:opacity-0 group-hover/chip:opacity-100 hover:opacity-100 transition-all duration-200 cursor-pointer"
+            className="grid size-8 place-items-center rounded-[6px] text-slate-400 opacity-90 transition-all duration-200 hover:bg-white/10 hover:text-red-400 hover:opacity-100 md:opacity-0 group-hover/chip:opacity-100 cursor-pointer"
           >
             <LogOut className="w-3.5 h-3.5" />
           </button>
@@ -77,15 +77,15 @@ export function WalletButton({ className }: WalletButtonProps) {
   // 3. Error State
   if (error) {
     return (
-      <div className={`flex flex-col items-center sm:items-end gap-1 ${className || ''}`}>
+      <div className={`flex max-w-full flex-col items-center gap-1 sm:items-end ${className || ''}`}>
         <button
           onClick={handleConnect}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-[10px] text-sm font-semibold transition-all duration-200 border border-red-500 bg-red-50/50 text-red-700 hover:bg-red-50 dark:border-red-800 dark:bg-red-950/20 dark:text-red-400 dark:hover:bg-red-950/35 cursor-pointer active:scale-[0.98]"
+          className="inline-flex min-h-11 max-w-full items-center justify-center gap-2 rounded-[10px] border border-red-500 bg-red-50/50 px-3 py-2 text-sm font-semibold text-red-700 transition-all duration-200 hover:bg-red-50 active:scale-[0.98] dark:border-red-800 dark:bg-red-950/20 dark:text-red-400 dark:hover:bg-red-950/35 cursor-pointer sm:px-4"
         >
           <Wallet className="w-4 h-4 text-red-500" />
           Connect Wallet
         </button>
-        <span className="text-[10px] font-medium text-red-600 dark:text-red-400 max-w-[240px] text-center sm:text-right mt-0.5 animate-pulse">
+        <span className="mt-0.5 max-w-[min(240px,100%)] text-center text-[10px] font-medium leading-snug text-red-600 animate-pulse dark:text-red-400 sm:text-right">
           {error}
         </span>
       </div>
@@ -96,7 +96,7 @@ export function WalletButton({ className }: WalletButtonProps) {
   return (
     <button
       onClick={handleConnect}
-      className={`inline-flex items-center gap-2 px-4 py-2 rounded-[10px] text-sm font-semibold transition-all duration-200 border border-[#E5E7EB] bg-white text-gray-700 hover:bg-gray-50 hover:border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:border-gray-600 active:scale-[0.98] cursor-pointer ${className || ''}`}
+      className={`inline-flex min-h-11 max-w-full items-center justify-center gap-2 rounded-[10px] border border-[#E5E7EB] bg-white px-3 py-2 text-sm font-semibold text-gray-700 transition-all duration-200 hover:border-gray-300 hover:bg-gray-50 active:scale-[0.98] dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:hover:border-gray-600 dark:hover:bg-gray-700 cursor-pointer sm:px-4 ${className || ''}`}
     >
       <Wallet className="w-4 h-4 text-gray-500 dark:text-gray-400" />
       Connect Wallet

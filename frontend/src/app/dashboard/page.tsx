@@ -358,7 +358,7 @@ export default function DashboardPage({ tab: initialTab = 'overview' }: Dashboar
 
   return (
     <AppLayout title={tabTitle[activeTab] || 'Dashboard'}>
-      <div className="space-y-6">
+      <div className="min-w-0 space-y-5 sm:space-y-6">
 
         {/* ============ OVERVIEW TAB ============ */}
         {activeTab === 'overview' && (
@@ -449,7 +449,7 @@ export default function DashboardPage({ tab: initialTab = 'overview' }: Dashboar
                         <p className="mx-auto mt-1 max-w-sm text-xs leading-relaxed text-gray-500">
                           Apply to a project or wait for your selected contract to begin. Funded milestones will appear here.
                         </p>
-                        <Link to="/marketplace" className="mt-4 inline-flex items-center justify-center gap-1.5 rounded-[8px] bg-[#5B6BF8] px-4 py-2 text-xs font-bold text-white">
+                        <Link to="/marketplace" className="mt-4 inline-flex min-h-11 items-center justify-center gap-1.5 rounded-[8px] bg-[#5B6BF8] px-4 py-2 text-xs font-bold text-white">
                           Browse Projects
                         </Link>
                       </div>
@@ -604,7 +604,7 @@ export default function DashboardPage({ tab: initialTab = 'overview' }: Dashboar
                           <textarea value={jobDesc} onChange={e => setJobDesc(e.target.value)} required rows={3} placeholder="Detailed project requirements..."
                             className="w-full px-3 py-2 border border-[#E5E7EB] rounded-[8px] text-xs focus:outline-none focus:ring-1 focus:ring-[#5B6BF8] resize-none" />
                         </div>
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                           <div>
                             <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">Budget</label>
                             <input type="number" value={jobBudget} onChange={e => setJobBudget(Number(e.target.value))} required
@@ -619,13 +619,13 @@ export default function DashboardPage({ tab: initialTab = 'overview' }: Dashboar
                             </select>
                           </div>
                         </div>
-                        <div className="flex gap-3">
+                        <div className="flex flex-col gap-3 sm:flex-row">
                           <button type="submit" disabled={savingJob}
-                            className="flex-1 py-2.5 rounded-[8px] bg-[#5B6BF8] text-white text-xs font-bold hover:bg-[#4757E8] disabled:opacity-40 transition-all">
+                            className="min-h-11 flex-1 rounded-[8px] bg-[#5B6BF8] py-2.5 text-xs font-bold text-white transition-all hover:bg-[#4757E8] disabled:opacity-40">
                             {savingJob ? 'Saving...' : editingJob ? 'Update Job' : 'Save as Draft'}
                           </button>
                           <button type="button" onClick={() => setShowJobForm(false)}
-                            className="px-4 py-2.5 rounded-[8px] border border-[#E5E7EB] text-xs font-bold text-gray-500 hover:bg-gray-50 transition-all">
+                            className="min-h-11 rounded-[8px] border border-[#E5E7EB] px-4 py-2.5 text-xs font-bold text-gray-500 transition-all hover:bg-gray-50">
                             Cancel
                           </button>
                         </div>
@@ -867,8 +867,9 @@ export default function DashboardPage({ tab: initialTab = 'overview' }: Dashboar
                     </span>
                   </div>
 
-                  <div className="bg-white border border-[#E5E7EB] rounded-[16px] shadow-sm overflow-hidden">
-                    <table className="w-full text-xs text-left">
+                  <div className="overflow-hidden rounded-[16px] border border-[#E5E7EB] bg-white shadow-sm">
+                    <div className="overflow-x-auto">
+                    <table className="min-w-[720px] w-full text-left text-xs">
                       <thead className="bg-[#F8F9FB] border-b border-[#E5E7EB]">
                         <tr>
                           <th className="px-5 py-3 text-[10px] font-bold uppercase text-gray-400 tracking-wider">Escrow ID</th>
@@ -908,6 +909,7 @@ export default function DashboardPage({ tab: initialTab = 'overview' }: Dashboar
                         ))}
                       </tbody>
                     </table>
+                    </div>
                   </div>
                 </div>
               )
@@ -934,8 +936,9 @@ export default function DashboardPage({ tab: initialTab = 'overview' }: Dashboar
                     </span>
                   </div>
 
-                  <div className="bg-white border border-[#E5E7EB] rounded-[16px] shadow-sm overflow-hidden">
-                    <table className="w-full text-xs text-left">
+                  <div className="overflow-hidden rounded-[16px] border border-[#E5E7EB] bg-white shadow-sm">
+                    <div className="overflow-x-auto">
+                    <table className="min-w-[560px] w-full text-left text-xs">
                       <thead className="bg-[#F8F9FB] border-b border-[#E5E7EB]">
                         <tr>
                           <th className="px-5 py-3 text-[10px] font-bold uppercase text-gray-400 tracking-wider">Project</th>
@@ -961,6 +964,7 @@ export default function DashboardPage({ tab: initialTab = 'overview' }: Dashboar
                         ))}
                       </tbody>
                     </table>
+                    </div>
                   </div>
                 </div>
               )
@@ -1091,12 +1095,12 @@ export default function DashboardPage({ tab: initialTab = 'overview' }: Dashboar
       {/* TRANSACTION DETAILS MODAL */}
       <AnimatePresence>
         {selectedTx && (
-          <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center z-50 p-4">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 p-3 backdrop-blur-xs sm:p-4">
             <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white rounded-2xl w-full max-w-md overflow-hidden shadow-2xl border border-slate-100 flex flex-col p-6 space-y-6"
+              className="flex max-h-[calc(100vh-24px)] w-full max-w-md flex-col space-y-5 overflow-y-auto rounded-2xl border border-slate-100 bg-white p-4 shadow-2xl sm:space-y-6 sm:p-6"
             >
               <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                 <h3 className="text-sm font-black text-[#0F172A] uppercase tracking-wider">Transaction Receipt</h3>

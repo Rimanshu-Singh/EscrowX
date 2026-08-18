@@ -282,7 +282,7 @@ export default function ListingDetailPage() {
 
   return (
     <DashboardLayout>
-      <div className="space-y-6">
+      <div className="min-w-0 space-y-5 sm:space-y-6">
         {/* Back Link */}
         <div>
           <Link to="/marketplace" className="inline-flex items-center gap-1 text-xs text-[#64748B] hover:text-[#0F172A] transition-colors font-medium">
@@ -291,10 +291,10 @@ export default function ListingDetailPage() {
         </div>
 
         {/* 3-Column Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <div className="grid min-w-0 grid-cols-1 items-start gap-5 lg:grid-cols-12 lg:gap-6">
           
           {/* LEFT COLUMN: Seller Info (span 3) */}
-          <div className="lg:col-span-3 bg-white border border-[#E4E8F0] rounded-xl p-5 shadow-sm space-y-5">
+          <div className="space-y-5 rounded-xl border border-[#E4E8F0] bg-white p-4 shadow-sm sm:p-5 lg:col-span-3">
             <div className="text-center space-y-3">
               <Link to={`/u/${creator?.username || ''}`} className="relative inline-block hover:opacity-85 transition-opacity">
                 <img
@@ -351,7 +351,7 @@ export default function ListingDetailPage() {
           </div>
 
           {/* CENTER COLUMN: Main Content (span 6) */}
-          <div className="lg:col-span-6 space-y-6">
+          <div className="min-w-0 space-y-5 sm:space-y-6 lg:col-span-6">
             
             {/* Header / Media Card */}
             <div className="bg-white border border-[#E4E8F0] rounded-xl overflow-hidden shadow-sm">
@@ -362,7 +362,7 @@ export default function ListingDetailPage() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="p-6 space-y-3">
+              <div className="space-y-3 p-4 sm:p-6">
                 <div className="flex items-center gap-2">
                   <span className={`text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full ${
                     listing.type === 'SERVICE' ? 'bg-emerald-500 text-white' : 'bg-purple-600 text-white'
@@ -373,12 +373,12 @@ export default function ListingDetailPage() {
                     Status: {listing.status}
                   </span>
                 </div>
-                <h1 className="text-xl font-bold text-[#0F172A] tracking-tight">{listing.title}</h1>
+                <h1 className="break-words text-lg font-bold tracking-tight text-[#0F172A] sm:text-xl">{listing.title}</h1>
               </div>
             </div>
 
             {/* Description Card */}
-            <div className="bg-white border border-[#E4E8F0] rounded-xl p-6 shadow-sm space-y-4">
+            <div className="space-y-4 rounded-xl border border-[#E4E8F0] bg-white p-4 shadow-sm sm:p-6">
               <h3 className="text-xs font-bold uppercase tracking-wider text-[#64748B]">About This Listing</h3>
               <p className="text-xs text-[#334155] leading-relaxed whitespace-pre-line">
                 {listing.description}
@@ -387,7 +387,7 @@ export default function ListingDetailPage() {
 
             {/* Owner proposal review tables */}
             {isOwnListing && listing.type === 'PROJECT' && (
-              <div className="bg-white border border-[#E4E8F0] rounded-xl p-6 shadow-sm space-y-4">
+              <div className="space-y-4 rounded-xl border border-[#E4E8F0] bg-white p-4 shadow-sm sm:p-6">
                 <h3 className="text-xs font-bold uppercase tracking-wider text-[#64748B]">Applications Received</h3>
                 {applications.length === 0 ? (
                   <p className="text-xs text-[#94A3B8] italic">No applications received yet.</p>
@@ -395,8 +395,8 @@ export default function ListingDetailPage() {
                   <div className="space-y-4">
                     {applications.map((app) => (
                       <div key={app._id} className="p-4.5 border border-[#E2E8F0] rounded-xl space-y-3 bg-[#FAFAFA]">
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2">
+                        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                          <div className="flex min-w-0 items-center gap-2">
                             <Link to={`/u/${app.freelancerUsername}`} className="hover:opacity-85 transition-opacity">
                               <img
                                 src={app.freelancerId?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${app.freelancerUsername}`}
@@ -404,7 +404,7 @@ export default function ListingDetailPage() {
                                 className="w-6 h-6 rounded-full border border-slate-100 object-cover"
                               />
                             </Link>
-                            <div>
+                            <div className="min-w-0">
                               <span className="text-xs font-bold text-[#0F172A] hover:text-[#7C3AED] transition-colors">
                                 <Link to={`/u/${app.freelancerUsername}`}>{app.freelancerId?.name || app.freelancerUsername}</Link>
                               </span>
@@ -414,10 +414,10 @@ export default function ListingDetailPage() {
                           <span className="text-xs font-mono font-extrabold text-[#7C3AED]">{app.bidAmount} XLM</span>
                         </div>
                         <p className="text-xs text-[#334155] whitespace-pre-wrap"><strong className="text-slate-500 font-extrabold uppercase text-[9px] tracking-wide block mb-1">Cover Letter</strong> {app.coverLetter}</p>
-                        {app.portfolio && <p className="text-xs text-blue-600 font-semibold"><strong className="text-slate-500 font-extrabold uppercase text-[9px] tracking-wide">Portfolio: </strong> <a href={app.portfolio} target="_blank" rel="noreferrer" className="underline">{app.portfolio}</a></p>}
+                        {app.portfolio && <p className="break-words text-xs font-semibold text-blue-600"><strong className="text-slate-500 font-extrabold uppercase text-[9px] tracking-wide">Portfolio: </strong> <a href={app.portfolio} target="_blank" rel="noreferrer" className="break-all underline">{app.portfolio}</a></p>}
                         {app.experienceNotes && <p className="text-xs text-[#334155]"><strong className="text-slate-500 font-extrabold uppercase text-[9px] tracking-wide block mb-1">Previous Experience</strong> {app.experienceNotes}</p>}
                         
-                        <div className="flex items-center justify-between border-t border-slate-200/60 pt-2.5 text-[10px] text-slate-400">
+                        <div className="flex flex-col gap-2 border-t border-slate-200/60 pt-2.5 text-[10px] text-slate-400 sm:flex-row sm:items-center sm:justify-between">
                           <span>Delivery time: {app.expectedDelivery} Days</span>
                           <span className={`px-2 py-0.5 rounded-full font-bold text-[9px] uppercase ${
                             app.status === 'ACCEPTED' ? 'bg-emerald-500 text-white' : app.status === 'REJECTED' ? 'bg-red-500 text-white' : 'bg-amber-100 text-amber-700'
@@ -425,16 +425,16 @@ export default function ListingDetailPage() {
                         </div>
                         
                         {app.status === 'PENDING' && (
-                          <div className="flex gap-2 pt-1">
+                          <div className="flex flex-col gap-2 pt-1 sm:flex-row">
                             <button
                                 onClick={() => handleReviewApplication(app._id, 'ACCEPTED')}
-                                className="flex-1 py-2 rounded-lg bg-emerald-500 text-white text-xs font-bold hover:bg-emerald-600 cursor-pointer"
+                                className="min-h-11 flex-1 rounded-lg bg-emerald-500 px-3 py-2 text-xs font-bold text-white hover:bg-emerald-600 cursor-pointer"
                               >
                                 Accept Proposal
                               </button>
                               <button
                                 onClick={() => handleReviewApplication(app._id, 'REJECTED')}
-                                className="px-3.5 py-2 rounded-lg border border-red-200 text-red-500 text-xs font-bold hover:bg-red-50 cursor-pointer"
+                                className="min-h-11 rounded-lg border border-red-200 px-3.5 py-2 text-xs font-bold text-red-500 hover:bg-red-50 cursor-pointer"
                               >
                                 Decline
                               </button>
@@ -443,7 +443,7 @@ export default function ListingDetailPage() {
                           {app.status === 'ACCEPTED' && (
                             <button
                               onClick={() => navigate(`/escrow/create?listingId=${listing._id}&amount=${app.bidAmount}&counterpartyAddress=${app.freelancerWallet || ''}&counterpartyId=${app.freelancerId?._id || app.freelancerId?.id || app.freelancerId}&title=${encodeURIComponent(listing.title)}`)}
-                              className="w-full py-2.5 rounded-lg bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer shadow-xs"
+                              className="flex min-h-11 w-full items-center justify-center gap-1.5 rounded-lg bg-[#7C3AED] px-3 py-2.5 text-xs font-bold text-white shadow-xs hover:bg-[#6D28D9] cursor-pointer"
                             >
                               Proceed to Escrow Funding <ArrowRight className="w-3.5 h-3.5" />
                             </button>
@@ -456,7 +456,7 @@ export default function ListingDetailPage() {
             )}
 
             {isOwnListing && listing.type === 'SERVICE' && (
-              <div className="bg-white border border-[#E4E8F0] rounded-xl p-6 shadow-sm space-y-4">
+              <div className="space-y-4 rounded-xl border border-[#E4E8F0] bg-white p-4 shadow-sm sm:p-6">
                 <h3 className="text-xs font-bold uppercase tracking-wider text-[#64748B]">Hire Requests Received</h3>
                 {hireRequests.length === 0 ? (
                   <p className="text-xs text-[#94A3B8] italic">No hire requests received yet.</p>
@@ -464,8 +464,8 @@ export default function ListingDetailPage() {
                   <div className="space-y-4">
                     {hireRequests.map((req) => (
                       <div key={req._id} className="p-4.5 border border-[#E2E8F0] rounded-xl space-y-3 bg-[#FAFAFA]">
-                        <div className="flex items-center justify-between">
-                          <div>
+                        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                          <div className="min-w-0">
                             <span className="text-xs font-bold text-[#0F172A]">{req.projectTitle}</span>
                             <p className="text-[10px] text-slate-400 mt-0.5">From Client: {req.client?.name} (★ {req.client?.trustScore ? (req.client.trustScore / 20).toFixed(1) : '4.5'})</p>
                           </div>
@@ -474,7 +474,7 @@ export default function ListingDetailPage() {
                         <p className="text-xs text-[#334155] whitespace-pre-wrap"><strong className="text-slate-500 font-extrabold uppercase text-[9px] tracking-wide block mb-1">Project Info</strong> {req.projectDescription}</p>
                         <p className="text-xs text-[#334155]"><strong className="text-slate-500 font-extrabold uppercase text-[9px] tracking-wide block mb-1">Requirements</strong> {req.requirements}</p>
                         
-                        <div className="flex items-center justify-between border-t border-slate-200/60 pt-2.5 text-[10px] text-slate-400">
+                        <div className="flex flex-col gap-2 border-t border-slate-200/60 pt-2.5 text-[10px] text-slate-400 sm:flex-row sm:items-center sm:justify-between">
                           <span>Deadline: {new Date(req.deadline).toLocaleDateString()}</span>
                           <span className={`px-2 py-0.5 rounded-full font-bold text-[9px] uppercase ${
                             req.status === 'ACCEPTED' ? 'bg-emerald-500 text-white' : req.status === 'REJECTED' ? 'bg-red-500 text-white' : 'bg-amber-100 text-amber-700'
@@ -482,16 +482,16 @@ export default function ListingDetailPage() {
                         </div>
                         
                         {req.status === 'PENDING' && (
-                          <div className="flex gap-2 pt-1">
+                          <div className="flex flex-col gap-2 pt-1 sm:flex-row">
                             <button
                               onClick={() => handleRespondHireRequest(req._id, 'ACCEPTED')}
-                              className="flex-1 py-2 rounded-lg bg-emerald-500 text-white text-xs font-bold hover:bg-emerald-600 cursor-pointer"
+                              className="min-h-11 flex-1 rounded-lg bg-emerald-500 px-3 py-2 text-xs font-bold text-white hover:bg-emerald-600 cursor-pointer"
                             >
                               Accept Hire Request
                             </button>
                             <button
                               onClick={() => handleRespondHireRequest(req._id, 'REJECTED')}
-                              className="px-3 py-2 rounded-lg border border-red-200 text-red-500 text-xs font-bold hover:bg-red-50 cursor-pointer"
+                              className="min-h-11 rounded-lg border border-red-200 px-3 py-2 text-xs font-bold text-red-500 hover:bg-red-50 cursor-pointer"
                             >
                               Decline
                             </button>
@@ -510,7 +510,7 @@ export default function ListingDetailPage() {
             )}
 
             {/* Skills & Tags Card */}
-            <div className="bg-white border border-[#E4E8F0] rounded-xl p-6 shadow-sm space-y-4">
+            <div className="space-y-4 rounded-xl border border-[#E4E8F0] bg-white p-4 shadow-sm sm:p-6">
               <div>
                 <h3 className="text-xs font-bold uppercase tracking-wider text-[#64748B] mb-2.5">Skills Required</h3>
                 <div className="flex flex-wrap gap-1.5">
@@ -544,8 +544,8 @@ export default function ListingDetailPage() {
           </div>
 
           {/* RIGHT COLUMN: Action Card (span 3) */}
-          <div className="lg:col-span-3 space-y-5 lg:sticky lg:top-[88px]">
-            <div className="bg-white border border-[#E4E8F0] rounded-xl p-5 shadow-sm space-y-4">
+          <div className="min-w-0 space-y-5 lg:sticky lg:top-[88px] lg:col-span-3">
+            <div className="space-y-4 rounded-xl border border-[#E4E8F0] bg-white p-4 shadow-sm sm:p-5">
               <div>
                 <p className="text-[10px] uppercase font-bold tracking-wider text-[#64748B]">
                   {listing.type === 'SERVICE' ? 'Service Rate' : 'Estimated Budget'}
@@ -576,7 +576,7 @@ export default function ListingDetailPage() {
                     {listing.type === 'SERVICE' && currentUser?.role === 'CLIENT' && (
                       <button
                         onClick={() => setHireModalOpen(true)}
-                        className="w-full flex items-center justify-center gap-2 py-3 rounded-lg bg-[#7C3AED] text-white text-xs font-bold hover:bg-[#6D28D9] transition-all cursor-pointer shadow-sm"
+                        className="flex min-h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#7C3AED] px-3 py-3 text-xs font-bold text-white shadow-sm transition-all hover:bg-[#6D28D9] cursor-pointer"
                       >
                         Hire Freelancer <ArrowRight className="w-3.5 h-3.5" />
                       </button>
@@ -584,7 +584,7 @@ export default function ListingDetailPage() {
                     {listing.type === 'PROJECT' && currentUser?.role === 'FREELANCER' && (
                       <button
                         onClick={() => setApplyModalOpen(true)}
-                        className="w-full flex items-center justify-center gap-2 py-3 rounded-lg bg-[#7C3AED] text-white text-xs font-bold hover:bg-[#6D28D9] transition-all cursor-pointer shadow-sm"
+                        className="flex min-h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#7C3AED] px-3 py-3 text-xs font-bold text-white shadow-sm transition-all hover:bg-[#6D28D9] cursor-pointer"
                       >
                         Apply Now <ArrowRight className="w-3.5 h-3.5" />
                       </button>
@@ -593,7 +593,7 @@ export default function ListingDetailPage() {
                     <button
                       onClick={handleChatNow}
                       disabled={actionLoading}
-                      className="w-full flex items-center justify-center gap-2 py-3 rounded-lg border border-[#E4E8F0] bg-white text-[#0F172A] text-xs font-bold hover:bg-slate-50 transition-all cursor-pointer shadow-sm"
+                      className="flex min-h-11 w-full items-center justify-center gap-2 rounded-lg border border-[#E4E8F0] bg-white px-3 py-3 text-xs font-bold text-[#0F172A] shadow-sm transition-all hover:bg-slate-50 cursor-pointer"
                     >
                       <MessageSquare className="w-3.5 h-3.5" />
                       {actionLoading ? 'Connecting...' : 'Chat Now'}
@@ -622,27 +622,27 @@ export default function ListingDetailPage() {
       {/* MODAL 1: APPLY NOW (FREELANCER TO PROJECT) */}
       <AnimatePresence>
         {applyModalOpen && (
-          <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center z-50 p-4">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 p-3 backdrop-blur-xs sm:p-4">
             <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white rounded-2xl w-full max-w-xl overflow-hidden shadow-2xl border border-slate-100 flex flex-col max-h-[90vh]"
+              className="flex max-h-[calc(100vh-24px)] w-full max-w-xl flex-col overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-2xl sm:max-h-[90vh]"
             >
               {/* Header */}
-              <div className="px-6 py-4.5 border-b border-[#F1F5F9] flex items-center justify-between">
+              <div className="flex items-center justify-between gap-3 border-b border-[#F1F5F9] px-4 py-4 sm:px-6 sm:py-4.5">
                 <h2 className="text-sm font-black text-[#0F172A] uppercase tracking-wider">Submit Project Proposal</h2>
                 <button
                   type="button"
                   onClick={() => setApplyModalOpen(false)}
-                  className="p-1 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-50 cursor-pointer"
+                  className="min-h-10 min-w-10 rounded-lg p-1 text-slate-400 hover:text-slate-600 hover:bg-slate-50 cursor-pointer"
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
 
               {/* Form */}
-              <form onSubmit={handleApplySubmit} className="flex-1 overflow-y-auto p-6 space-y-4">
+              <form onSubmit={handleApplySubmit} className="flex-1 space-y-4 overflow-y-auto p-4 sm:p-6">
                 {validationError && (
                   <div className="p-3.5 bg-red-50 border border-red-100 rounded-xl text-red-600 text-xs flex items-start gap-2 leading-relaxed">
                     <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
@@ -655,7 +655,7 @@ export default function ListingDetailPage() {
                   Sharing contact info (Telegram, WhatsApp, email, Skype, Zoom, or phone numbers) is strictly blocked to prevent fee circumvention and ensure Stellar escrow protection.
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div>
                     <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-wide mb-1.5">Bid Amount (XLM)</label>
                     <input
@@ -664,7 +664,7 @@ export default function ListingDetailPage() {
                       min={10}
                       value={bidAmount}
                       onChange={(e) => setBidAmount(Number(e.target.value))}
-                      className="w-full px-3 py-2 border border-[#E2E8F0] rounded-xl text-xs bg-[#FAFAFA]"
+                      className="min-h-11 w-full rounded-xl border border-[#E2E8F0] bg-[#FAFAFA] px-3 py-2 text-xs"
                     />
                   </div>
                   <div>
@@ -675,7 +675,7 @@ export default function ListingDetailPage() {
                       min={1}
                       value={expectedDeliveryTime}
                       onChange={(e) => setExpectedDeliveryTime(Number(e.target.value))}
-                      className="w-full px-3 py-2 border border-[#E2E8F0] rounded-xl text-xs bg-[#FAFAFA]"
+                      className="min-h-11 w-full rounded-xl border border-[#E2E8F0] bg-[#FAFAFA] px-3 py-2 text-xs"
                     />
                   </div>
                 </div>
@@ -687,7 +687,7 @@ export default function ListingDetailPage() {
                     placeholder="https://github.com/yourprofile or portfolio site"
                     value={portfolioUrl}
                     onChange={(e) => setPortfolioUrl(e.target.value)}
-                    className="w-full px-3 py-2 border border-[#E2E8F0] rounded-xl text-xs bg-[#FAFAFA]"
+                    className="min-h-11 w-full rounded-xl border border-[#E2E8F0] bg-[#FAFAFA] px-3 py-2 text-xs"
                   />
                 </div>
 
@@ -699,7 +699,7 @@ export default function ListingDetailPage() {
                     placeholder="Detail your solution, technical stack, and how you plan to complete this project..."
                     value={coverLetter}
                     onChange={(e) => setCoverLetter(e.target.value)}
-                    className="w-full px-3 py-2 border border-[#E2E8F0] rounded-xl text-xs bg-[#FAFAFA] resize-none"
+                    className="min-h-28 w-full resize-none rounded-xl border border-[#E2E8F0] bg-[#FAFAFA] px-3 py-2 text-xs"
                   />
                 </div>
 
@@ -710,7 +710,7 @@ export default function ListingDetailPage() {
                     placeholder="Summarize similar Stellar smart contracts, Web3 projects, or apps you have built..."
                     value={previousExperience}
                     onChange={(e) => setPreviousExperience(e.target.value)}
-                    className="w-full px-3 py-2 border border-[#E2E8F0] rounded-xl text-xs bg-[#FAFAFA] resize-none"
+                    className="min-h-24 w-full resize-none rounded-xl border border-[#E2E8F0] bg-[#FAFAFA] px-3 py-2 text-xs"
                   />
                 </div>
 
@@ -718,7 +718,7 @@ export default function ListingDetailPage() {
                   <button
                     type="submit"
                     disabled={submitLoading}
-                    className="w-full py-3 bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow-sm disabled:opacity-50"
+                    className="flex min-h-11 w-full items-center justify-center gap-1.5 rounded-xl bg-[#7C3AED] px-3 py-3 text-xs font-bold text-white shadow-sm transition-all hover:bg-[#6D28D9] cursor-pointer disabled:opacity-50"
                   >
                     {submitLoading ? 'Submitting proposal...' : 'Submit Application'}
                   </button>
@@ -732,27 +732,27 @@ export default function ListingDetailPage() {
       {/* MODAL 2: HIRE FREELANCER (CLIENT TO SERVICE) */}
       <AnimatePresence>
         {hireModalOpen && (
-          <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center z-50 p-4">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 p-3 backdrop-blur-xs sm:p-4">
             <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white rounded-2xl w-full max-w-xl overflow-hidden shadow-2xl border border-slate-100 flex flex-col max-h-[90vh]"
+              className="flex max-h-[calc(100vh-24px)] w-full max-w-xl flex-col overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-2xl sm:max-h-[90vh]"
             >
               {/* Header */}
-              <div className="px-6 py-4.5 border-b border-[#F1F5F9] flex items-center justify-between">
+              <div className="flex items-center justify-between gap-3 border-b border-[#F1F5F9] px-4 py-4 sm:px-6 sm:py-4.5">
                 <h2 className="text-sm font-black text-[#0F172A] uppercase tracking-wider">Send Hire / Escrow Request</h2>
                 <button
                   type="button"
                   onClick={() => setHireModalOpen(false)}
-                  className="p-1 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-50 cursor-pointer"
+                  className="min-h-10 min-w-10 rounded-lg p-1 text-slate-400 hover:text-slate-600 hover:bg-slate-50 cursor-pointer"
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
 
               {/* Form */}
-              <form onSubmit={handleHireSubmit} className="flex-1 overflow-y-auto p-6 space-y-4">
+              <form onSubmit={handleHireSubmit} className="flex-1 space-y-4 overflow-y-auto p-4 sm:p-6">
                 {validationError && (
                   <div className="p-3.5 bg-red-50 border border-red-100 rounded-xl text-red-600 text-xs flex items-start gap-2 leading-relaxed">
                     <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
@@ -773,11 +773,11 @@ export default function ListingDetailPage() {
                     placeholder="e.g. Build API connector for Stellar Soroban"
                     value={projectTitle}
                     onChange={(e) => setProjectTitle(e.target.value)}
-                    className="w-full px-3 py-2 border border-[#E2E8F0] rounded-xl text-xs bg-[#FAFAFA]"
+                    className="min-h-11 w-full rounded-xl border border-[#E2E8F0] bg-[#FAFAFA] px-3 py-2 text-xs"
                   />
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div>
                     <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-wide mb-1.5">Budget Amount (XLM)</label>
                     <input
@@ -786,7 +786,7 @@ export default function ListingDetailPage() {
                       min={10}
                       value={budgetAmount}
                       onChange={(e) => setBudgetAmount(Number(e.target.value))}
-                      className="w-full px-3 py-2 border border-[#E2E8F0] rounded-xl text-xs bg-[#FAFAFA]"
+                      className="min-h-11 w-full rounded-xl border border-[#E2E8F0] bg-[#FAFAFA] px-3 py-2 text-xs"
                     />
                   </div>
                   <div>
@@ -796,7 +796,7 @@ export default function ListingDetailPage() {
                       required
                       value={deadline}
                       onChange={(e) => setDeadline(e.target.value)}
-                      className="w-full px-3 py-2 border border-[#E2E8F0] rounded-xl text-xs bg-[#FAFAFA] font-medium text-slate-700"
+                      className="min-h-11 w-full rounded-xl border border-[#E2E8F0] bg-[#FAFAFA] px-3 py-2 text-xs font-medium text-slate-700"
                     />
                   </div>
                 </div>
@@ -809,7 +809,7 @@ export default function ListingDetailPage() {
                     placeholder="Detail the project goals, requirements, and deliverables..."
                     value={projectDescription}
                     onChange={(e) => setProjectDescription(e.target.value)}
-                    className="w-full px-3 py-2 border border-[#E2E8F0] rounded-xl text-xs bg-[#FAFAFA] resize-none"
+                    className="min-h-28 w-full resize-none rounded-xl border border-[#E2E8F0] bg-[#FAFAFA] px-3 py-2 text-xs"
                   />
                 </div>
 
@@ -821,7 +821,7 @@ export default function ListingDetailPage() {
                     placeholder="List the criteria to evaluate completion (e.g. Unit tests, GitHub PR approval, IPFS metadata upload)..."
                     value={requirements}
                     onChange={(e) => setRequirements(e.target.value)}
-                    className="w-full px-3 py-2 border border-[#E2E8F0] rounded-xl text-xs bg-[#FAFAFA] resize-none"
+                    className="min-h-24 w-full resize-none rounded-xl border border-[#E2E8F0] bg-[#FAFAFA] px-3 py-2 text-xs"
                   />
                 </div>
 
@@ -829,7 +829,7 @@ export default function ListingDetailPage() {
                   <button
                     type="submit"
                     disabled={submitLoading}
-                    className="w-full py-3 bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow-sm disabled:opacity-50"
+                    className="flex min-h-11 w-full items-center justify-center gap-1.5 rounded-xl bg-[#7C3AED] px-3 py-3 text-xs font-bold text-white shadow-sm transition-all hover:bg-[#6D28D9] cursor-pointer disabled:opacity-50"
                   >
                     {submitLoading ? 'Sending request...' : 'Send Hire Request'}
                   </button>

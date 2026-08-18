@@ -79,23 +79,23 @@ export default function MarketplacePage() {
 
   return (
     <DashboardLayout>
-      <div className="space-y-6">
+      <div className="min-w-0 space-y-5 sm:space-y-6">
         {/* Page Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
             <h1 className="text-xl font-black text-[#0F172A] tracking-tight">Marketplace</h1>
             <p className="text-xs text-[#64748B] mt-0.5">Explore opportunities, hire talent, or offer services backed by secure Stellar escrows.</p>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="grid grid-cols-1 gap-2 sm:flex sm:items-center sm:gap-3">
             <Link
               to={user?.role === 'CLIENT' ? '/client/listings' : '/freelancer/listings'}
-              className="px-4 py-2.5 rounded-xl border border-[#E4E8F0] bg-white text-xs font-bold text-[#334155] hover:bg-[#FAFAFA] transition-all shadow-xs"
+              className="inline-flex min-h-11 items-center justify-center rounded-xl border border-[#E4E8F0] bg-white px-4 py-2.5 text-xs font-bold text-[#334155] shadow-xs transition-all hover:bg-[#FAFAFA]"
             >
               My Listings
             </Link>
             <Link
               to="/escrow/create"
-              className="px-4 py-2.5 rounded-xl bg-[#0F172A] text-white text-xs font-bold hover:bg-[#1E293B] transition-all shadow-sm"
+              className="inline-flex min-h-11 items-center justify-center rounded-xl bg-[#0F172A] px-4 py-2.5 text-xs font-bold text-white shadow-sm transition-all hover:bg-[#1E293B]"
             >
               Create Escrow Contract
             </Link>
@@ -104,7 +104,7 @@ export default function MarketplacePage() {
 
         {/* Compact Single Horizontal Filter Row */}
         <div className="bg-white border border-[#E4E8F0] rounded-2xl p-3.5 shadow-[0_1px_2px_rgba(0,0,0,0.01)]">
-          <form onSubmit={handleSearchSubmit} className="flex flex-col lg:flex-row items-center gap-3">
+          <form onSubmit={handleSearchSubmit} className="flex flex-col items-stretch gap-3 lg:flex-row lg:items-center">
             {/* Search */}
             <div className="w-full lg:flex-1 relative">
               <Search className="w-4 h-4 text-[#94A3B8] absolute left-3.5 top-3" />
@@ -113,17 +113,17 @@ export default function MarketplacePage() {
                 placeholder="Search projects, services, skills, tags..."
                 value={search}
                 onChange={e => setSearch(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 border border-[#E2E8F0] rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#7C3AED]/15 focus:border-[#7C3AED] transition-all bg-[#FAFAFA] text-[#334155]"
+                className="min-h-11 w-full rounded-xl border border-[#E2E8F0] bg-[#FAFAFA] py-2.5 pl-10 pr-4 text-xs text-[#334155] transition-all focus:border-[#7C3AED] focus:outline-none focus:ring-2 focus:ring-[#7C3AED]/15"
               />
             </div>
 
             {/* Controls segment */}
-            <div className="w-full lg:w-auto flex flex-wrap items-center gap-2">
+            <div className="flex w-full flex-wrap items-stretch gap-2 lg:w-auto lg:items-center">
               {/* Category Dropdown (Type) */}
               <select
                 value={type}
                 onChange={e => { setType(e.target.value as any); setPage(1); }}
-                className="px-3.5 py-2.5 border border-[#E2E8F0] rounded-xl text-xs bg-white text-[#475569] font-bold focus:outline-none cursor-pointer"
+                className="min-h-11 flex-1 rounded-xl border border-[#E2E8F0] bg-white px-3.5 py-2.5 text-xs font-bold text-[#475569] focus:outline-none cursor-pointer sm:flex-none"
               >
                 <option value="ALL">All Categories</option>
                 <option value="SERVICE">Gigs / Services</option>
@@ -134,7 +134,7 @@ export default function MarketplacePage() {
               <select
                 value={roleType}
                 onChange={e => { setRoleType(e.target.value as any); setPage(1); }}
-                className="px-3.5 py-2.5 border border-[#E2E8F0] rounded-xl text-xs bg-white text-[#475569] font-bold focus:outline-none cursor-pointer"
+                className="min-h-11 flex-1 rounded-xl border border-[#E2E8F0] bg-white px-3.5 py-2.5 text-xs font-bold text-[#475569] focus:outline-none cursor-pointer sm:flex-none"
               >
                 <option value="ALL">All Roles</option>
                 <option value="CLIENT">Client Posts</option>
@@ -146,7 +146,7 @@ export default function MarketplacePage() {
                 <button
                   type="button"
                   onClick={() => setShowSkillsDropdown(!showSkillsDropdown)}
-                  className={`px-3.5 py-2.5 border rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                  className={`flex min-h-11 items-center gap-1.5 rounded-xl border px-3.5 py-2.5 text-xs font-bold transition-all cursor-pointer ${
                     selectedSkills.length > 0
                       ? 'bg-[#F5F3FF] border-[#7C3AED] text-[#7C3AED]'
                       : 'bg-white border-[#E2E8F0] text-[#475569]'
@@ -159,7 +159,7 @@ export default function MarketplacePage() {
                 {showSkillsDropdown && (
                   <>
                     <div className="fixed inset-0 z-30" onClick={() => setShowSkillsDropdown(false)} />
-                    <div className="absolute right-0 lg:left-0 mt-2 w-52 bg-white border border-[#E4E8F0] rounded-xl shadow-lg p-2.5 z-40 space-y-1.5 max-h-60 overflow-y-auto">
+                    <div className="absolute right-0 z-40 mt-2 max-h-60 w-[min(13rem,calc(100vw-2rem))] space-y-1.5 overflow-y-auto rounded-xl border border-[#E4E8F0] bg-white p-2.5 shadow-lg lg:left-0">
                       <div className="flex items-center justify-between border-b border-slate-100 pb-1.5 mb-1">
                         <span className="text-[10px] uppercase font-bold text-slate-400">Select Skills</span>
                         {selectedSkills.length > 0 && (
@@ -198,7 +198,7 @@ export default function MarketplacePage() {
                 <select
                   value={sort}
                   onChange={e => { setSort(e.target.value); setPage(1); }}
-                  className="pl-8 pr-4 py-2.5 border border-[#E2E8F0] rounded-xl text-xs bg-white text-[#475569] font-bold focus:outline-none cursor-pointer appearance-none min-w-[130px]"
+                  className="min-h-11 min-w-[130px] appearance-none rounded-xl border border-[#E2E8F0] bg-white py-2.5 pl-8 pr-4 text-xs font-bold text-[#475569] focus:outline-none cursor-pointer"
                 >
                   <option value="newest">Newest First</option>
                   <option value="oldest">Oldest First</option>
@@ -213,7 +213,7 @@ export default function MarketplacePage() {
                 <button
                   type="button"
                   onClick={clearFilters}
-                  className="px-3.5 py-2.5 rounded-xl border border-red-100 bg-red-50 text-red-600 text-xs font-bold hover:bg-red-100 transition-all cursor-pointer"
+                  className="min-h-11 rounded-xl border border-red-100 bg-red-50 px-3.5 py-2.5 text-xs font-bold text-red-600 transition-all hover:bg-red-100 cursor-pointer"
                 >
                   Reset
                 </button>
@@ -221,7 +221,7 @@ export default function MarketplacePage() {
 
               <button
                 type="submit"
-                className="px-5 py-2.5 rounded-xl bg-[#7C3AED] text-white text-xs font-bold hover:bg-[#6D28D9] transition-all shadow-xs cursor-pointer"
+                className="min-h-11 rounded-xl bg-[#7C3AED] px-5 py-2.5 text-xs font-bold text-white shadow-xs transition-all hover:bg-[#6D28D9] cursor-pointer"
               >
                 Find
               </button>
@@ -245,13 +245,13 @@ export default function MarketplacePage() {
             ))}
           </div>
         ) : listings.length === 0 ? (
-          <div className="bg-white border border-[#E4E8F0] rounded-2xl p-12 text-center max-w-xl mx-auto shadow-xs">
+          <div className="mx-auto max-w-xl rounded-2xl border border-[#E4E8F0] bg-white p-6 text-center shadow-xs sm:p-12">
             <ShieldAlert className="w-12 h-12 text-[#94A3B8] mx-auto mb-4" />
             <h3 className="text-sm font-bold text-[#0F172A]">No Listings Found</h3>
             <p className="text-xs text-[#64748B] mt-2">Try adjusting your filters or search keywords to explore items.</p>
             <button
               onClick={clearFilters}
-              className="mt-4 px-4 py-2.5 bg-[#0F172A] text-white text-xs font-bold rounded-xl hover:bg-[#1E293B]"
+              className="mt-4 min-h-11 rounded-xl bg-[#0F172A] px-4 py-2.5 text-xs font-bold text-white hover:bg-[#1E293B]"
             >
               Reset Filters
             </button>

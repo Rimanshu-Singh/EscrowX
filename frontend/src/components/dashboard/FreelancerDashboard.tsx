@@ -193,9 +193,9 @@ export const FreelancerDashboard: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 animate-fadeIn">
+    <div className="min-w-0 space-y-5 animate-fadeIn sm:space-y-6">
       {/* SECTION 1 - TOP STATS ROW */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
           title="Active Orders"
           value={stats.activeOrders}
@@ -269,19 +269,19 @@ export const FreelancerDashboard: React.FC = () => {
               return (
                 <div
                   key={escrow.id}
-                  className="group relative rounded-xl border border-[#E4E8F0] dark:border-slate-800 bg-white dark:bg-[#1E293B] p-5 transition-all duration-300 hover:border-teal-450 hover:shadow-md hover:shadow-teal-500/5 flex flex-col justify-between"
+                  className="group relative flex min-w-0 flex-col justify-between rounded-xl border border-[#E4E8F0] bg-white p-4 transition-all duration-300 hover:border-teal-450 hover:shadow-md hover:shadow-teal-500/5 dark:border-slate-800 dark:bg-[#1E293B] sm:p-5"
                 >
                   <div className="space-y-3">
-                    <div className="flex justify-between items-start">
-                      <div className="flex items-center gap-2.5">
+                    <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+                      <div className="flex min-w-0 items-center gap-2.5">
                         <img
                           src={escrow.clientAvatar}
                           alt={escrow.clientName}
                           className="w-7 h-7 rounded-full bg-slate-50 border border-[#E4E8F0] dark:border-slate-800"
                         />
-                        <div>
+                        <div className="min-w-0">
                           <h5 className="text-[10px] uppercase tracking-wider text-slate-400">Client</h5>
-                          <p className="text-xs font-semibold text-slate-700 dark:text-slate-300">{escrow.clientName}</p>
+                          <p className="truncate text-xs font-semibold text-slate-700 dark:text-slate-300">{escrow.clientName}</p>
                         </div>
                       </div>
                       <div className="flex items-center gap-1 bg-teal-50 dark:bg-teal-950/30 text-teal-650 dark:text-teal-400 text-xs font-bold px-2 py-1 rounded-lg border border-teal-205 dark:border-teal-900/30">
@@ -306,24 +306,24 @@ export const FreelancerDashboard: React.FC = () => {
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-1.5 text-xs text-slate-500">
+                    <div className="flex min-w-0 items-start gap-1.5 text-xs text-slate-500">
                       <Calendar size={13} className={isUrgent ? 'text-red-500' : ''} />
-                      <span className={isUrgent ? 'text-red-500 font-semibold' : ''}>
+                      <span className={`min-w-0 break-words ${isUrgent ? 'text-red-500 font-semibold' : ''}`}>
                         Deadline: {format(deadlineDate, 'MMMM dd, yyyy')} ({countdown})
                       </span>
                     </div>
                   </div>
 
-                  <div className="flex gap-2 mt-4 pt-3 border-t border-[#E4E8F0] dark:border-slate-800">
+                  <div className="mt-4 flex flex-col gap-2 border-t border-[#E4E8F0] pt-3 dark:border-slate-800 sm:flex-row">
                     <button
                       onClick={() => navigate('/freelancer/escrow/' + escrow.id)}
-                      className="flex-1 text-center py-2 rounded-lg text-xs font-bold text-white bg-teal-600 hover:bg-teal-500 transition-colors duration-150 active:scale-95 cursor-pointer"
+                      className="min-h-11 flex-1 rounded-lg bg-teal-600 px-3 py-2 text-center text-xs font-bold text-white transition-colors duration-150 hover:bg-teal-500 active:scale-95 cursor-pointer"
                     >
                       Accept Workspace
                     </button>
                     <button
                       onClick={() => navigate('/freelancer/escrow/' + escrow.id)}
-                      className="flex-1 text-center py-2 rounded-lg text-xs font-bold text-slate-750 dark:text-slate-300 hover:text-[#0F1117] bg-transparent border border-[#E4E8F0] dark:border-slate-800 hover:bg-[#F8F9FB] dark:hover:bg-slate-800 transition-all duration-150 active:scale-95 cursor-pointer"
+                      className="min-h-11 flex-1 rounded-lg border border-[#E4E8F0] bg-transparent px-3 py-2 text-center text-xs font-bold text-slate-750 transition-all duration-150 hover:bg-[#F8F9FB] hover:text-[#0F1117] active:scale-95 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800 cursor-pointer"
                     >
                       View Details
                     </button>
@@ -348,7 +348,8 @@ export const FreelancerDashboard: React.FC = () => {
           ) : !gigs || gigs.length === 0 ? (
             <div className="p-6 text-center text-[#9CA3AF] text-sm">No gigs found. Create a listing to view stats.</div>
           ) : (
-            <table className="w-full border-collapse text-left text-sm">
+            <div className="overflow-x-auto">
+            <table className="min-w-[560px] w-full border-collapse text-left text-sm">
               <thead>
                 <tr className="border-b border-[#E4E8F0] dark:border-slate-800 bg-[#F8F9FB]/50 dark:bg-slate-800/30">
                   <th className="p-4 text-xs font-semibold uppercase tracking-widest text-[#6B7280]">Gig Title</th>
@@ -368,6 +369,7 @@ export const FreelancerDashboard: React.FC = () => {
                 ))}
               </tbody>
             </table>
+            </div>
           )}
         </div>
       </div>
@@ -376,7 +378,7 @@ export const FreelancerDashboard: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-10 gap-6">
         {/* Notification Center */}
         <div className="lg:col-span-6 space-y-3">
-          <div className="rounded-xl border border-[#E4E8F0] dark:border-slate-800 bg-white dark:bg-[#1E293B] p-6">
+          <div className="rounded-xl border border-[#E4E8F0] bg-white p-4 dark:border-slate-800 dark:bg-[#1E293B] sm:p-6">
             <h3 className="text-lg font-semibold text-[#0F1117] dark:text-white mb-4">Notification Center</h3>
             {loading ? (
               <div className="space-y-4 animate-pulse">

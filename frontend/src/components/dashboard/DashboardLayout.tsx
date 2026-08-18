@@ -24,7 +24,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
 
   return (
     <div className={theme === 'dark' ? 'dark' : ''}>
-      <div className="min-h-screen bg-surface text-text-primary font-sans selection:bg-purple-500/30 selection:text-white flex transition-colors duration-200">
+      <div className="flex min-h-screen min-w-0 bg-surface font-sans text-text-primary selection:bg-purple-500/30 selection:text-white transition-colors duration-200">
         {/* Sidebar on the left */}
         <Sidebar isOpenOnMobile={mobileMenuOpen} onCloseMobile={() => setMobileMenuOpen(false)} />
 
@@ -37,20 +37,20 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
         )}
 
         {/* Main Content Area on the right */}
-        <div className="flex-1 md:ml-[240px] ml-0 flex flex-col min-h-screen">
+        <div className="ml-0 flex min-h-screen min-w-0 flex-1 flex-col md:ml-[240px]">
           {/* Top header */}
-          <header className="md:h-20 h-16 bg-card border-b border-border flex items-center justify-between md:px-8 px-4 sticky top-0 z-30 shadow-[0_1px_2px_rgba(0,0,0,0.01)] transition-all duration-200">
-            <div className="flex items-center">
+          <header className="sticky top-0 z-30 flex h-16 min-w-0 items-center justify-between gap-2 border-b border-border bg-card px-3 shadow-[0_1px_2px_rgba(0,0,0,0.01)] transition-all duration-200 sm:px-4 md:h-20 md:px-8">
+            <div className="flex min-w-0 items-center">
               {/* Hamburger menu button for mobile */}
               <button 
                 onClick={() => setMobileMenuOpen(true)} 
-                className="p-2 -ml-2 mr-3 rounded-lg hover:bg-surface-elevated md:hidden cursor-pointer text-text-secondary hover:text-text-primary transition-colors"
+                className="-ml-1 mr-2 grid size-10 shrink-0 place-items-center rounded-lg text-text-secondary transition-colors hover:bg-surface-elevated hover:text-text-primary md:hidden cursor-pointer"
                 title="Open Navigation"
               >
                 <Menu className="w-5 h-5" />
               </button>
 
-              <div className="flex flex-col justify-center">
+              <div className="flex min-w-0 flex-col justify-center">
                 <div className="flex items-center gap-2.5">
                   <h2 className="text-[14px] font-black text-text-primary tracking-tight hidden sm:block">
                     Good morning, {user?.name || 'johnn'} 👋 <span className="font-normal text-slate-500">{user?.role?.toLowerCase() || 'freelancer'}</span>
@@ -64,7 +64,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
                   }`}>
                     {user?.role || 'FREELANCER'}
                   </span>
-                  <span className="text-[15px] font-bold text-text-primary tracking-tight sm:hidden">
+                  <span className="max-w-[84px] truncate text-[15px] font-bold tracking-tight text-text-primary sm:hidden">
                     EscrowX
                   </span>
                 </div>
@@ -80,17 +80,17 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
             </div>
 
             {/* Network Badge (Testnet) */}
-            <div className="hidden md:flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-50 dark:bg-purple-950/30 text-[#7C3AED] border border-purple-100 dark:border-purple-900/30 text-[10px] font-extrabold uppercase tracking-wider">
+            <div className="hidden items-center gap-1.5 rounded-full border border-purple-100 bg-purple-50 px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-[#7C3AED] dark:border-purple-900/30 dark:bg-purple-950/30 md:flex">
               <span className="w-1.5 h-1.5 rounded-full bg-[#7C3AED] animate-pulse" />
               Testnet
             </div>
 
             {/* Header right: Wallet address connected beside Testnet badge */}
-            <div className="flex items-center gap-3">
+            <div className="flex shrink-0 items-center gap-1.5 sm:gap-2 md:gap-3">
               <button
                 onClick={openOnboardingGuide}
                 title="Open EscrowX guide"
-                className="inline-flex items-center gap-1.5 rounded-xl bg-surface border border-border px-2.5 py-2 text-xs font-bold text-text-secondary transition-all hover:bg-surface-elevated hover:text-text-primary"
+                className="inline-flex min-h-10 items-center gap-1.5 rounded-xl border border-border bg-surface px-2.5 py-2 text-xs font-bold text-text-secondary transition-all hover:bg-surface-elevated hover:text-text-primary"
               >
                 <BookOpen size={16} />
                 <span className="hidden lg:inline">Learn</span>
@@ -100,16 +100,16 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
                 <div className="relative">
                   <button
                     onClick={() => setShowWalletDropdown(!showWalletDropdown)}
-                    className="flex items-center gap-2 bg-surface border border-border px-3 md:px-3.5 py-2 md:py-2.5 rounded-xl text-xs font-bold text-text-primary hover:bg-surface-elevated transition-colors shadow-xs cursor-pointer"
+                    className="flex min-h-10 max-w-[86px] items-center gap-1.5 rounded-xl border border-border bg-surface px-2 py-2 text-xs font-bold text-text-primary shadow-xs transition-colors hover:bg-surface-elevated sm:max-w-none sm:gap-2 sm:px-3 md:px-3.5 md:py-2.5 cursor-pointer"
                   >
                     <span className="relative flex h-2 w-2">
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                       <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                     </span>
-                    <span className="font-mono text-[11px] hidden sm:inline">
+                    <span className="hidden font-mono text-[11px] sm:inline">
                       {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
                     </span>
-                    <span className="font-mono text-[11px] sm:hidden">
+                    <span className="truncate font-mono text-[11px] sm:hidden">
                       {walletAddress.slice(0, 3)}...{walletAddress.slice(-3)}
                     </span>
                     <svg className="w-3 h-3 text-[#64748B]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
@@ -118,7 +118,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
                   </button>
                   
                   {showWalletDropdown && (
-                    <div className="absolute right-0 mt-2 w-48 bg-card border border-border rounded-xl shadow-xl py-1.5 z-50 text-xs text-text-primary">
+                    <div className="absolute right-0 z-50 mt-2 w-[min(12rem,calc(100vw-1.5rem))] rounded-xl border border-border bg-card py-1.5 text-xs text-text-primary shadow-xl">
                       <button
                         onClick={async () => {
                           await navigator.clipboard.writeText(walletAddress);
@@ -153,7 +153,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
               <button
                 onClick={toggleTheme}
                 title={`Switch to ${theme === 'light' ? 'Dark' : 'Light'} Mode`}
-                className="p-2 md:p-2.5 rounded-xl bg-surface border border-border hover:bg-surface-elevated text-text-secondary hover:text-text-primary transition-all cursor-pointer"
+                className="grid size-10 place-items-center rounded-xl border border-border bg-surface text-text-secondary transition-all hover:bg-surface-elevated hover:text-text-primary md:size-11 cursor-pointer"
               >
                 {theme === 'light' ? <Moon size={16} /> : <Sun size={16} />}
               </button>
@@ -165,7 +165,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
                     navigate('/auth/login');
                   }}
                   title="Sign Out"
-                  className="p-2 md:p-2.5 rounded-xl bg-surface border border-border hover:border-red-500/20 hover:bg-red-500/10 text-text-muted hover:text-red-500 transition-all cursor-pointer"
+                  className="hidden size-10 place-items-center rounded-xl border border-border bg-surface text-text-muted transition-all hover:border-red-500/20 hover:bg-red-500/10 hover:text-red-500 sm:grid md:size-11 cursor-pointer"
                 >
                   <LogOut size={16} />
                 </button>
@@ -174,7 +174,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
           </header>
 
           {/* Main Content Area */}
-          <div className="flex-1 md:p-8 p-4">
+          <div className="min-w-0 flex-1 p-3 sm:p-4 md:p-8">
             {/* Dashboard environment render */}
             {children}
           </div>

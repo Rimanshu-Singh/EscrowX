@@ -53,8 +53,8 @@ export function HeroSection() {
     <section className="relative min-h-screen flex items-center overflow-hidden pt-16">
       {/* Background pattern */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#5B6BF8]/5 rounded-full blur-3xl translate-x-1/3 -translate-y-1/4" />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#7B68EE]/4 rounded-full blur-3xl -translate-x-1/4 translate-y-1/4" />
+        <div className="absolute right-0 top-0 hidden h-[360px] w-[360px] translate-x-1/3 -translate-y-1/4 rounded-full bg-[#5B6BF8]/5 blur-2xl md:block lg:h-[600px] lg:w-[600px] lg:blur-3xl" />
+        <div className="absolute bottom-0 left-0 hidden h-[280px] w-[280px] -translate-x-1/4 translate-y-1/4 rounded-full bg-[#7B68EE]/4 blur-2xl md:block lg:h-[400px] lg:w-[400px] lg:blur-3xl" />
         <div
           className="absolute inset-0 opacity-[0.015]"
           style={{
@@ -64,8 +64,8 @@ export function HeroSection() {
         />
       </div>
 
-      <div className="max-w-[1280px] mx-auto px-6 w-full py-20">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+      <div className="mx-auto w-full max-w-[1280px] px-4 py-12 sm:px-6 sm:py-20">
+        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
           {/* Left — Copy */}
           <div ref={ref}>
             <motion.div
@@ -80,29 +80,29 @@ export function HeroSection() {
               </div>
 
               {/* Headline */}
-              <h1 className="text-[60px] lg:text-[72px] font-extrabold text-[#0F1117] leading-[1.05] tracking-[-0.03em] mb-6">
+              <h1 className="mb-6 text-[40px] font-extrabold leading-[1.08] tracking-normal text-[#0F1117] sm:text-[56px] lg:text-[72px]">
                 Freelance payments,{' '}
                 <span className="gradient-text">secured by code.</span>
               </h1>
 
               {/* Subheadline */}
-              <p className="text-[18px] text-[#6B7280] leading-[1.65] mb-8 max-w-[480px]">
+              <p className="mb-8 max-w-[480px] text-base leading-[1.65] text-[#6B7280] sm:text-[18px]">
                 Lock funds in a Soroban smart contract. Release only when work is
                 delivered. No middlemen, no chargebacks, no trust required.
               </p>
 
               {/* CTA row */}
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-10">
+              <div className="mb-10 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
                 <Link
                   to="/escrow/new"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-[10px] bg-[#5B6BF8] text-white font-semibold hover:bg-[#4757E8] transition-all duration-200 shadow-md hover:shadow-lg hover:shadow-[#5B6BF8]/30 hover:-translate-y-0.5"
+                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-[10px] bg-[#5B6BF8] px-6 py-3 font-semibold text-white shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#4757E8] hover:shadow-lg hover:shadow-[#5B6BF8]/30"
                 >
                   Start an Escrow
                   <ArrowRight className="w-4 h-4" />
                 </Link>
                 <a
                   href="#how-it-works"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-[10px] border border-[#E4E8F0] text-[#6B7280] font-semibold hover:border-[#5B6BF8] hover:text-[#5B6BF8] hover:bg-[#EEF0FF] transition-all duration-200"
+                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-[10px] border border-[#E4E8F0] px-6 py-3 font-semibold text-[#6B7280] transition-all duration-200 hover:border-[#5B6BF8] hover:bg-[#EEF0FF] hover:text-[#5B6BF8]"
                 >
                   See How It Works
                 </a>
@@ -116,7 +116,7 @@ export function HeroSection() {
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={inView ? { opacity: 1, scale: 1 } : {}}
                     transition={{ duration: 0.3, delay: 0.6 }}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-[#E4E8F0] text-sm text-[#6B7280] font-medium shadow-sm"
+                    className="inline-flex min-h-9 items-center gap-1.5 rounded-full border border-[#E4E8F0] bg-white px-3 py-1.5 text-xs font-medium text-[#6B7280] shadow-sm sm:text-sm"
                   >
                     <span>{chip.icon}</span>
                     {chip.label}
@@ -157,7 +157,7 @@ export function HeroSection() {
                     initial={{ opacity: 0, x: 40 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.5, delay: 0.3 + i * 0.18, ease: [0.34, 1.56, 0.64, 1] }}
-                    className="relative z-10 hero-card p-4 ml-4"
+                    className="relative z-10 ml-2 p-4 sm:ml-4 hero-card"
                     style={{
                       transform: `scale(${1 - i * 0.02}) translateX(${i * 4}px)`,
                     }}

@@ -36,7 +36,7 @@ export default function MyApplicationsPage() {
 
   return (
     <DashboardLayout>
-      <div className="space-y-6">
+      <div className="min-w-0 space-y-5 sm:space-y-6">
         <div>
           <h1 className="text-xl font-black text-[#0F172A] tracking-tight">My Proposals & Applications</h1>
           <p className="text-xs text-[#64748B] mt-0.5">Track all applications you have submitted to client projects.</p>
@@ -47,18 +47,18 @@ export default function MyApplicationsPage() {
             <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-[#7C3AED]"></div>
           </div>
         ) : applications.length === 0 ? (
-          <div className="bg-white border border-[#E4E8F0] rounded-xl p-12 text-center max-w-xl mx-auto shadow-2xs space-y-3">
+          <div className="mx-auto max-w-xl space-y-3 rounded-xl border border-[#E4E8F0] bg-white p-6 text-center shadow-2xs sm:p-12">
             <Briefcase className="w-10 h-10 text-[#94A3B8] mx-auto" />
             <h3 className="text-xs font-bold text-[#0F172A]">No Applications Found</h3>
             <p className="text-xs text-[#64748B]">You haven't submitted proposals to project listings yet.</p>
-            <Link to="/marketplace" className="inline-block mt-2 px-4 py-2 bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-bold rounded-xl shadow-xs">
+            <Link to="/marketplace" className="mt-2 inline-flex min-h-11 items-center justify-center rounded-xl bg-[#7C3AED] px-4 py-2 text-xs font-bold text-white shadow-xs hover:bg-[#6D28D9]">
               Browse Marketplace
             </Link>
           </div>
         ) : (
           <div className="bg-white border border-[#E4E8F0] rounded-xl overflow-hidden shadow-xs">
             <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
+              <table className="min-w-[760px] w-full border-collapse text-left">
                 <thead>
                   <tr className="bg-slate-50 border-b border-[#E4E8F0] text-[10px] uppercase font-bold text-slate-400 tracking-wider">
                     <th className="px-6 py-4">Project Listing</th>
@@ -102,7 +102,7 @@ export default function MyApplicationsPage() {
                           {app.status === 'PENDING' && (
                             <button
                               onClick={() => handleWithdraw(app._id)}
-                              className="p-1.5 rounded-lg border border-red-100 bg-red-50 hover:bg-red-100 text-red-600 transition-colors cursor-pointer"
+                              className="min-h-10 min-w-10 rounded-lg border border-red-100 bg-red-50 p-1.5 text-red-600 transition-colors hover:bg-red-100 cursor-pointer"
                               title="Withdraw Proposal"
                             >
                               <Trash2 className="w-3.5 h-3.5" />
@@ -110,7 +110,7 @@ export default function MyApplicationsPage() {
                           )}
                           <Link
                             to={`/listing/${app.projectId?._id || app.projectId}`}
-                            className="p-1.5 rounded-lg border border-[#E4E8F0] hover:bg-slate-100 text-[#475569] transition-colors"
+                            className="inline-flex min-h-10 min-w-10 items-center justify-center rounded-lg border border-[#E4E8F0] p-1.5 text-[#475569] transition-colors hover:bg-slate-100"
                           >
                             <ArrowRight className="w-3.5 h-3.5" />
                           </Link>

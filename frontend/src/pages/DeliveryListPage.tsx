@@ -96,10 +96,10 @@ export default function DeliveryListPage() {
 
   return (
     <DashboardLayout>
-      <div className="space-y-6">
+      <div className="min-w-0 space-y-5 sm:space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-black text-[#0F172A] tracking-tight">Delivery Workspaces</h1>
+            <h1 className="text-xl font-black tracking-tight text-[#0F172A] sm:text-2xl">Delivery Workspaces</h1>
             <p className="text-xs text-[#64748B] mt-0.5">Manage active deliverables, reviews, and escrow releases for your contracts.</p>
           </div>
         </div>
@@ -109,7 +109,7 @@ export default function DeliveryListPage() {
             <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#7C3AED]"></div>
           </div>
         ) : deliveries.length === 0 ? (
-          <div className="bg-white border border-[#E4E8F0] rounded-2xl p-16 text-center max-w-xl mx-auto shadow-2xs space-y-4">
+          <div className="mx-auto max-w-xl space-y-4 rounded-2xl border border-[#E4E8F0] bg-white p-6 text-center shadow-2xs sm:p-16">
             <div className="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center mx-auto">
               <ClipboardList className="w-6 h-6 text-[#94A3B8]" />
             </div>
@@ -117,12 +117,12 @@ export default function DeliveryListPage() {
             <p className="text-xs text-[#64748B] max-w-xs mx-auto leading-relaxed">
               Once a proposal is accepted, a secure workspace is created here for uploading files, client reviews, and tracking milestone progress.
             </p>
-            <Link to="/marketplace" className="inline-block mt-2 px-4 py-2 bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-bold rounded-xl transition-all shadow-xs">
+            <Link to="/marketplace" className="mt-2 inline-flex min-h-11 items-center justify-center rounded-xl bg-[#7C3AED] px-4 py-2 text-xs font-bold text-white shadow-xs transition-all hover:bg-[#6D28D9]">
               Browse Marketplace
             </Link>
           </div>
         ) : (
-          <div className="flex flex-col gap-4 w-full">
+          <div className="flex w-full min-w-0 flex-col gap-4">
             {deliveries.map((dlv) => {
               const projectTitle = dlv.projectId?.title || 'Untitled Project';
               const projectDesc = dlv.projectId?.description || '';
@@ -131,11 +131,11 @@ export default function DeliveryListPage() {
               const countdown = getCountdown(dlv.deadline);
 
               return (
-                <div key={dlv._id} className="bg-white border border-[#E4E8F0] rounded-2xl p-5 shadow-2xs hover:shadow-xs hover:border-[#D1D5DB] transition-all flex flex-col md:flex-row md:items-center justify-between gap-5">
-                  <div className="flex-1 space-y-2">
+                <div key={dlv._id} className="flex min-w-0 flex-col justify-between gap-5 rounded-2xl border border-[#E4E8F0] bg-white p-4 shadow-2xs transition-all hover:border-[#D1D5DB] hover:shadow-xs md:flex-row md:items-center sm:p-5">
+                  <div className="min-w-0 flex-1 space-y-2">
                     <div className="flex flex-wrap items-center gap-2.5">
                       <span className="font-mono text-[9px] font-black text-slate-400 uppercase bg-slate-50 border border-slate-200 px-1.5 py-0.5 rounded">
-                        ID: {dlv.escrowId || dlv._id}
+                        ID: <span className="break-all">{dlv.escrowId || dlv._id}</span>
                       </span>
                       {getStatusBadge(dlv.status)}
                       <span className={countdown.color}>
@@ -143,7 +143,7 @@ export default function DeliveryListPage() {
                       </span>
                     </div>
 
-                    <h3 className="text-base font-extrabold text-[#0F172A] hover:text-[#7C3AED] transition-colors leading-snug">
+                    <h3 className="break-words text-base font-extrabold leading-snug text-[#0F172A] transition-colors hover:text-[#7C3AED]">
                       <Link to={`/delivery/${dlv.escrowId || dlv._id}`}>{projectTitle}</Link>
                     </h3>
 
@@ -152,8 +152,8 @@ export default function DeliveryListPage() {
                     </p>
                   </div>
 
-                  <div className="flex flex-wrap items-center justify-between md:justify-end gap-6 shrink-0 pt-4 md:pt-0 border-t border-slate-50 md:border-t-0">
-                    <div className="grid grid-cols-2 md:flex md:items-center gap-6 text-xs">
+                  <div className="flex flex-col gap-4 border-t border-slate-50 pt-4 md:flex-row md:items-center md:justify-end md:border-t-0 md:pt-0">
+                    <div className="grid grid-cols-1 gap-3 text-xs sm:grid-cols-2 md:flex md:items-center md:gap-6">
                       <div>
                         <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider leading-none">Budget</p>
                         <p className="font-black text-slate-800 mt-1 font-mono text-sm">{budgetVal} XLM</p>
@@ -167,7 +167,7 @@ export default function DeliveryListPage() {
 
                     <button
                       onClick={() => navigate(`/delivery/${dlv.escrowId || dlv._id}`)}
-                      className="flex items-center gap-1.5 px-4.5 py-2.5 bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-bold rounded-xl transition-all shadow-sm cursor-pointer"
+                      className="flex min-h-11 w-full items-center justify-center gap-1.5 rounded-xl bg-[#7C3AED] px-4.5 py-2.5 text-xs font-bold text-white shadow-sm transition-all hover:bg-[#6D28D9] md:w-auto cursor-pointer"
                     >
                       <PackageOpen className="w-4 h-4" />
                       Open Workspace

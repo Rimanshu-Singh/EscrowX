@@ -77,9 +77,9 @@ export default function CreateEscrowPage() {
 
   return (
     <AppLayout title="Create Escrow" showNewEscrow={false}>
-      <div className="max-w-[640px] mx-auto">
+      <div className="mx-auto max-w-[640px] min-w-0">
         {/* Step progress */}
-        <div className="mb-8">
+        <div className="mb-6 sm:mb-8">
           <StepProgress steps={STEPS} currentStep={currentStep} />
         </div>
 
@@ -93,9 +93,9 @@ export default function CreateEscrowPage() {
               exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.25 }}
             >
-              <div className="bg-white rounded-[16px] border border-[#E4E8F0] shadow-[0_1px_3px_rgba(0,0,0,0.06),0_8px_32px_rgba(91,107,248,0.08)] p-8">
+              <div className="rounded-[16px] border border-[#E4E8F0] bg-white p-4 shadow-[0_1px_3px_rgba(0,0,0,0.06),0_8px_32px_rgba(91,107,248,0.08)] sm:p-8">
                 <div className="mb-6">
-                  <h2 className="text-[20px] font-bold text-[#0F1117] mb-1">Project Details</h2>
+                  <h2 className="mb-1 text-lg font-bold text-[#0F1117] sm:text-[20px]">Project Details</h2>
                   <p className="text-sm text-[#9CA3AF]">Define the scope and parties of this escrow agreement</p>
                 </div>
 
@@ -108,7 +108,7 @@ export default function CreateEscrowPage() {
                     <input
                       {...register('title')}
                       placeholder="Logo Design for SaaS startup"
-                      className={`w-full px-4 py-3 rounded-[10px] border text-sm bg-white text-[#0F1117] placeholder:text-[#9CA3AF] focus:outline-none focus:ring-2 focus:ring-[#5B6BF8]/30 focus:border-[#5B6BF8] transition-all ${
+                      className={`min-h-11 w-full rounded-[10px] border bg-white px-4 py-3 text-sm text-[#0F1117] transition-all placeholder:text-[#9CA3AF] focus:border-[#5B6BF8] focus:outline-none focus:ring-2 focus:ring-[#5B6BF8]/30 ${
                         errors.title ? 'border-red-400' : 'border-[#E4E8F0]'
                       }`}
                     />
@@ -126,7 +126,7 @@ export default function CreateEscrowPage() {
                       {...register('description')}
                       placeholder="Describe the deliverables, requirements, and acceptance criteria..."
                       rows={3}
-                      className={`w-full px-4 py-3 rounded-[10px] border text-sm bg-white text-[#0F1117] placeholder:text-[#9CA3AF] focus:outline-none focus:ring-2 focus:ring-[#5B6BF8]/30 focus:border-[#5B6BF8] transition-all resize-none ${
+                      className={`w-full resize-none rounded-[10px] border bg-white px-4 py-3 text-sm text-[#0F1117] transition-all placeholder:text-[#9CA3AF] focus:border-[#5B6BF8] focus:outline-none focus:ring-2 focus:ring-[#5B6BF8]/30 ${
                         errors.description ? 'border-red-400' : 'border-[#E4E8F0]'
                       }`}
                     />
@@ -144,7 +144,7 @@ export default function CreateEscrowPage() {
                       <input
                         {...register('sellerAddress')}
                         placeholder="GDKPQN5XCZK8MNBRTV2H..."
-                        className={`w-full px-4 py-3 rounded-[10px] border text-sm font-mono bg-white text-[#0F1117] placeholder:text-[#9CA3AF] placeholder:font-sans focus:outline-none focus:ring-2 focus:ring-[#5B6BF8]/30 focus:border-[#5B6BF8] transition-all pr-10 ${
+                        className={`min-h-11 w-full rounded-[10px] border bg-white px-4 py-3 pr-10 font-mono text-sm text-[#0F1117] transition-all placeholder:font-sans placeholder:text-[#9CA3AF] focus:border-[#5B6BF8] focus:outline-none focus:ring-2 focus:ring-[#5B6BF8]/30 ${
                           errors.sellerAddress ? 'border-red-400' : 'border-[#E4E8F0]'
                         }`}
                       />
@@ -158,7 +158,7 @@ export default function CreateEscrowPage() {
                     <p className="text-[11px] text-[#9CA3AF] mt-1">Stellar public key starting with G</p>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     {/* Deadline */}
                     <div>
                       <label className="block text-[12px] font-semibold uppercase tracking-[0.08em] text-[#6B7280] mb-2">
@@ -167,7 +167,7 @@ export default function CreateEscrowPage() {
                       <input
                         {...register('deadline')}
                         type="date"
-                        className={`w-full px-4 py-3 rounded-[10px] border text-sm bg-white text-[#0F1117] focus:outline-none focus:ring-2 focus:ring-[#5B6BF8]/30 focus:border-[#5B6BF8] transition-all ${
+                        className={`min-h-11 w-full rounded-[10px] border bg-white px-4 py-3 text-sm text-[#0F1117] transition-all focus:border-[#5B6BF8] focus:outline-none focus:ring-2 focus:ring-[#5B6BF8]/30 ${
                           errors.deadline ? 'border-red-400' : 'border-[#E4E8F0]'
                         }`}
                       />
@@ -180,7 +180,7 @@ export default function CreateEscrowPage() {
                       </label>
                       <select
                         {...register('milestoneType')}
-                        className="w-full px-4 py-3 rounded-[10px] border border-[#E4E8F0] text-sm bg-white text-[#0F1117] focus:outline-none focus:ring-2 focus:ring-[#5B6BF8]/30 focus:border-[#5B6BF8] transition-all"
+                        className="min-h-11 w-full rounded-[10px] border border-[#E4E8F0] bg-white px-4 py-3 text-sm text-[#0F1117] transition-all focus:border-[#5B6BF8] focus:outline-none focus:ring-2 focus:ring-[#5B6BF8]/30"
                       >
                         <option value="single">Single Payment</option>
                         <option value="milestone">Milestone-based</option>
@@ -190,7 +190,7 @@ export default function CreateEscrowPage() {
 
                   <button
                     type="submit"
-                    className="w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-[10px] bg-[#5B6BF8] text-white font-semibold hover:bg-[#4757E8] transition-all duration-200 shadow-sm hover:shadow-md hover:shadow-[#5B6BF8]/20 hover:-translate-y-px"
+                    className="flex min-h-11 w-full items-center justify-center gap-2 rounded-[10px] bg-[#5B6BF8] px-6 py-3.5 font-semibold text-white shadow-sm transition-all duration-200 hover:bg-[#4757E8] hover:shadow-md hover:shadow-[#5B6BF8]/20 hover:-translate-y-px"
                   >
                     Next — Set Amount
                     <ArrowRight className="w-4 h-4" />
@@ -209,24 +209,24 @@ export default function CreateEscrowPage() {
               exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.25 }}
             >
-              <div className="bg-white rounded-[16px] border border-[#E4E8F0] shadow-[0_1px_3px_rgba(0,0,0,0.06),0_8px_32px_rgba(91,107,248,0.08)] p-8">
+              <div className="rounded-[16px] border border-[#E4E8F0] bg-white p-4 shadow-[0_1px_3px_rgba(0,0,0,0.06),0_8px_32px_rgba(91,107,248,0.08)] sm:p-8">
                 <div className="mb-6">
                   <h2 className="text-[20px] font-bold text-[#0F1117] mb-1">Deposit Funds</h2>
                   <p className="text-sm text-[#9CA3AF]">Set the XLM amount to lock into the escrow vault</p>
                 </div>
 
                 {/* Big XLM input */}
-                <div className="bg-[#F8F9FB] rounded-[14px] border border-[#E4E8F0] p-6 mb-5 text-center">
+                <div className="mb-5 rounded-[14px] border border-[#E4E8F0] bg-[#F8F9FB] p-4 text-center sm:p-6">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#9CA3AF] mb-4">
                     You are locking
                   </p>
-                  <div className="flex items-center justify-center gap-3 mb-2">
+                  <div className="mb-2 flex flex-wrap items-center justify-center gap-2 sm:gap-3">
                     <input
                       type="number"
                       value={xlmAmount || ''}
                       onChange={(e) => setXlmAmount(Number(e.target.value))}
                       placeholder="0"
-                      className="text-center text-[48px] font-extrabold font-mono text-[#0F1117] bg-transparent border-none outline-none w-44 placeholder:text-[#E4E8F0]"
+                      className="w-32 border-none bg-transparent text-center font-mono text-[36px] font-extrabold text-[#0F1117] outline-none placeholder:text-[#E4E8F0] sm:w-44 sm:text-[48px]"
                     />
                     <span className="text-[24px] font-bold text-[#7B68EE]">XLM</span>
                   </div>
@@ -243,12 +243,12 @@ export default function CreateEscrowPage() {
                   </div>
 
                   {/* Quick amount buttons */}
-                  <div className="flex items-center justify-center gap-2 mt-3">
+                  <div className="mt-3 grid grid-cols-2 gap-2 sm:flex sm:items-center sm:justify-center">
                     {[100, 250, 500, 1000].map((amount) => (
                       <button
                         key={amount}
                         onClick={() => setXlmAmount(amount)}
-                        className={`px-3 py-1 rounded-[6px] text-xs font-semibold border transition-all ${
+                        className={`min-h-10 rounded-[6px] border px-3 py-1 text-xs font-semibold transition-all ${
                           xlmAmount === amount
                             ? 'bg-[#5B6BF8] border-[#5B6BF8] text-white'
                             : 'border-[#E4E8F0] text-[#9CA3AF] hover:border-[#5B6BF8] hover:text-[#5B6BF8]'
@@ -281,18 +281,18 @@ export default function CreateEscrowPage() {
                 </div>
 
                 {/* Wallet pill */}
-                <div className="flex items-center gap-2 p-3 bg-[#EEF0FF] rounded-[10px] border border-[#DDE2FF] mb-5">
+                <div className="mb-5 flex min-w-0 flex-wrap items-center gap-2 rounded-[10px] border border-[#DDE2FF] bg-[#EEF0FF] p-3">
                   <div className="w-2 h-2 rounded-full bg-[#16A865]" />
                   <span className="text-xs font-semibold text-[#5B6BF8]">Freighter Wallet Connected</span>
-                  <span className="ml-auto font-mono text-[11px] text-[#7B68EE]">
+                  <span className="min-w-0 font-mono text-[11px] text-[#7B68EE] sm:ml-auto">
                     {MOCK_WALLET.slice(0, 8)}...{MOCK_WALLET.slice(-4)}
                   </span>
                 </div>
 
-                <div className="flex gap-3">
+                <div className="flex flex-col gap-3 sm:flex-row">
                   <button
                     onClick={() => setCurrentStep(1)}
-                    className="flex items-center gap-2 px-4 py-3 rounded-[10px] border border-[#E4E8F0] text-sm font-semibold text-[#6B7280] hover:bg-[#F8F9FB] transition-all"
+                    className="flex min-h-11 items-center justify-center gap-2 rounded-[10px] border border-[#E4E8F0] px-4 py-3 text-sm font-semibold text-[#6B7280] transition-all hover:bg-[#F8F9FB]"
                   >
                     <ArrowLeft className="w-4 h-4" />
                     Back
@@ -300,7 +300,7 @@ export default function CreateEscrowPage() {
                   <button
                     onClick={() => xlmAmount > 0 && setCurrentStep(3)}
                     disabled={xlmAmount <= 0}
-                    className="flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-[10px] bg-[#5B6BF8] text-white font-semibold hover:bg-[#4757E8] disabled:opacity-40 disabled:cursor-not-allowed transition-all hover:-translate-y-px"
+                    className="flex min-h-11 flex-1 items-center justify-center gap-2 rounded-[10px] bg-[#5B6BF8] px-6 py-3 font-semibold text-white transition-all hover:-translate-y-px hover:bg-[#4757E8] disabled:cursor-not-allowed disabled:opacity-40"
                   >
                     Deposit Funds
                     <ArrowRight className="w-4 h-4" />
@@ -319,7 +319,7 @@ export default function CreateEscrowPage() {
               exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.25 }}
             >
-              <div className="bg-white rounded-[16px] border border-[#E4E8F0] shadow-[0_1px_3px_rgba(0,0,0,0.06),0_8px_32px_rgba(91,107,248,0.08)] p-8">
+              <div className="rounded-[16px] border border-[#E4E8F0] bg-white p-4 shadow-[0_1px_3px_rgba(0,0,0,0.06),0_8px_32px_rgba(91,107,248,0.08)] sm:p-8">
                 <div className="mb-6">
                   <h2 className="text-[20px] font-bold text-[#0F1117] mb-1">Confirm & Lock</h2>
                   <p className="text-sm text-[#9CA3AF]">Review all details before deploying the smart contract</p>
@@ -368,17 +368,17 @@ export default function CreateEscrowPage() {
                   </p>
                 </div>
 
-                <div className="flex gap-3">
+                <div className="flex flex-col gap-3 sm:flex-row">
                   <button
                     onClick={() => setCurrentStep(2)}
-                    className="flex items-center gap-2 px-4 py-3 rounded-[10px] border border-[#E4E8F0] text-sm font-semibold text-[#6B7280] hover:bg-[#F8F9FB] transition-all"
+                    className="flex min-h-11 items-center justify-center gap-2 rounded-[10px] border border-[#E4E8F0] px-4 py-3 text-sm font-semibold text-[#6B7280] transition-all hover:bg-[#F8F9FB]"
                   >
                     <ArrowLeft className="w-4 h-4" />
                     Back
                   </button>
                   <button
                     onClick={handleConfirm}
-                    className="flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-[10px] bg-[#5B6BF8] text-white font-semibold hover:bg-[#4757E8] transition-all hover:-translate-y-px shadow-sm hover:shadow-md hover:shadow-[#5B6BF8]/20"
+                    className="flex min-h-11 flex-1 items-center justify-center gap-2 rounded-[10px] bg-[#5B6BF8] px-6 py-3 font-semibold text-white shadow-sm transition-all hover:-translate-y-px hover:bg-[#4757E8] hover:shadow-md hover:shadow-[#5B6BF8]/20"
                   >
                     <Zap className="w-4 h-4" />
                     Confirm & Lock Funds
@@ -396,7 +396,7 @@ export default function CreateEscrowPage() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               transition={{ duration: 0.4, ease: [0.34, 1.56, 0.64, 1] }}
             >
-              <div className="bg-white rounded-[16px] border border-[#E4E8F0] shadow-[0_1px_3px_rgba(0,0,0,0.06),0_8px_32px_rgba(91,107,248,0.08)] p-8 text-center">
+              <div className="rounded-[16px] border border-[#E4E8F0] bg-white p-4 text-center shadow-[0_1px_3px_rgba(0,0,0,0.06),0_8px_32px_rgba(91,107,248,0.08)] sm:p-8">
                 {/* Animated check */}
                 <motion.div
                   initial={{ scale: 0 }}
@@ -414,21 +414,21 @@ export default function CreateEscrowPage() {
 
                 <div className="bg-[#F8F9FB] rounded-[10px] border border-[#E4E8F0] p-4 mb-6 text-left">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#9CA3AF] mb-1">Transaction Hash</p>
-                  <p className="font-mono text-xs text-[#6B7280]">
+                  <p className="break-all font-mono text-xs text-[#6B7280]">
                     a3f8b2c7d1e4f9a0b5c8d2e7f1a4b9c0d3e6f8a1...
                   </p>
                 </div>
 
-                <div className="flex gap-3">
+                <div className="flex flex-col gap-3 sm:flex-row">
                   <Link
                     to="/dashboard"
-                    className="flex-1 flex items-center justify-center gap-2 px-5 py-3 rounded-[10px] border border-[#E4E8F0] text-sm font-semibold text-[#6B7280] hover:bg-[#F8F9FB] transition-all"
+                    className="flex min-h-11 flex-1 items-center justify-center gap-2 rounded-[10px] border border-[#E4E8F0] px-5 py-3 text-sm font-semibold text-[#6B7280] transition-all hover:bg-[#F8F9FB]"
                   >
                     View Dashboard
                   </Link>
                   <Link
                     to="/escrow/ESC-001"
-                    className="flex-1 flex items-center justify-center gap-2 px-5 py-3 rounded-[10px] bg-[#5B6BF8] text-white text-sm font-semibold hover:bg-[#4757E8] transition-all hover:-translate-y-px"
+                    className="flex min-h-11 flex-1 items-center justify-center gap-2 rounded-[10px] bg-[#5B6BF8] px-5 py-3 text-sm font-semibold text-white transition-all hover:-translate-y-px hover:bg-[#4757E8]"
                   >
                     View Escrow
                     <ArrowRight className="w-4 h-4" />
@@ -445,9 +445,9 @@ export default function CreateEscrowPage() {
 
 function SummaryRow({ label, value, mono = false }: { label: string; value: string; mono?: boolean }) {
   return (
-    <div className="flex justify-between items-start gap-4">
+    <div className="flex min-w-0 flex-col gap-1 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
       <span className="text-[12px] font-semibold uppercase tracking-[0.07em] text-[#9CA3AF] shrink-0">{label}</span>
-      <span className={`text-sm text-right text-[#0F1117] font-semibold ${mono ? 'font-mono' : ''}`}>{value}</span>
+      <span className={`break-words text-left text-sm font-semibold text-[#0F1117] sm:text-right ${mono ? 'font-mono' : ''}`}>{value}</span>
     </div>
   );
 }

@@ -83,7 +83,7 @@ export default function ClientHireRequestsPage() {
 
   return (
     <DashboardLayout>
-      <div className="space-y-6">
+      <div className="min-w-0 space-y-5 sm:space-y-6">
         <div>
           <h1 className="text-xl font-black text-[#0F172A] tracking-tight">Hire Requests / Incoming Proposals</h1>
           <p className="text-xs text-[#64748B] mt-0.5">Review and accept freelancer proposals submitted to your active projects.</p>
@@ -94,18 +94,18 @@ export default function ClientHireRequestsPage() {
             <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-[#7C3AED]"></div>
           </div>
         ) : proposals.length === 0 ? (
-          <div className="bg-white border border-[#E4E8F0] rounded-xl p-12 text-center max-w-xl mx-auto shadow-2xs space-y-3">
+          <div className="mx-auto max-w-xl space-y-3 rounded-xl border border-[#E4E8F0] bg-white p-6 text-center shadow-2xs sm:p-12">
             <ClipboardList className="w-10 h-10 text-[#94A3B8] mx-auto" />
             <h3 className="text-xs font-bold text-[#0F172A]">No Proposals Received</h3>
             <p className="text-xs text-[#64748B]">No freelancers have applied to your project listings yet.</p>
-            <Link to="/client/listings" className="inline-block mt-2 px-4 py-2 bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-bold rounded-xl shadow-xs">
+            <Link to="/client/listings" className="mt-2 inline-flex min-h-11 items-center justify-center rounded-xl bg-[#7C3AED] px-4 py-2 text-xs font-bold text-white shadow-xs hover:bg-[#6D28D9]">
               Manage My Listings
             </Link>
           </div>
         ) : (
           <div className="bg-white border border-[#E4E8F0] rounded-xl overflow-hidden shadow-xs">
             <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
+              <table className="min-w-[820px] w-full border-collapse text-left">
                 <thead>
                   <tr className="bg-slate-50 border-b border-[#E4E8F0] text-[10px] uppercase font-bold text-slate-400 tracking-wider">
                     <th className="px-6 py-4">Freelancer</th>
@@ -162,14 +162,14 @@ export default function ClientHireRequestsPage() {
                             <>
                               <button
                                 onClick={() => handleReview(prop._id, 'accept')}
-                                className="p-1.5 rounded-lg border border-emerald-100 bg-emerald-50 hover:bg-emerald-100 text-emerald-600 transition-colors cursor-pointer"
+                                className="min-h-10 min-w-10 rounded-lg border border-emerald-100 bg-emerald-50 p-1.5 text-emerald-600 transition-colors hover:bg-emerald-100 cursor-pointer"
                                 title="Accept Proposal"
                               >
                                 <Check className="w-3.5 h-3.5" />
                               </button>
                               <button
                                 onClick={() => handleReview(prop._id, 'reject')}
-                                className="p-1.5 rounded-lg border border-red-100 bg-red-50 hover:bg-red-100 text-red-600 transition-colors cursor-pointer"
+                                className="min-h-10 min-w-10 rounded-lg border border-red-100 bg-red-50 p-1.5 text-red-600 transition-colors hover:bg-red-100 cursor-pointer"
                                 title="Reject Proposal"
                               >
                                 <X className="w-3.5 h-3.5" />
@@ -178,7 +178,7 @@ export default function ClientHireRequestsPage() {
                           )}
                           <Link
                             to={`/u/${prop.freelancerUsername}`}
-                            className="p-1.5 rounded-lg border border-[#E4E8F0] hover:bg-slate-100 text-[#475569] transition-colors"
+                            className="inline-flex min-h-10 min-w-10 items-center justify-center rounded-lg border border-[#E4E8F0] p-1.5 text-[#475569] transition-colors hover:bg-slate-100"
                             title="View Profile"
                           >
                             <User className="w-3.5 h-3.5" />

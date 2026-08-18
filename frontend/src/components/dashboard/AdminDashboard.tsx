@@ -94,9 +94,9 @@ export const AdminDashboard: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 animate-fadeIn">
+    <div className="min-w-0 space-y-5 animate-fadeIn sm:space-y-6">
       {/* SECTION 1 - TOP STATS ROW */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
           title="Total Platform Escrows"
           value={stats.totalPlatformEscrows}
@@ -145,7 +145,7 @@ export const AdminDashboard: React.FC = () => {
             <div className="p-6 text-center text-[#9CA3AF] text-sm">No active disputes.</div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full border-collapse text-left text-sm">
+              <table className="min-w-[860px] w-full border-collapse text-left text-sm">
                 <thead>
                   <tr className="border-b border-[#E4E8F0] dark:border-slate-800 bg-[#F8F9FB]/50 dark:bg-slate-800/30">
                     <th className="p-4 text-xs font-semibold uppercase tracking-widest text-[#6B7280]">Dispute ID</th>
@@ -170,7 +170,7 @@ export const AdminDashboard: React.FC = () => {
                     return (
                       <tr key={dispute._id} className="hover:bg-[#F8F9FB] dark:hover:bg-slate-800/40 transition-colors">
                         <td className="p-4 font-mono text-[#9CA3AF]">{dispute._id}</td>
-                        <td className="p-4 font-semibold text-[#0F1117] dark:text-white">{dispute.escrow?.job?.title || 'Contract Job'}</td>
+                        <td className="max-w-[220px] truncate p-4 font-semibold text-[#0F1117] dark:text-white">{dispute.escrow?.job?.title || 'Contract Job'}</td>
                         <td className="p-4 text-slate-700 dark:text-slate-300">{dispute.escrow?.client?.username || dispute.escrow?.client?.name || 'Client'}</td>
                         <td className="p-4 text-slate-700 dark:text-slate-300">{dispute.escrow?.freelancer?.username || dispute.escrow?.freelancer?.name || 'Freelancer'}</td>
                         <td className="p-4 text-indigo-600 dark:text-indigo-400 font-bold">{dispute.escrow?.amount} XLM</td>
@@ -188,7 +188,7 @@ export const AdminDashboard: React.FC = () => {
                           {dispute.assignedToDAO ? (
                             <button
                               disabled
-                              className="px-3 py-1 rounded text-xs font-semibold text-green-600 bg-green-50 border border-green-200"
+                              className="min-h-10 rounded border border-green-200 bg-green-50 px-3 py-1 text-xs font-semibold text-green-600"
                             >
                               Assigned ✓
                             </button>
@@ -196,7 +196,7 @@ export const AdminDashboard: React.FC = () => {
                             <button
                               onClick={() => handleAssignToDAO(dispute._id)}
                               disabled={isPendingMutation}
-                              className="flex items-center gap-1.5 px-3 py-1 rounded text-xs font-semibold text-white bg-purple-600 hover:bg-purple-500 disabled:bg-purple-800 disabled:text-white/40 transition-colors cursor-pointer"
+                              className="flex min-h-10 items-center gap-1.5 rounded bg-purple-600 px-3 py-1 text-xs font-semibold text-white transition-colors hover:bg-purple-500 disabled:bg-purple-800 disabled:text-white/40 cursor-pointer"
                             >
                               {isPendingMutation ? (
                                 <>
@@ -233,7 +233,8 @@ export const AdminDashboard: React.FC = () => {
             ) : !users || users.length === 0 ? (
               <div className="p-6 text-center text-[#9CA3AF] text-sm">No users registered.</div>
             ) : (
-              <table className="w-full border-collapse text-left text-sm">
+              <div className="overflow-x-auto">
+              <table className="min-w-[700px] w-full border-collapse text-left text-sm">
                 <thead>
                   <tr className="border-b border-[#E4E8F0] dark:border-slate-800 bg-[#F8F9FB]/50 dark:bg-slate-800/30">
                     <th className="p-4 text-xs font-semibold uppercase tracking-widest text-[#6B7280]">Name</th>
@@ -257,7 +258,7 @@ export const AdminDashboard: React.FC = () => {
                         <div className="font-semibold text-slate-800 dark:text-slate-300">{userItem.name}</div>
                         <div className="text-[10px] text-slate-400">Joined {userItem.joinedAt}</div>
                       </td>
-                      <td className="p-4 font-mono text-xs text-slate-600 dark:text-slate-400">{userItem.walletAddress}</td>
+                      <td className="max-w-[220px] truncate p-4 font-mono text-xs text-slate-600 dark:text-slate-400">{userItem.walletAddress}</td>
                       <td className="p-4 text-xs">
                         <span className="px-2 py-0.5 rounded bg-slate-50 border border-[#E4E8F0] text-slate-700 font-semibold">
                           {userItem.role}
@@ -276,13 +277,13 @@ export const AdminDashboard: React.FC = () => {
                       <td className="p-4 flex gap-2">
                         <button
                           onClick={() => handleWarnUser(userItem.name)}
-                          className="px-2.5 py-1 rounded text-xs font-semibold text-amber-600 bg-amber-50 hover:bg-amber-100 border border-amber-200 transition-colors cursor-pointer"
+                          className="min-h-10 rounded border border-amber-200 bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-600 transition-colors hover:bg-amber-100 cursor-pointer"
                         >
                           Warn
                         </button>
                         <button
                           onClick={() => handleSuspendUser(userItem.name)}
-                          className="px-2.5 py-1 rounded text-xs font-semibold text-red-600 bg-red-50 hover:bg-red-100 border border-red-200 transition-colors cursor-pointer"
+                          className="min-h-10 rounded border border-red-200 bg-red-50 px-2.5 py-1 text-xs font-semibold text-red-600 transition-colors hover:bg-red-100 cursor-pointer"
                         >
                           Suspend
                         </button>
@@ -291,6 +292,7 @@ export const AdminDashboard: React.FC = () => {
                   ))}
                 </tbody>
               </table>
+              </div>
             )}
           </div>
         </div>
@@ -298,7 +300,7 @@ export const AdminDashboard: React.FC = () => {
         {/* Platform Analytics */}
         <div className="lg:col-span-4 space-y-3">
           <h3 className="text-lg font-semibold text-[#0F1117] dark:text-white">Platform Analytics</h3>
-          <div className="rounded-xl border border-[#E4E8F0] dark:border-slate-800 bg-white dark:bg-[#1E293B] p-6 space-y-6">
+          <div className="space-y-6 rounded-xl border border-[#E4E8F0] bg-white p-4 dark:border-slate-800 dark:bg-[#1E293B] sm:p-6">
             <div className="space-y-2">
               <span className="text-xs uppercase tracking-wider text-[#6B7280] font-semibold block">
                 Escrows this week
@@ -323,7 +325,7 @@ export const AdminDashboard: React.FC = () => {
             </div>
 
             {/* Resolution Rate */}
-            <div className="flex items-center gap-6 border-t border-[#E4E8F0] dark:border-slate-800 pt-4">
+            <div className="flex flex-col gap-4 border-t border-[#E4E8F0] pt-4 dark:border-slate-800 sm:flex-row sm:items-center sm:gap-6">
               <div className="relative w-16 h-16 flex-shrink-0">
                 <svg className="w-full h-full transform -rotate-90">
                   <circle
@@ -360,7 +362,7 @@ export const AdminDashboard: React.FC = () => {
             </div>
 
             {/* Avg Dispute Time */}
-            <div className="border-t border-[#E4E8F0] dark:border-slate-800 pt-4 flex justify-between items-baseline">
+            <div className="flex flex-col gap-2 border-t border-[#E4E8F0] pt-4 dark:border-slate-800 sm:flex-row sm:items-baseline sm:justify-between">
               <span className="text-xs uppercase tracking-wider text-[#6B7280] font-semibold">
                 Avg Dispute Time
               </span>

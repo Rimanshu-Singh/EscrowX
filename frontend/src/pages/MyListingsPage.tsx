@@ -98,17 +98,17 @@ export default function MyListingsPage() {
 
   return (
     <DashboardLayout>
-      <div className="space-y-6">
+      <div className="min-w-0 space-y-5 sm:space-y-6">
         {/* Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-[#0F172A] tracking-tight">My Listings</h1>
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="min-w-0">
+            <h1 className="text-xl font-bold tracking-tight text-[#0F172A] sm:text-2xl">My Listings</h1>
             <p className="text-xs text-[#64748B] mt-0.5">Manage the gigs and projects you have posted on EscrowX.</p>
           </div>
           {user?.role !== 'CLIENT' && (
             <button
               onClick={() => setShowCreateModal(true)}
-              className="px-4 py-2.5 rounded-lg bg-[#7C3AED] text-white text-xs font-bold hover:bg-[#6D28D9] transition-all flex items-center gap-1.5 shadow-sm cursor-pointer"
+              className="flex min-h-11 w-full items-center justify-center gap-1.5 rounded-lg bg-[#7C3AED] px-4 py-2.5 text-xs font-bold text-white shadow-sm transition-all hover:bg-[#6D28D9] sm:w-auto cursor-pointer"
             >
               <Plus className="w-4 h-4" /> Create Listing
             </button>
@@ -123,21 +123,21 @@ export default function MyListingsPage() {
             ))}
           </div>
         ) : listings.length === 0 ? (
-          <div className="bg-white border border-[#E4E8F0] rounded-xl p-12 text-center max-w-xl mx-auto shadow-sm">
+          <div className="mx-auto max-w-xl rounded-xl border border-[#E4E8F0] bg-white p-6 text-center shadow-sm sm:p-12">
             <ClipboardList className="w-12 h-12 text-[#94A3B8] mx-auto mb-4" />
             <h3 className="text-sm font-bold text-[#0F172A]">No Listings Yet</h3>
             <p className="text-xs text-[#64748B] mt-2">You haven't posted any gigs or projects. Create one now to show up in the marketplace!</p>
             {user?.role !== 'CLIENT' ? (
               <button
                 onClick={() => setShowCreateModal(true)}
-                className="mt-4 px-4 py-2.5 bg-[#0F172A] text-white text-xs font-bold rounded-lg hover:bg-[#1E293B]"
+                className="mt-4 min-h-11 rounded-lg bg-[#0F172A] px-4 py-2.5 text-xs font-bold text-white hover:bg-[#1E293B]"
               >
                 Post a Listing
               </button>
             ) : (
               <Link
                 to="/escrow/create"
-                className="mt-4 inline-block px-4 py-2.5 bg-[#0F172A] text-white text-xs font-bold rounded-lg hover:bg-[#1E293B]"
+                className="mt-4 inline-flex min-h-11 items-center justify-center rounded-lg bg-[#0F172A] px-4 py-2.5 text-xs font-bold text-white hover:bg-[#1E293B]"
               >
                 Create Escrow & Project
               </Link>
@@ -148,10 +148,10 @@ export default function MyListingsPage() {
             {listings.map(item => (
               <div
                 key={item._id}
-                className="bg-white border border-[#E4E8F0] rounded-xl p-5 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 hover:shadow-md transition-shadow"
+                className="flex min-w-0 flex-col justify-between gap-4 rounded-xl border border-[#E4E8F0] bg-white p-4 shadow-sm transition-shadow hover:shadow-md md:flex-row md:items-center sm:p-5"
               >
-                <div className="flex-1 space-y-2">
-                  <div className="flex items-center gap-2">
+                <div className="min-w-0 flex-1 space-y-2">
+                  <div className="flex flex-wrap items-center gap-2">
                     <span className={`text-[9px] font-extrabold uppercase px-2 py-0.5 rounded-full ${
                       item.type === 'SERVICE' ? 'bg-emerald-500 text-white' : 'bg-purple-600 text-white'
                     }`}>
@@ -161,7 +161,7 @@ export default function MyListingsPage() {
                       Status: {item.status}
                     </span>
                   </div>
-                  <h3 className="text-sm font-bold text-[#0F172A]">{item.title}</h3>
+                  <h3 className="break-words text-sm font-bold text-[#0F172A]">{item.title}</h3>
                   <p className="text-xs text-[#64748B] line-clamp-2 leading-relaxed">{item.description}</p>
                   
                   <div className="flex flex-wrap gap-1.5 pt-1">
@@ -173,8 +173,8 @@ export default function MyListingsPage() {
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between md:justify-end gap-6 border-t md:border-t-0 pt-3 md:pt-0">
-                  <div className="text-right">
+                <div className="flex items-center justify-between gap-4 border-t pt-3 md:justify-end md:border-t-0 md:pt-0">
+                  <div className="text-left md:text-right">
                     <p className="text-[9px] text-[#94A3B8] font-bold uppercase tracking-wider">
                       {item.type === 'SERVICE' ? 'Service Rate' : 'Budget'}
                     </p>
@@ -185,7 +185,7 @@ export default function MyListingsPage() {
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => handleDeleteListing(item._id)}
-                      className="p-2 rounded-lg border border-red-100 bg-red-50 text-red-500 hover:bg-red-100 transition-colors cursor-pointer"
+                      className="min-h-11 min-w-11 rounded-lg border border-red-100 bg-red-50 p-2 text-red-500 transition-colors hover:bg-red-100 cursor-pointer"
                       title="Delete Listing"
                     >
                       <Trash2 className="w-4 h-4" />
@@ -200,18 +200,18 @@ export default function MyListingsPage() {
         {/* Create Listing Modal */}
         <AnimatePresence>
           {showCreateModal && (
-            <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-3 backdrop-blur-sm sm:p-4">
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
-                className="bg-white border border-[#E4E8F0] rounded-xl max-w-lg w-full p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto"
+                className="max-h-[calc(100vh-24px)] w-full max-w-lg space-y-4 overflow-y-auto rounded-xl border border-[#E4E8F0] bg-white p-4 shadow-2xl sm:max-h-[90vh] sm:p-6"
               >
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between gap-3">
                   <h3 className="text-base font-bold text-[#0F172A] flex items-center gap-1.5">
                     <Sparkles className="w-5 h-5 text-[#7C3AED]" /> Post a New Listing
                   </h3>
-                  <button onClick={() => setShowCreateModal(false)} className="text-gray-400 hover:text-gray-500">
+                  <button onClick={() => setShowCreateModal(false)} className="min-h-10 min-w-10 rounded-lg text-gray-400 hover:text-gray-500">
                     <X className="w-5 h-5" />
                   </button>
                 </div>
@@ -225,7 +225,7 @@ export default function MyListingsPage() {
                       value={title}
                       onChange={e => setTitle(e.target.value)}
                       placeholder="e.g. Build modern decentralized escrow system"
-                      className="w-full px-3 py-2 border border-[#E2E8F0] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C3AED]/20 focus:border-[#7C3AED]"
+                      className="min-h-11 w-full rounded-lg border border-[#E2E8F0] px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#7C3AED]/20 focus:border-[#7C3AED]"
                     />
                   </div>
 
@@ -237,17 +237,17 @@ export default function MyListingsPage() {
                       value={description}
                       onChange={e => setDescription(e.target.value)}
                       placeholder="Explain the service deliverables or project requirements..."
-                      className="w-full px-3 py-2 border border-[#E2E8F0] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C3AED]/20 focus:border-[#7C3AED] resize-none"
+                      className="min-h-32 w-full resize-none rounded-lg border border-[#E2E8F0] px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#7C3AED]/20 focus:border-[#7C3AED]"
                     />
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div>
                       <label className="block text-[10px] font-bold uppercase tracking-wider text-[#64748B] mb-1.5">Listing Type</label>
                       <select
                         value={type}
                         onChange={e => setType(e.target.value as any)}
-                        className="w-full px-3 py-2 border border-[#E2E8F0] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C3AED]/20 focus:border-[#7C3AED]"
+                        className="min-h-11 w-full rounded-lg border border-[#E2E8F0] px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#7C3AED]/20 focus:border-[#7C3AED]"
                       >
                         <option value="SERVICE">Service (I am offering)</option>
                         <option value="PROJECT">Project (I am hiring)</option>
@@ -262,7 +262,7 @@ export default function MyListingsPage() {
                         min={1}
                         value={deliveryDays}
                         onChange={e => setDeadlineDays(Number(e.target.value))}
-                        className="w-full px-3 py-2 border border-[#E2E8F0] rounded-lg focus:outline-none"
+                        className="min-h-11 w-full rounded-lg border border-[#E2E8F0] px-3 py-2 focus:outline-none"
                       />
                     </div>
                   </div>
@@ -277,7 +277,7 @@ export default function MyListingsPage() {
                           min={1}
                           value={price}
                           onChange={e => setPrice(Number(e.target.value))}
-                          className="w-full px-3 py-2 border border-[#E2E8F0] rounded-lg focus:outline-none"
+                          className="min-h-11 w-full rounded-lg border border-[#E2E8F0] px-3 py-2 focus:outline-none"
                         />
                       </div>
                     ) : (
@@ -289,7 +289,7 @@ export default function MyListingsPage() {
                           min={1}
                           value={budget}
                           onChange={e => setBudget(Number(e.target.value))}
-                          className="w-full px-3 py-2 border border-[#E2E8F0] rounded-lg focus:outline-none"
+                          className="min-h-11 w-full rounded-lg border border-[#E2E8F0] px-3 py-2 focus:outline-none"
                         />
                       </div>
                     )}
@@ -302,7 +302,7 @@ export default function MyListingsPage() {
                       value={skillsStr}
                       onChange={e => setSkillsStr(e.target.value)}
                       placeholder="e.g. React, Stellar, Rust, AI"
-                      className="w-full px-3 py-2 border border-[#E2E8F0] rounded-lg focus:outline-none"
+                      className="min-h-11 w-full rounded-lg border border-[#E2E8F0] px-3 py-2 focus:outline-none"
                     />
                   </div>
 
@@ -313,22 +313,22 @@ export default function MyListingsPage() {
                       value={tagsStr}
                       onChange={e => setTagsStr(e.target.value)}
                       placeholder="e.g. soroban, escrow, web3"
-                      className="w-full px-3 py-2 border border-[#E2E8F0] rounded-lg focus:outline-none"
+                      className="min-h-11 w-full rounded-lg border border-[#E2E8F0] px-3 py-2 focus:outline-none"
                     />
                   </div>
 
-                  <div className="flex gap-3 pt-2">
+                  <div className="flex flex-col gap-3 pt-2 sm:flex-row">
                     <button
                       type="button"
                       onClick={() => setShowCreateModal(false)}
-                      className="flex-1 py-2.5 border border-[#E4E8F0] text-gray-500 rounded-lg hover:bg-slate-50 transition-all font-semibold"
+                      className="min-h-11 flex-1 rounded-lg border border-[#E4E8F0] py-2.5 font-semibold text-gray-500 transition-all hover:bg-slate-50"
                     >
                       Cancel
                     </button>
                     <button
                       type="submit"
                       disabled={submitting}
-                      className="flex-1 py-2.5 bg-[#7C3AED] text-white rounded-lg hover:bg-[#6D28D9] transition-all font-bold shadow-sm"
+                      className="min-h-11 flex-1 rounded-lg bg-[#7C3AED] py-2.5 font-bold text-white shadow-sm transition-all hover:bg-[#6D28D9]"
                     >
                       {submitting ? 'Posting...' : 'Post Listing'}
                     </button>
